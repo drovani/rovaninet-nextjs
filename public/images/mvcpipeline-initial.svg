@@ -1,0 +1,45 @@
+<svg width="800" height="125" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="802" height="127" id="canvas_background" fill="none"/>
+  <g id="canvasGrid" display="none">
+   <rect id="svg_1" width="100%" height="100%" x="0" y="0" stroke-width="0" fill="url(#gridpattern)"/>
+  </g>
+ </g>
+ <g>
+  <g id="svg_5">
+   <title>Pipeline</title>
+   <rect fill="#dfcc74" stroke-width="4" stroke-opacity="null" x="50" y="37.5" width="702.90319" height="50" id="svg_4" stroke="#dfcc74"/>
+   <ellipse fill="#d7cdcc" stroke-width="4" stroke-opacity="null" cx="47.21153" cy="62.5" id="svg_2" rx="12.38091" ry="24.64277" stroke="#dfcc74"/>
+   <ellipse fill="#dfcc74" stroke-width="4" stroke-opacity="null" cx="754.19355" cy="62.5" id="svg_3" rx="12.38091" ry="24.64277" stroke="#dfcc74"/>
+  </g>
+  <g id="svg_10">
+   <path stroke="#75485e" fill="#75485e" stroke-width="4" d="m65.16794,37.35194l65.83971,0c-7.27246,0 -13.16794,11.25917 -13.16794,25.14806c0,13.88889 5.89548,25.14806 13.16794,25.14806l-65.83971,0l0,0c-7.27246,0 -13.16794,-11.25917 -13.16794,-25.14806c0,-13.88889 5.89548,-25.14806 13.16794,-25.14806z" id="svg_5" transform="rotate(180 91.50382232666016,62.5) "/>
+   <text fill="#d7cdcc" stroke="#d7cdcc" stroke-width="0" stroke-opacity="null" x="68.85152" y="52.08186" id="svg_6" font-size="14" font-family="Calibri, Arial, sans-serif" text-anchor="start" xml:space="preserve">Server</text>
+   <text fill="#d7cdcc" stroke="#d7cdcc" stroke-width="0" stroke-opacity="null" x="68.85152" y="67.39083" id="svg_7" font-size="14" font-family="Calibri, Arial, sans-serif" text-anchor="start" xml:space="preserve">Receives</text>
+   <text fill="#d7cdcc" stroke="#d7cdcc" stroke-width="0" stroke-opacity="null" x="68.85152" y="81.93261" id="svg_8" font-size="14" font-family="Calibri, Arial, sans-serif" text-anchor="start" xml:space="preserve">Request</text>
+  </g>
+  <g id="svg_9">
+   <path stroke="#75485e" fill="#75485e" stroke-width="4" d="m695.42532,37.25293l65.83971,0c-7.27246,0 -13.16794,11.3035 -13.16794,25.24707c0,13.94357 5.89548,25.24707 13.16794,25.24707l-65.83971,0l0,0c-7.27246,0 -13.16794,-11.3035 -13.16794,-25.24707c0,-13.94357 5.89548,-25.24707 13.16794,-25.24707z" id="svg_12" transform="rotate(180 721.76123046875,62.5) "/>
+   <text fill="#d7cdcc" stroke="#d7cdcc" stroke-width="0" stroke-opacity="null" x="696.44636" y="52.08186" id="svg_13" font-size="14" font-family="Calibri, sans-serif" text-anchor="start" xml:space="preserve">Server</text>
+   <text fill="#d7cdcc" stroke="#d7cdcc" stroke-width="0" stroke-opacity="null" x="696.44636" y="67.39083" id="svg_14" font-size="14" font-family="Calibri, Arial, sans-serif" text-anchor="start" xml:space="preserve">Returns</text>
+   <text fill="#d7cdcc" stroke="#d7cdcc" stroke-width="0" stroke-opacity="null" x="696.44636" y="81.93261" id="svg_15" font-size="14" font-family="Calibri, Arial, sans-serif" text-anchor="start" xml:space="preserve">Response</text>
+  </g>
+  <g id="svg_22">
+   <path transform="rotate(180 385.003662109375,62.49999999999999) " id="svg_9" d="m358.6678,37.35194l65.83971,0c-7.27246,0 -13.16794,11.25917 -13.16794,25.14806c0,13.88889 5.89548,25.14806 13.16794,25.14806l-65.83971,0l0,0c-7.27246,0 -13.16794,-11.25917 -13.16794,-25.14806c0,-13.88889 5.89548,-25.14806 13.16794,-25.14806z" stroke-width="4" fill="#75485e" stroke="#75485e"/>
+   <path transform="rotate(180 419.5038146972656,62.499996185302734) " id="svg_21" d="m393.16779,37.35194l65.83971,0c-7.27246,0 -13.16794,11.25917 -13.16794,25.14806c0,13.88889 5.89548,25.14806 13.16794,25.14806l-65.83971,0l0,0c-7.27246,0 -13.16794,-11.25917 -13.16794,-25.14806c0,-13.88889 5.89548,-25.14806 13.16794,-25.14806z" stroke-width="4" fill="#75485e" stroke="#75485e"/>
+   <text xml:space="preserve" text-anchor="start" font-family="Calibri, Arial, sans-serif" font-size="14" id="svg_10" y="59.83967" x="359.85138" stroke-opacity="null" stroke-width="0" stroke="#d7cdcc" fill="#d7cdcc">PatronController</text>
+   <text xml:space="preserve" text-anchor="start" font-family="Calibri, Arial, sans-serif" font-size="14" id="svg_17" y="74.64864" x="359.85138" stroke-opacity="null" stroke-width="0" stroke="#d7cdcc" fill="#d7cdcc">CreatePatron</text>
+  </g>
+  <g id="svg_26">
+   <path id="svg_24" d="m255.55632,22.22639c-12.75658,0 -23.70609,7.3864 -29.06568,18.04971c-2.14059,-1.33433 -4.50166,-2.14226 -7.02148,-2.14226c-7.62001,0 -13.96095,6.84436 -15.9208,16.13535c-3.34521,-1.47632 -7.23477,-2.37016 -11.3895,-2.37016c-12.46418,0 -22.57488,7.61436 -22.57488,17.00138c0,8.47337 8.29211,15.43927 19.06414,16.72789c-0.48279,0.9146 -0.85727,1.82031 -0.85727,2.78038c0,8.98757 22.05319,16.31767 49.23202,16.31767c27.17883,0 49.23205,-7.33011 49.23202,-16.31767c0,-0.60471 -0.33615,-1.14437 -0.53069,-1.73204c1.19044,0.33054 2.36914,0.6837 3.67404,0.6837c7.27075,0.00003 13.18569,-5.51602 13.18569,-12.30663c0,-6.79061 -5.91494,-12.30662 -13.18569,-12.30662c-0.89101,0 -1.64865,0.34364 -2.49018,0.50139c0.73583,-2.71523 1.22467,-5.48576 1.22467,-8.43232c0,-17.97512 -14.5726,-32.58976 -32.5764,-32.58976l-0.00001,-0.00001z" stroke-opacity="null" stroke-width="0" stroke="#75485e" fill="#000000"/>
+   <text xml:space="preserve" text-anchor="start" font-family="Calibri, Arial, sans-serif" font-size="14" id="svg_25" y="68.24219" x="222.49989" stroke-opacity="null" stroke-width="0" stroke="#75485e" fill="#ffffff">Magic</text>
+  </g>
+  <g id="svg_29">
+   <path id="svg_27" d="m596.55617,22.22639c-12.75658,0 -23.70609,7.3864 -29.06568,18.04971c-2.14059,-1.33433 -4.50166,-2.14226 -7.02148,-2.14226c-7.62001,0 -13.96095,6.84436 -15.9208,16.13535c-3.34521,-1.47632 -7.23477,-2.37016 -11.3895,-2.37016c-12.46418,0 -22.57488,7.61436 -22.57488,17.00138c0,8.47337 8.29212,15.43927 19.06414,16.72789c-0.48279,0.9146 -0.85727,1.82031 -0.85727,2.78038c0,8.98757 22.05319,16.31767 49.23202,16.31767c27.17883,0 49.23205,-7.33011 49.23203,-16.31767c0,-0.60471 -0.33616,-1.14437 -0.5307,-1.73204c1.19044,0.33054 2.36914,0.6837 3.67404,0.6837c7.27075,0.00003 13.18569,-5.51602 13.18569,-12.30662c0,-6.79061 -5.91494,-12.30663 -13.18569,-12.30663c-0.89102,0 -1.64865,0.34364 -2.49018,0.50139c0.73583,-2.71523 1.22467,-5.48576 1.22467,-8.43232c0,-17.97511 -14.5726,-32.58976 -32.5764,-32.58976l-0.00001,-0.00001z" stroke-opacity="null" stroke-width="0" stroke="#75485e" fill="#000000"/>
+   <text xml:space="preserve" text-anchor="start" font-family="Calibri, Arial, sans-serif" font-size="14" id="svg_28" y="68.24219" x="563.49974" stroke-opacity="null" stroke-width="0" stroke="#75485e" fill="#ffffff">Magic</text>
+  </g>
+ </g>
+</svg>
