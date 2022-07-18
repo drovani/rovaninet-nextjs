@@ -3,13 +3,12 @@ import matter from "gray-matter";
 import Link from "next/link";
 
 export async function getStaticProps() {
-  const yearFolders = fs.readdirSync("posts");
-
   let posts = [];
 
+  const yearFolders = fs.readdirSync("posts");
   yearFolders.forEach((year) => {
     const postsByYear = fs.readdirSync(`posts/${year}`).map((fileName) => {
-      const slug = fileName.replace(".md", "");
+      const slug = fileName.replace(".md", "").substring(11);
       const readFile = fs.readFileSync(`posts/${year}/${fileName}`, "utf-8");
       const { data: frontmatter } = matter(readFile);
       return {
