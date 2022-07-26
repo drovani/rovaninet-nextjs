@@ -2,9 +2,21 @@ import fs from "fs";
 import matter from "gray-matter";
 import yaml from "js-yaml";
 import md from "markdown-it";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { ParsedUrlQuery } from "querystring";
 
-export async function getStaticPaths() {
-  let paths = [];
+interface Params extends ParsedUrlQuery {
+  slug: string;
+  year: string;
+}
+
+export const getStaticPaths: GetStaticPaths<Params> = async () => {
+  let paths: {
+    params: {
+      slug: string;
+      year: string;
+    };
+  }[] = [];
 
   const yearFolders = fs.readdirSync("posts");
   yearFolders.forEach((year) => {
@@ -24,9 +36,12 @@ export async function getStaticPaths() {
     paths,
     fallback: false,
   };
-}
+};
 
-export async function getStaticProps({ params: { year, slug } }) {
+export const getStaticProps: GetStaticProps<PostProps, Params> = async (
+  context
+) => {
+  const { year, slug } = context.params;
   const fileName = fs
     .readdirSync(`posts/${year}/`)
     .filter((fn) => fn.endsWith(`${slug}.md`))[0];
@@ -38,17 +53,27 @@ export async function getStaticProps({ params: { year, slug } }) {
   });
   return {
     props: {
-      frontmatter,
+      frontmatter: { title: frontmatter.title, ...frontmatter },
       content,
     },
   };
+};
+
+interface PostProps {
+  frontmatter: {
+    title: string;
+    [key: string]: any;
+  };
+  content: string;
 }
 
-export default function PostPage({ frontmatter, content }) {
+const PostPage: NextPage<PostProps> = ({ frontmatter, content }) => {
   return (
     <div className="prose mx-auto">
       <h1>{frontmatter.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: md().render(content) }} />
     </div>
   );
-}
+};
+
+export default PostPage;
