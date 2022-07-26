@@ -1,9 +1,15 @@
 import fs from "fs";
 import matter from "gray-matter";
+import { GetStaticProps } from "next";
 import Link from "next/link";
 
-export async function getStaticProps() {
-  let posts = [];
+export const getStaticProps: GetStaticProps = async () => {
+  let posts: {
+    slug: string;
+    year: number;
+    fileName: string;
+    title: string;
+  }[] = [];
 
   const yearFolders = fs.readdirSync("posts");
   yearFolders.forEach((year) => {
@@ -13,9 +19,9 @@ export async function getStaticProps() {
       const { data: frontmatter } = matter(readFile);
       return {
         slug,
-        year,
+        year: Number.parseInt(year),
         fileName,
-        title: frontmatter.title,
+        title: frontmatter.title as string,
       };
     });
     posts = posts.concat(postsByYear);
@@ -26,19 +32,28 @@ export async function getStaticProps() {
       posts,
     },
   };
-}
+};
 
-export default function Home({ posts }) {
+export default function Home({
+  posts,
+}: {
+  posts: {
+    slug: string;
+    year: number;
+    fileName: string;
+    title: string;
+  }[];
+}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-0">
       {posts.map(({ slug, year, title }) => (
         <div
           key={slug}
-          className="border border-gray-200 m-2 rounded-xl shadow-lg overflow-hidden flex flex-col"
+          className="border border-gray-200 m-2 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer"
         >
           <Link href={`/posts/${year}/${slug}/`}>
             <a>
-              <h1 className="p-4">{title}</h1>
+              <h1 className="p-4"> {title} </h1>
             </a>
           </Link>
         </div>
