@@ -8,7 +8,7 @@ interface Params extends ParsedUrlQuery {}
 export const getStaticProps: GetStaticProps<HomeProps, Params> = async (_) => {
   let posts: HomeProps["posts"] = [];
 
-  posts = getSortedPostsData();
+  posts = getSortedPostsData().slice(0, 15);
 
   return {
     props: {
@@ -40,7 +40,9 @@ const HomePage: NextPage<HomeProps> = ({ posts }) => {
             </a>
           </Link>
 
-          <time className="block text-right">{new Date(date).toLocaleDateString()}</time>
+          <time className="block text-right">
+            {new Date(date).toLocaleDateString()}
+          </time>
         </div>
       ))}
     </div>
