@@ -12,6 +12,9 @@ export interface PostFrontMatter {
     year: number;
     date: string;
     title: string;
+    canonicalUrl: string;
+    step?: number;
+    excerpt?: string;
 }
 
 export function getSortedPostsData(): PostFrontMatter[] {
@@ -25,7 +28,7 @@ export function getSortedPostsData(): PostFrontMatter[] {
 
             // Nextjs tries to serialize the date prop, but fails because [object Date] is not JSON serializable
             // Instead, we instruct the yaml engine to use only strings, arrays and plain objects
-            const { data } = matter(fileContents, {
+            const { data, excerpt } = matter(fileContents, {
                 engines: {
                     yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object
                 }
@@ -33,6 +36,8 @@ export function getSortedPostsData(): PostFrontMatter[] {
             return {
                 slug,
                 year: Number.parseInt(year),
+                canonicalUrl: `/posts/${year}/${slug}`,
+                excerpt,
                 ...(data as { title: string, date: string }),
             };
         });

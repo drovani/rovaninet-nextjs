@@ -1,8 +1,8 @@
 import { GetStaticProps, NextPage } from "next";
-import Link from "next/link";
 import { ParsedUrlQuery } from "querystring";
-import Header from "../components/pageHeader";
-import { getSortedPostsData } from "../lib/posts";
+import Header from "../components/PageHeader";
+import PostSnippets from "../components/PostSnippets";
+import { getSortedPostsData, PostFrontMatter } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
@@ -19,36 +19,16 @@ export const getStaticProps: GetStaticProps<HomeProps, Params> = async (_) => {
 };
 
 interface HomeProps {
-  posts: {
-    slug: string;
-    year: number;
-    date: string;
-    title: string;
-  }[];
+  posts: PostFrontMatter[];
 }
 
 const HomePage: NextPage<HomeProps> = ({ posts }) => {
   return (
     <section>
-      <Header className="sm:flex-1">Blog Posts</Header>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-0">
-        {posts.map(({ slug, year, title, date }) => (
-          <article
-            key={slug}
-            className="border border-gray-200 m-2 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer p-2"
-          >
-            <Link href={`/posts/${year}/${slug}/`}>
-              <a>
-                <h1 className="p-2"> {title} </h1>
-              </a>
-            </Link>
-
-            <time className="block text-right">
-              {new Date(date).toLocaleDateString()}
-            </time>
-          </article>
-        ))}
+      <div className="sm:flex sm:pr-4">
+        <Header className="sm:flex-1">Blog Posts</Header>
       </div>
+      <PostSnippets posts={posts} />
     </section>
   );
 };
