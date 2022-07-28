@@ -8,10 +8,14 @@ const PostSnippets = ({ posts }: { posts: PostFrontMatter[] }) => {
         return (
           <article className="my-5 text-lg list-none" key={post.slug}>
             <header className="sm:flex sm:items-baseline">
-              <h3 className="underline sm:flex-1">
-                {post.step && <span>Step {post.step}: </span>}
+              <h3 className="sm:flex-1">
+                {post.step && (
+                  <span className="mr-1">
+                    <span className="italic">{post.series}</span> {post.step}:
+                  </span>
+                )}
                 <Link href={post.canonicalUrl}>
-                  <a>{post.title}</a>
+                  <a className="underline">{post.title}</a>
                 </Link>
               </h3>
               <div className="text-right">

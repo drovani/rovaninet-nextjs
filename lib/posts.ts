@@ -15,9 +15,11 @@ export interface PostFrontMatter {
     canonicalUrl: string;
     step?: number;
     excerpt?: string;
+    category?: string;
+    series?: string;
 }
 
-export function getSortedPostsData(): PostFrontMatter[] {
+export function getSortedPostsData(pageNumber?: number, pageSize: number = 7): PostFrontMatter[] {
     let posts: PostFrontMatter[] = [];
 
     const yearFolders = fs.readdirSync(postsDirectory);
@@ -43,7 +45,10 @@ export function getSortedPostsData(): PostFrontMatter[] {
         });
         posts = posts.concat(postsByYear);
     });
-    return posts = posts.sort((a, b) => b.date.localeCompare(a.date));
+    posts = posts.sort((a, b) => b.date.localeCompare(a.date))
+    const start = ((pageNumber || 1) - 1) * pageSize;
+    posts = posts.slice(start, start + pageSize);
+    return posts;
 }
 
 export function getAllPostParams() {
