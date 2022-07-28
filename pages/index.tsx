@@ -1,5 +1,4 @@
 import { GetStaticProps, NextPage } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ParsedUrlQuery } from "querystring";
 import Header from "../components/pageHeader";
@@ -25,7 +24,6 @@ interface HomeProps {
     year: number;
     date: string;
     title: string;
-    imageUrl?: string;
   }[];
 }
 
@@ -34,12 +32,11 @@ const HomePage: NextPage<HomeProps> = ({ posts }) => {
     <section>
       <Header className="sm:flex-1">Blog Posts</Header>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-0">
-        {posts.map(({ slug, year, title, date, imageUrl }) => (
+        {posts.map(({ slug, year, title, date }) => (
           <article
             key={slug}
             className="border border-gray-200 m-2 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer p-2"
           >
-            {imageUrl && <Image src={imageUrl} alt={title} />}
             <Link href={`/posts/${year}/${slug}/`}>
               <a>
                 <h1 className="p-2"> {title} </h1>
