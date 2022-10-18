@@ -1,7 +1,8 @@
 ---
-title: "Obi-Wan Kenobi: Season One - Thoughts I Have"
+title: "Obi-Wan Kenobi: Season One - Thoughts Have I"
 category: Exactly One Hobby
 series: Star Wars Commentary
+excerpt: "This might be the least appetizing show so far in this extended run of _Star Wars_ shows. It's the life and times of a has-been character, where we already know his fate and the fate of all the important characters of the show. When will the extended universe get back to telling unique stories? In the meantime, maybe you'll enjoy another running list of random thoughts I had while watching the show."
 tags:
 - starwars
 - commentary
@@ -9,8 +10,9 @@ tags:
 date: 2022-08-01
 ---
 
+This might be the least appetizing show so far in this extended run of _Star Wars_ shows. It's the life and times of a has-been character, where we already know his fate and the fate of all the important characters of the show. When will the extended universe get back to telling unique stories? In the meantime, maybe you'll enjoy another running list of random thoughts I had while watching the show.
 
-> The first in a series of posts on ['My Thoughts on _Obi-Wan Kenobi_'](/star-wars-commentary) and other _Star Wars_ series. A new thread after each season!
+> The first in a series of posts on ['My Thoughts on _Obi-Wan Kenobi_'](/series/star-wars-commentary) and other _Star Wars_ series. A new thread after each season!
 
 ## Part 1
 

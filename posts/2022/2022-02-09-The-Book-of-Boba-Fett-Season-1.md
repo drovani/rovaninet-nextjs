@@ -13,7 +13,7 @@ As I watched the first two seasons of _The Mandalorian_, I had **_a lot_** of th
 
 ![Here we go again.](/images/mummy3-here-we-go-again.gif)
 
-> The first in a series of posts on ['My Thoughts on _TBoBF_'](/star-wars-commentary) and other _Star Wars_ series. A new thread after each season!
+> The first in a series of posts on ['My Thoughts on _TBoBF_'](/series/star-wars-commentary) and other _Star Wars_ series. A new thread after each season!
 
 ## Chapter 1: Stranger in a Strange Series
 

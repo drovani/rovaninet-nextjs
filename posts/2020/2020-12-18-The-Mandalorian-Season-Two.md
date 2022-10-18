@@ -11,7 +11,7 @@ date: 2020-12-18
 
 I enjoyed [jotting down my thoughts](/posts/2020/the-mandalorian-season-one-a-few-thoughts/) while watching Season One of _The Mandalorian_, so I'll keep doing that for this second season. I'm sure no one appreciates what I have to say, but at least I'm entertained by it. There are spoilers, but I don't care; this is best understood if you have already watched the season.
 
-> The second in a series of posts on ['My Thoughts on _The Mandalorian_'](/star-wars-commentary) and other _Star Wars_ series. A new thread after each season!
+> The second in a series of posts on ['My Thoughts on _The Mandalorian_'](/series/star-wars-commentary) and other _Star Wars_ series. A new thread after each season!
 
 ## Chapter 9: I Can't Marshal Any New Cute Names
 

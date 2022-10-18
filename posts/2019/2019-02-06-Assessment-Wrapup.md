@@ -11,7 +11,7 @@ date: 2019-02-06
 
 The primary piece of learning for me with this assessment was everything related to the front-end of the application. Creating a Web API in .NET and using Entity Framework is where my core developer strengths lie. While _The Fellowship_ doesn't currently use .NET Core anywhere, my side projects and code experiments have all been in the new libraries as I prepare the team to make the shift. This was a fun little activity as a way to quickly get the basics of how Angular works - creating components, routing requests, abstracting communication with the server, and binding with the user input.
 
-> The final post in a four-part series of posts on ['An Assessment of a Technical Assessment'](/technical-assessment-series).
+> The final post in a four-part series of posts on ['An Assessment of a Technical Assessment'](/series/technical-assessment-series).
 
 Framing this mini-project as a look into whether this is the "best I can do", it certainly falls short. In the interest of time, there were several features that I had to cut.
 

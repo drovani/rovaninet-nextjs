@@ -1,6 +1,7 @@
 ---
 title: Authenticate Shopify Customers with Auth0
 category: Rovani in C♯
+image: /images/leeloo-dallas-auth0.jpg
 tags:
   - shopify
   - auth0
@@ -22,7 +23,6 @@ The primary steps involved in this process include:
 1. [Add URL Values](#add-url-values)
 1. [Optional: Capture First & Last Name During Signup](#optional-capture-first--last-name-during-signup)
 
-<!--more-->
 
 _This post was updated on 2020-01-31, adding a ```return_to``` URL to redirect the user to after being authenticated by Shopify._
 

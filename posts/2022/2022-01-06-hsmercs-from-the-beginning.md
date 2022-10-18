@@ -2,8 +2,8 @@
 title: HSMercs From The Beginning
 category: Rovani's Vue
 date: 2022-01-06
-github_discussion: 59
 series: HSMercs From Scratch
+image: "/images/hsmercs-banner-logo.png"
 step: 1
 tags:
   - vuejs
@@ -15,7 +15,7 @@ As the name of this tutorial states, we are going to start this project from not
 
 ![HSMercs Helper for Hearthstone Mercenaries](/images/hsmercs-banner-logo.png)
 
-> The first in a series of posts on ['HSMercs Helper From Scratch'](/hs-mercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
+> The first in a series of posts on ['HSMercs Helper From Scratch'](/series/hs-mercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
 
 ## Starting from Complete Scratch
 

@@ -1,14 +1,14 @@
 ---
 title: March 4 - 11 Meal Planning
 category: Mise en place
-excerpt: I'm really just trying to get by without just copying a previous week. There's going to be a lot of going out the eat this week.
+excerpt: I'm really just trying to get by without just copying a previous week. There's going to be a lot of going out to eat this week.
 tags:
 - experiment
 - notwhole30
 date: 2018-03-04
 ---
 
-I'm really just trying to get by without just copying a previous week. There's going to be a lot of going out the eat this week.
+I'm really just trying to get by without just copying a previous week. There's going to be a lot of going out to eat this week.
 
 ## What's In The Refrigerator
 

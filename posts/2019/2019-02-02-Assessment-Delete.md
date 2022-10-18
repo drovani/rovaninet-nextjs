@@ -11,7 +11,7 @@ date: 2019-02-02
 
 Now that I have a static list, the next step is to make it slightly more dynamic. This means that I need to learn how to send something back to the server, instead of just retrieving data from the server. My guess is that a delete method should be easier than an insert of a new record, though I expect them both to be about equal. The first piece I recognized that I needed to add is an identifier for indicating _which_ record to delete. I am a big fan of using a `Guid` as the datatype for a "primary key", so I quickly added a new field to the `BlogPost` and added that to my seed data. But how to I make a button in `Angular` and then make a `DELETE` call to the controller with the id of the selected post?
 
-> The second in a four-part series of posts on ['An Assessment of a Technical Assessment'](/technical-assessment-series).
+> The second in a four-part series of posts on ['An Assessment of a Technical Assessment'](/series/technical-assessment-series).
 
 It was time for me to turn to the [tutorial](https://angular.io/tutorial). The _Tour of Heroes_ tutorial on the Angular website certainly looked to be what I needed. I tried jumping straight to ["Delete a hero"](https://angular.io/tutorial/toh-pt6#delete-a-hero), but it's talking about services and delegates and... whoa. Ok, time to take it back to the top.
 

@@ -13,7 +13,7 @@ In the previous step, we took the first pass at the Vuex store by creating a `ge
 
 ![Alexstrasza is alphabetically first](/images/hsmercs-banner-alexstrasza.png)
 
-> The third in a series of posts on ['HSMercs Helper From Scratch'](/hs-mercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
+> The third in a series of posts on ['HSMercs Helper From Scratch'](/series/hs-mercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
 
 ## Minimum Renderable Mercenaries
 

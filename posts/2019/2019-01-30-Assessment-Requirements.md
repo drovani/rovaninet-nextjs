@@ -12,7 +12,7 @@ date: 2019-01-30
 
 Yesterday, I did a phone interview with a company offering the possibility for a rather exciting position. The person I spoke with seemed very intelligent, articulate, passionate, and sold the organization well. It's a small organization that is growing, and is looking to consolidate all of their development work into their Chicago office instead of relying on developers in foreign countries. This feels very similar to [what I did](/about) with _Falkor Group_ and again with _The Fellowship_ — start with a small team, map out a strategy for the next several sprints, then mentor and grow the team from there. Of course, the interview process is a two-way sales process, and they need to make sure that I can live up to expectations. This leads to why I am doing a Technical Assessment.
 
-> The first in a four-part series of posts on ['An Assessment of a Technical Assessment'](/technical-assessment-series).
+> The first in a four-part series of posts on ['An Assessment of a Technical Assessment'](/series/technical-assessment-series).
 
 The requirements are fairly straightforward.
 
