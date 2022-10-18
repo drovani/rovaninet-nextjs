@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { getAllPostParams, getPostData } from "../../../lib/posts";
+import { getAllPostFileInfo, getPostData } from "../../../lib/posts";
 
 interface Params extends ParsedUrlQuery {
   slug: string;
@@ -8,10 +8,10 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const paths = (await getAllPostParams()).map(({ slug, year }) => ({
+  const paths = (await getAllPostFileInfo()).map(({ slug, year }) => ({
     params: {
       slug,
-      year,
+      year: year.toString(),
     },
   }));
   return {

@@ -9,7 +9,7 @@ import { slugify } from "./utilities";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
-interface PostFileInfo {
+export interface PostFileInfo {
     year: number;
     fileName: string;
     path: string;
@@ -72,12 +72,9 @@ export async function getSortedPostsData(pageNumber?: number, pageSize: number =
     return sliced;
 }
 
-export async function getAllPostParams() {
+export async function getAllPostFileInfo(): Promise<PostFileInfo[]> {
     const postfiles = await readdirRecursive(postsDirectory);
-    return postfiles.map(pf => ({
-        slug: pf.slug,
-        year: pf.year.toString()
-    }));
+    return postfiles;
 }
 
 export async function getPostData(slug: string, year: string) {
