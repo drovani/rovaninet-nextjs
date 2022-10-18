@@ -4,9 +4,9 @@ import Header from "../components/PageHeader";
 import PostSnippets from "../components/PostSnippets";
 import PostsPager from "../components/PostsPager";
 import {
-    getAllPostParams,
-    getSortedPostsData,
-    PostFrontMatter
+  getAllPostParams,
+  getSortedPostsData,
+  PostFrontMatter
 } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {
@@ -14,7 +14,7 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async (_) => {
-  const maxPages = Math.ceil(getAllPostParams().length / 7);
+  const maxPages = Math.ceil((await getAllPostParams()).length / 7);
   const paths = [...Array(maxPages)].map((_, i) => ({
     params: {
       pageNumber: (i + 1).toString(),
@@ -30,12 +30,12 @@ export const getStaticProps: GetStaticProps<PostsPageProps, Params> = async ({
   params,
 }) => {
   const pageNumber = Number.parseInt(params.pageNumber);
-  const posts = getSortedPostsData(pageNumber, 7);
+  const posts = await getSortedPostsData(pageNumber, 7);
   return {
     props: {
       posts,
       pageNumber,
-      maxPages: Math.ceil(getAllPostParams().length / 7),
+      maxPages: Math.ceil((await getAllPostParams()).length / 7),
     },
   };
 };

@@ -8,9 +8,7 @@ import { getSortedPostsData, PostFrontMatter } from "../lib/posts";
 interface Params extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps<HomeProps, Params> = async (_) => {
-  let posts: HomeProps["posts"] = [];
-
-  posts = getSortedPostsData(1, 7);
+  const posts: HomeProps["posts"] = await getSortedPostsData(1, 7);
 
   return {
     props: {

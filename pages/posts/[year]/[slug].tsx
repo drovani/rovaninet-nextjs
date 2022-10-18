@@ -8,8 +8,14 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
+  const paths = (await getAllPostParams()).map(({ slug, year }) => ({
+    params: {
+      slug,
+      year,
+    },
+  }));
   return {
-    paths: getAllPostParams(),
+    paths,
     fallback: false,
   };
 };
