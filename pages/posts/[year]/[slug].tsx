@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { ParsedUrlQuery } from "querystring";
+import type { ParsedUrlQuery } from "querystring";
 import { getAllPostFileInfo, getPostData } from "../../../lib/posts";
 
 interface Params extends ParsedUrlQuery {
@@ -23,8 +23,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 export const getStaticProps: GetStaticProps<PostProps, Params> = async ({
   params,
 }) => {
-  const { year, slug } = params;
-  const post: PostProps = await getPostData(slug, year);
+  const post: PostProps = await getPostData(params.slug, params.year);
   return {
     props: post,
   };

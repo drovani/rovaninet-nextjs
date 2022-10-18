@@ -1,4 +1,4 @@
-import fs, { PathLike } from "fs";
+import { PathLike } from "fs";
 import { readdir, readFile } from "fs/promises";
 import matter from "gray-matter";
 import yaml from 'js-yaml';
@@ -10,7 +10,7 @@ import { slugify } from "./utilities";
 const postsDirectory = path.join(process.cwd(), "posts");
 
 export interface PostFileInfo {
-    year: number;
+    year: string;
     fileName: string;
     path: string;
     slug: string;
@@ -18,7 +18,7 @@ export interface PostFileInfo {
 
 export interface PostFrontMatter {
     slug: string;
-    year: number;
+    year: string;
     date: string;
     title: string;
     canonicalUrl: string;
@@ -26,6 +26,7 @@ export interface PostFrontMatter {
     excerpt?: string;
     category?: string;
     series?: string;
+    excerptHtml?: string;
 }
 
 async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
@@ -33,7 +34,7 @@ async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
     const files = await Promise.all(dirents.map((dirent) => {
         const res = resolve(directory.toString(), dirent.name);
         return dirent.isDirectory() ? readdirRecursive(res) : {
-            year: Number.parseInt(directory.toString().substring(postsDirectory.length + 1, postsDirectory.length + 5)),
+            year: directory.toString().substring(postsDirectory.length + 1, postsDirectory.length + 5),
             fileName: dirent.name,
             path: res,
             slug: slugify(dirent.name.substring(11).slice(0, -2))
@@ -77,12 +78,39 @@ export async function getAllPostFileInfo(): Promise<PostFileInfo[]> {
     return postfiles;
 }
 
+export async function getAllPostFrontMatter(): Promise<PostFrontMatter[]> {
+    const postfiles = await readdirRecursive(postsDirectory);
+    const retval = await Promise.all(postfiles.map(async (postfile) => {
+        const fileContent = await readFile(postfile.path, "utf-8");
+
+        const { data: frontmatter, excerpt } = matter(fileContent, {
+            engines: {
+                yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
+            },
+        });
+
+        const processedExcerpt = await remark().use(html).process(excerpt);
+        const excerptHtml = processedExcerpt.toString();
+        console.debug(frontmatter);
+        return {
+            slug: postfile.slug,
+            year: postfile.year,
+            date: frontmatter.date as string,
+            title: frontmatter.title as string,
+            canonicalUrl: `/posts/${postfile.year}/${postfile.slug}`,
+            ...frontmatter,
+            excerptHtml,
+        };
+    }));
+    return retval;
+}
+
 export async function getPostData(slug: string, year: string) {
     const fullPath = path.join(postsDirectory, year);
-    const filename = fs.readdirSync(fullPath).find(f => f.toLowerCase().endsWith(`${slug}.md`));
-    const fileContent = fs.readFileSync(path.join(fullPath, filename), 'utf8');
+    const fileinfo = (await readdirRecursive(fullPath)).find(f => f.slug === slug);
+    const fileContent = await readFile(fileinfo.path, "utf-8");
 
-    const { data: frontmatter, content } = matter(fileContent, {
+    const { data: frontmatter, content, excerpt } = matter(fileContent, {
         engines: {
             yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
         },
@@ -91,14 +119,22 @@ export async function getPostData(slug: string, year: string) {
     const processedContent = await remark().use(html).process(content);
     const contentHtml = processedContent.toString();
 
-    const processedExcerpt = await remark().use(html).process(frontmatter.excerpt);
+    const processedExcerpt = await remark().use(html).process(excerpt);
     const excerptHtml = processedExcerpt.toString();
 
     return {
-        slug,
-        year,
-        frontmatter: { title: frontmatter.title as string, ...frontmatter },
-        //excerptHtml,
-        contentHtml,
+        frontmatter: {
+            slug: fileinfo.slug,
+            year: fileinfo.year,
+            date: frontmatter.date as string,
+            title: frontmatter.title as string,
+            canonicalUrl: `/posts/${fileinfo.year}/${fileinfo.slug}`,
+            ...frontmatter
+        },
+        slug: fileinfo.slug,
+        year: fileinfo.year,
+        canonicalUrl: `/posts/${fileinfo.year}/${fileinfo.slug}`,
+        excerptHtml,
+        contentHtml
     };
 }
