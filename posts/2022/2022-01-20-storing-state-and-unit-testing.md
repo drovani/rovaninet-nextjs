@@ -13,7 +13,7 @@ In the previous post, we built a Minimum Renderable Vue application - which is t
 
 ![Gruul is a jerk](/images/hsmercs-banner-gruul.png)
 
-> The second in a series of posts on ['HSMercs Helper From Scratch'](/series/hs-mercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
+> The second in a series of posts on ['HSMercs Helper From Scratch'](/series/hsmercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
 
 ## Building an Extensible Vuex Store
 

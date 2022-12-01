@@ -15,7 +15,7 @@ As the name of this tutorial states, we are going to start this project from not
 
 ![HSMercs Helper for Hearthstone Mercenaries](/images/hsmercs-banner-logo.png)
 
-> The first in a series of posts on ['HSMercs Helper From Scratch'](/series/hs-mercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
+> The first in a series of posts on ['HSMercs Helper From Scratch'](/series/hsmercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
 
 ## Starting from Complete Scratch
 

@@ -23,10 +23,9 @@ export interface PostFrontMatter {
     title: string;
     canonicalUrl: string;
     step?: number;
-    excerpt?: string;
+    excerpt: string;
     category?: string;
     series?: string;
-    excerptHtml?: string;
 }
 
 async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
@@ -46,26 +45,27 @@ async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
 export async function getSortedPostsData(pageNumber?: number, pageSize: number = 7): Promise<PostFrontMatter[]> {
     const postfiles = await readdirRecursive(postsDirectory);
 
-    const postPrmoises = postfiles.map(async ({ year, fileName, path, slug }) => {
+    const postPromises = postfiles.map(async ({ year, fileName, path, slug }) => {
 
         const fileContents = await readFile(path, "utf-8");
         // Nextjs tries to serialize the date prop, but fails because [object Date] is not JSON serializable
         // Instead, we instruct the yaml engine to use only strings, arrays and plain objects
-        const { data, excerpt } = matter(fileContents, {
+        const { data: frontmatter, excerpt } = matter(fileContents, {
             engines: {
                 yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object
-            }
+            },
+            excerpt: true
         });
         return {
             slug,
             year,
             canonicalUrl: `/posts/${year}/${slug}`,
             excerpt,
-            ...(data as { title: string, date: string }),
+            ...(frontmatter as { title: string, date: string }),
         };
 
     });
-    const posts = await Promise.all(postPrmoises);
+    const posts = await Promise.all(postPromises);
 
     const sorted = posts.sort((a, b) => b.date.localeCompare(a.date))
     const start = ((pageNumber || 1) - 1) * pageSize;
@@ -86,23 +86,25 @@ export async function getAllPostFrontMatter(): Promise<PostFrontMatter[]> {
         const { data: frontmatter, excerpt } = matter(fileContent, {
             engines: {
                 yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
-            },
+            }
         });
 
-        const processedExcerpt = await remark().use(html).process(excerpt);
-        const excerptHtml = processedExcerpt.toString();
-        console.debug(frontmatter);
         return {
             slug: postfile.slug,
             year: postfile.year,
             date: frontmatter.date as string,
             title: frontmatter.title as string,
             canonicalUrl: `/posts/${postfile.year}/${postfile.slug}`,
+            excerpt,
             ...frontmatter,
-            excerptHtml,
         };
     }));
     return retval;
+}
+
+export async function getPostFrontMatterBySeries(seriesSlug: string): Promise<PostFrontMatter[]> {
+    const postsbyseries = (await getAllPostFrontMatter()).filter(pfm => slugify(pfm.series) === seriesSlug);
+    return postsbyseries
 }
 
 export async function getPostData(slug: string, year: string) {
@@ -119,9 +121,6 @@ export async function getPostData(slug: string, year: string) {
     const processedContent = await remark().use(html).process(content);
     const contentHtml = processedContent.toString();
 
-    const processedExcerpt = await remark().use(html).process(excerpt);
-    const excerptHtml = processedExcerpt.toString();
-
     return {
         frontmatter: {
             slug: fileinfo.slug,
@@ -129,12 +128,12 @@ export async function getPostData(slug: string, year: string) {
             date: frontmatter.date as string,
             title: frontmatter.title as string,
             canonicalUrl: `/posts/${fileinfo.year}/${fileinfo.slug}`,
+            excerpt,
             ...frontmatter
         },
         slug: fileinfo.slug,
         year: fileinfo.year,
         canonicalUrl: `/posts/${fileinfo.year}/${fileinfo.slug}`,
-        excerptHtml,
         contentHtml
     };
 }

@@ -13,7 +13,7 @@ Creating a handful of components to render the data that loaded from a JSON file
 
 ![No one is as pretty as Varden](/images/hsmercs-banner-varden.png)
 
-> The fourth in a series of posts on ['HSMercs Helper From Scratch'](/series/hs-mercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
+> The fourth in a series of posts on ['HSMercs Helper From Scratch'](/series/hsmercs-from-scratch), a tutorial for recreating _[HSMercs Helper](https://hsmercs.rovani.net)_.
 
 The native [tutorial for installing](https://tailwindcss.com/docs/guides/vite) Tailwind CSS with Vue 3 and Vite is straightforward and easy to follow. Most of what you'll see in this post is following the steps in that post.
 
