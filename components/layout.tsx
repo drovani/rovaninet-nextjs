@@ -33,60 +33,86 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
         <div className="w-full block flex-grow sm:flex sm:items-center sm:w-auto border border-grey-600 p-2 mt-2 rounded sm:border-t-0 sm:border-l-0 sm:rounded-t-none sm:rounded-l-none">
           <div className="text-sm sm:flex-grow text-right">
-            <Link href="/about/">
-              <a className="block mt-0 sm:inline-block text-black hover:text-red-900 mr-4">
-                About Me
-              </a>
+            <Link
+              href="/about/"
+              className="block mt-0 sm:inline-block text-black hover:text-red-900 mr-4"
+            >
+              About Me
             </Link>
-            <Link href="https://hsmercs.rovani.net/">
-              <a className="block mt-4 sm:inline-block sm:mt-0 text-black hover:text-red-900 mr-4">
-                HS Mercs
-              </a>
+            <Link
+              href="https://hsmercs.rovani.net/"
+              className="block mt-4 sm:inline-block sm:mt-0 text-black hover:text-red-900 mr-4"
+            >
+              HS Mercs
             </Link>
           </div>
         </div>
       </nav>
       <main className="font-sans antialiased">{children}</main>
       <footer className="mt-4 pt-2 text-4xl space-x-1 text-center sm:space-x-2 md:space-x-4 border-t rounded-t">
-        <Link href="/">
-          <a title="Rovani in C#">
-            <FontAwesomeIcon icon={faHome} />
-          </a>
+        <Link href="/" title="Rovani in C#" className=" hover:text-red-900">
+          <FontAwesomeIcon icon={faHome} />
         </Link>
-        <Link href="https://github.com/drovani">
-          <a title="drovani GitHub profile">
-            <FontAwesomeIcon icon={faGithub} />
-          </a>
+        <Link
+          href="https://github.com/drovani"
+          title="drovani GitHub profile"
+          target="_blank"
+          rel="noreferrer noopener"
+          className=" hover:text-red-900"
+        >
+          <FontAwesomeIcon icon={faGithub} />
         </Link>
-        <Link href="https://linkedin.com/in/drovani">
-          <a title="drovani LinkedIn profile">
-            <FontAwesomeIcon icon={faLinkedin} />
-          </a>
+        <Link
+          href="https://linkedin.com/in/drovani"
+          title="drovani LinkedIn profile"
+          target="_blank"
+          rel="noreferrer noopener"
+          className=" hover:text-red-900"
+        >
+          <FontAwesomeIcon icon={faLinkedin} />
         </Link>
-        <Link href="https://hachyderm.io/@drovani">
-          <a title="@drovani@hackyderm.io Mastodon profile">
-            <FontAwesomeIcon icon={faMastodon} />
-          </a>
+        <Link
+          href="https://hachyderm.io/@drovani"
+          title="@drovani@hackyderm.io Mastodon profile"
+          target="_blank"
+          rel="noreferrer noopener"
+          className=" hover:text-red-900"
+        >
+          <FontAwesomeIcon icon={faMastodon} />
         </Link>
-        <Link href="https://stackoverflow.com/users/28310/drovani">
-          <a title="drovani Stack Overlow profile">
-            <FontAwesomeIcon icon={faStackOverflow} />
-          </a>
+        <Link
+          href="https://stackoverflow.com/users/28310/drovani"
+          title="drovani Stack Overlow profile"
+          target="_blank"
+          rel="noreferrer noopener"
+          className=" hover:text-red-900"
+        >
+          <FontAwesomeIcon icon={faStackOverflow} />
         </Link>
-        <Link href="https://twitter.com/davidrovani">
-          <a title="@davidrovani Twitter profile">
-            <FontAwesomeIcon icon={faTwitter} />
-          </a>
+        <Link
+          href="https://twitter.com/davidrovani"
+          title="@davidrovani Twitter profile"
+          target="_blank"
+          rel="noreferrer noopener"
+          className=" hover:text-red-900"
+        >
+          <FontAwesomeIcon icon={faTwitter} />
         </Link>
-        <Link href="https://dev.to/drovani">
-          <a title="drovani dev.to profile">
-            <FontAwesomeIcon icon={faDev} />
-          </a>
+        <Link
+          href="https://dev.to/drovani"
+          title="drovani dev.to profile"
+          target="_blank"
+          rel="noreferrer noopener"
+          className=" hover:text-red-900"
+        >
+          <FontAwesomeIcon icon={faDev} />
         </Link>
-        <Link href="/about">
-          <a title="About David Rovani">
-            <FontAwesomeIcon icon={faUserTie} />
-          </a>
+        <Link
+          href="/about"
+          title="About David Rovani"
+          className=" hover:text-red-900"
+        >
+          <FontAwesomeIcon icon={faUserTie} />
         </Link>
       </footer>
     </div>

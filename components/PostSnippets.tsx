@@ -15,8 +15,8 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
                     {post.frontmatter.step}:
                   </span>
                 )}
-                <Link href={post.canonicalUrl}>
-                  <a className="underline">{post.frontmatter.title}</a>
+                <Link href={post.canonicalUrl} className="underline">
+                  {post.frontmatter.title}
                 </Link>
               </h3>
               <div className="text-right">
