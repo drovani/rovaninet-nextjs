@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PostComplete } from "../lib/posts";
+import TaillessWrap from "./TaillessWrap";
 
 const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
   return (
@@ -16,7 +17,7 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
                   </span>
                 )}
                 <Link href={post.canonicalUrl} className="underline">
-                  {post.frontmatter.title}
+                  <TaillessWrap text={post.frontmatter.title} />
                 </Link>
               </h3>
               <div className="text-right">
