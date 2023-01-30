@@ -2,10 +2,10 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import Header from "../../components/PageHeader";
 import PostSnippets from "../../components/PostSnippets";
-import type { PostFrontMatter } from "../../lib/posts";
+import type { PostComplete } from "../../lib/posts";
 import {
-  getAllPostFrontMatter,
-  getPostFrontMatterBySeries
+  getAllPosts,
+  getPostsBySeries
 } from "../../lib/posts";
 import { slugify } from "../../lib/utilities";
 
@@ -14,15 +14,14 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async (_) => {
-  const posts = await getAllPostFrontMatter();
-  const uniqueSeries = Array.from(new Set(posts.map((post) => post.series))).filter(el => el);
+  const posts = await getAllPosts();
+  const uniqueSeries = Array.from(new Set(posts.map((post) => post.frontmatter.series))).filter(el => el);
 
   const paths = uniqueSeries.map((series) => ({
     params: {
       seriesSlug: slugify(series),
     },
   }));
-  console.debug(paths);
   return {
     paths,
     fallback: false,
@@ -32,7 +31,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async (_) => {
 export const getStaticProps: GetStaticProps<SeriesPageProps, Params> = async ({
   params,
 }) => {
-  const posts = await getPostFrontMatterBySeries(params.seriesSlug);
+  const posts = await getPostsBySeries(params.seriesSlug);
   return {
     props: {
       posts,
@@ -42,7 +41,7 @@ export const getStaticProps: GetStaticProps<SeriesPageProps, Params> = async ({
 };
 
 interface SeriesPageProps {
-  posts: PostFrontMatter[];
+  posts: PostComplete[];
   seriesSlug: string;
 }
 

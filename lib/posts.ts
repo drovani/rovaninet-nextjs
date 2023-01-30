@@ -1,73 +1,44 @@
 import { PathLike } from "fs";
 import { readdir, readFile } from "fs/promises";
-import matter from "gray-matter";
-import yaml from 'js-yaml';
 import path, { resolve } from "path";
-import { remark } from "remark";
-import html from "remark-html";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkHtml from "remark-html";
+import remarkParse from "remark-parse";
+import { unified } from "unified";
+import { matter as vmatter } from 'vfile-matter';
 import { slugify } from "./utilities";
 
 const postsDirectory = path.join(process.cwd(), "posts");
+// posts/{year}/{date}-{slug}.md
+const postFilenameRegex = /posts\/(?<year>\d{4})\/(?<filename>(?<date>\d{4}-\d{2}-\d{2})-(?<slug>[\w\d\-]*)\.md)/i;
+
+export interface PostComplete extends PostFileInfo {
+    frontmatter: PostFrontMatter;
+    contentHtml: string;
+}
 
 export interface PostFileInfo {
     year: string;
     fileName: string;
     path: string;
     slug: string;
+    canonicalUrl: string;
 }
 
 export interface PostFrontMatter {
-    slug: string;
-    year: string;
     date: string;
     title: string;
-    canonicalUrl: string;
     step?: number;
     excerpt: string;
+    excerptHtml: string;
     category?: string;
     series?: string;
 }
 
-async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
-    const dirents = await readdir(directory, { withFileTypes: true });
-    const files = await Promise.all(dirents.map((dirent) => {
-        const res = resolve(directory.toString(), dirent.name);
-        return dirent.isDirectory() ? readdirRecursive(res) : {
-            year: directory.toString().substring(postsDirectory.length + 1, postsDirectory.length + 5),
-            fileName: dirent.name,
-            path: res,
-            slug: slugify(dirent.name.substring(11).slice(0, -2))
-        };
-    }))
-    return files.flat();
-}
+export async function getSortedPosts(pageNumber?: number, pageSize: number = 7): Promise<PostComplete[]> {
+    const posts = await getAllPosts();
 
-export async function getSortedPostsData(pageNumber?: number, pageSize: number = 7): Promise<PostFrontMatter[]> {
-    const postfiles = await readdirRecursive(postsDirectory);
-
-    const postPromises = postfiles.map(async ({ year, fileName, path, slug }) => {
-
-        const fileContents = await readFile(path, "utf-8");
-        // Nextjs tries to serialize the date prop, but fails because [object Date] is not JSON serializable
-        // Instead, we instruct the yaml engine to use only strings, arrays and plain objects
-        const { data: frontmatter, excerpt } = matter(fileContents, {
-            engines: {
-                yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object
-            },
-            excerpt: true
-        });
-        return {
-            slug,
-            year,
-            canonicalUrl: `/posts/${year}/${slug}`,
-            excerpt,
-            ...(frontmatter as { title: string, date: string }),
-        };
-
-    });
-    const posts = await Promise.all(postPromises);
-
-    const sorted = posts.sort((a, b) => b.date.localeCompare(a.date))
+    const sorted = posts.sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date))
     const start = ((pageNumber || 1) - 1) * pageSize;
     const sliced = sorted.slice(start, start + pageSize);
     return sliced;
@@ -78,62 +49,76 @@ export async function getAllPostFileInfo(): Promise<PostFileInfo[]> {
     return postfiles;
 }
 
-export async function getAllPostFrontMatter(): Promise<PostFrontMatter[]> {
+export async function getAllPosts(): Promise<PostComplete[]> {
     const postfiles = await readdirRecursive(postsDirectory);
-    const retval = await Promise.all(postfiles.map(async (postfile) => {
-        const fileContent = await readFile(postfile.path, "utf-8");
 
-        const { data: frontmatter, excerpt } = matter(fileContent, {
-            engines: {
-                yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
-            }
-        });
-
-        return {
-            slug: postfile.slug,
-            year: postfile.year,
-            date: frontmatter.date as string,
-            title: frontmatter.title as string,
-            canonicalUrl: `/posts/${postfile.year}/${postfile.slug}`,
-            excerpt,
-            ...frontmatter,
-        };
+    const retval = await Promise.all(postfiles.map(async ({ path }) => {
+        return await getPostFromPath(path);
     }));
     return retval;
 }
 
-export async function getPostFrontMatterBySeries(seriesSlug: string): Promise<PostFrontMatter[]> {
-    const postsbyseries = (await getAllPostFrontMatter()).filter(pfm => slugify(pfm.series) === seriesSlug);
-    return postsbyseries
+export async function getPostsBySeries(seriesSlug: string): Promise<PostComplete[]> {
+    return await getAllPosts().then(allposts => allposts.filter(post => slugify(post.frontmatter.series) === seriesSlug));
 }
 
-export async function getPostData(slug: string, year: string) {
+
+async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
+    const dirents = await readdir(directory, { withFileTypes: true });
+    const files = await Promise.all(dirents.map((dirent) => {
+        const res = resolve(directory.toString(), dirent.name);
+        if (dirent.isDirectory()) {
+            return readdirRecursive(res);
+        } else {
+            const matches = postFilenameRegex.exec(res);
+            return {
+                year: matches.groups.year,
+                fileName: dirent.name,
+                path: res,
+                slug: matches.groups.slug,
+                canonicalUrl: `/posts/${matches.groups.year}/${matches.groups.slug}`,
+            };
+        }
+    }))
+    return files.flat();
+}
+
+export async function getPostFromSlugYear(slug: string, year: string): Promise<PostComplete> {
     const fullPath = path.join(postsDirectory, year);
-    const fileinfo = (await readdirRecursive(fullPath)).find(f => f.slug === slug);
-    const fileContent = await readFile(fileinfo.path, "utf-8");
+    const fileinfo = await readdirRecursive(fullPath).then(posts => posts.find(f => f.slug === slug));
+    return await getPostFromPath(fileinfo.path);
+}
 
-    const { data: frontmatter, content, excerpt } = matter(fileContent, {
-        engines: {
-            yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
-        },
-    });
+export async function getPostFromPath(path: string): Promise<PostComplete> {
+    const fileContent = await readFile(path, "utf-8");
 
-    const processedContent = await remark().use(html).process(content);
-    const contentHtml = processedContent.toString();
 
+    const file = await unified()
+        .use(remarkParse)
+        .use(remarkFrontmatter)
+        .use(remarkHtml)
+        .use(() => {
+            return function (_, file) {
+                vmatter(file);
+            }
+        })
+        .process(fileContent);
+
+    const frontmatter = file.data.matter as PostFrontMatter;
+    const excerpt = await unified().use(remarkParse).use(remarkHtml).process(frontmatter.excerpt);
+
+    const matches = postFilenameRegex.exec(path);
     return {
         frontmatter: {
-            slug: fileinfo.slug,
-            year: fileinfo.year,
-            date: frontmatter.date as string,
-            title: frontmatter.title as string,
-            canonicalUrl: `/posts/${fileinfo.year}/${fileinfo.slug}`,
-            excerpt,
-            ...frontmatter
+            ...frontmatter,
+            excerptHtml: String(excerpt)
         },
-        slug: fileinfo.slug,
-        year: fileinfo.year,
-        canonicalUrl: `/posts/${fileinfo.year}/${fileinfo.slug}`,
-        contentHtml
+        year: matches.groups.year,
+        fileName: matches.groups.filename,
+        slug: matches.groups.slug,
+        path,
+        canonicalUrl: `/posts/${matches.groups.year}/${matches.groups.slug}`,
+        contentHtml: String(file),
     };
 }
+

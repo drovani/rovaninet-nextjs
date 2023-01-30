@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { PostFrontMatter } from "../lib/posts";
+import { PostComplete } from "../lib/posts";
 
-const PostSnippets = ({ posts }: { posts: PostFrontMatter[] }) => {
+const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
   return (
     <section>
       {posts.map((post) => {
@@ -9,25 +9,28 @@ const PostSnippets = ({ posts }: { posts: PostFrontMatter[] }) => {
           <article className="my-5 text-lg list-none" key={post.slug}>
             <header className="sm:flex sm:items-baseline">
               <h3 className="sm:flex-1">
-                {post.step && (
+                {post.frontmatter.step && (
                   <span className="mr-1">
-                    <span className="italic">{post.series}</span> {post.step}:
+                    <span className="italic">{post.frontmatter.series}</span>{" "}
+                    {post.frontmatter.step}:
                   </span>
                 )}
                 <Link href={post.canonicalUrl}>
-                  <a className="underline">{post.title}</a>
+                  <a className="underline">{post.frontmatter.title}</a>
                 </Link>
               </h3>
               <div className="text-right">
                 <time
                   className="bg-gray-100 px-2 rounded"
-                  dateTime={new Date(post.date).toISOString()}
+                  dateTime={new Date(post.frontmatter.date).toISOString()}
                 >
-                  {new Date(post.date).toLocaleDateString()}
+                  {new Date(post.frontmatter.date).toLocaleDateString()}
                 </time>
               </div>
             </header>
-            <p>{post.excerpt}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: post.frontmatter.excerptHtml }}
+            ></p>
           </article>
         );
       })}

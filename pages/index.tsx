@@ -3,12 +3,12 @@ import { ParsedUrlQuery } from "querystring";
 import Header from "../components/PageHeader";
 import PostSnippets from "../components/PostSnippets";
 import PostsPager from "../components/PostsPager";
-import { getSortedPostsData, PostFrontMatter } from "../lib/posts";
+import { getSortedPosts, PostComplete } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps<HomeProps, Params> = async (_) => {
-  const posts: HomeProps["posts"] = await getSortedPostsData(1, 7);
+  const posts: HomeProps["posts"] = await getSortedPosts(1, 7);
 
   return {
     props: {
@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps<HomeProps, Params> = async (_) => {
 };
 
 interface HomeProps {
-  posts: PostFrontMatter[];
+  posts: PostComplete[];
 }
 
 const HomePage: NextPage<HomeProps> = ({ posts }) => {

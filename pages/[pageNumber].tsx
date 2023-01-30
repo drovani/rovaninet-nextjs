@@ -5,8 +5,8 @@ import PostSnippets from "../components/PostSnippets";
 import PostsPager from "../components/PostsPager";
 import {
   getAllPostFileInfo,
-  getSortedPostsData,
-  PostFrontMatter
+  getSortedPosts,
+  PostComplete
 } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {
@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps<PostsPageProps, Params> = async ({
   params,
 }) => {
   const pageNumber = Number.parseInt(params.pageNumber);
-  const posts = await getSortedPostsData(pageNumber, 7);
+  const posts = await getSortedPosts(pageNumber, 7);
   return {
     props: {
       posts,
@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps<PostsPageProps, Params> = async ({
 };
 
 interface PostsPageProps {
-  posts: PostFrontMatter[];
+  posts: PostComplete[];
   pageNumber: number;
   maxPages: number;
 }
