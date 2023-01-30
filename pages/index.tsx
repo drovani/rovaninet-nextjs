@@ -1,4 +1,5 @@
 import { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import Header from "../components/PageHeader";
 import PostSnippets from "../components/PostSnippets";
@@ -24,6 +25,9 @@ interface HomeProps {
 const HomePage: NextPage<HomeProps> = ({ posts }) => {
   return (
     <section>
+      <Head>
+        <title>Rovani's Sandbox</title>
+      </Head>
       <div className="sm:flex sm:pr-4">
         <Header className="sm:flex-1">Blog Posts</Header>
       </div>

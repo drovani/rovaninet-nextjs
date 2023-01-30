@@ -1,13 +1,10 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import Header from "../components/PageHeader";
 import PostSnippets from "../components/PostSnippets";
 import PostsPager from "../components/PostsPager";
-import {
-  getAllPostFileInfo,
-  getSortedPosts,
-  PostComplete
-} from "../lib/posts";
+import { getAllPostFileInfo, getSortedPosts, PostComplete } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {
   pageNumber: string;
@@ -53,9 +50,11 @@ const PostsPage: NextPage<PostsPageProps> = ({
 }) => {
   return (
     <section>
+      <Head>
+        <title>Rovani's Sandbox | Posts page {pageNumber}</title>
+      </Head>
       <Header>Page {pageNumber}</Header>
       <PostsPager currentPage={pageNumber} maxPages={maxPages} />
-
       <PostSnippets posts={posts} />
     </section>
   );
