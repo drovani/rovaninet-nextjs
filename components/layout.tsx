@@ -2,6 +2,7 @@ import {
   faDev,
   faGithub,
   faLinkedin,
+  faMastodon,
   faStackOverflow,
   faTwitter
 } from "@fortawesome/free-brands-svg-icons";
@@ -62,14 +63,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <FontAwesomeIcon icon={faLinkedin} />
           </a>
         </Link>
-        <Link href="https://twitter.com/davidrovani">
-          <a title="@davidrovani Twitter profile">
-            <FontAwesomeIcon icon={faTwitter} />
+        <Link href="https://hachyderm.io/@drovani">
+          <a title="@drovani@hackyderm.io Mastodon profile">
+            <FontAwesomeIcon icon={faMastodon} />
           </a>
         </Link>
         <Link href="https://stackoverflow.com/users/28310/drovani">
           <a title="drovani Stack Overlow profile">
             <FontAwesomeIcon icon={faStackOverflow} />
+          </a>
+        </Link>
+        <Link href="https://twitter.com/davidrovani">
+          <a title="@davidrovani Twitter profile">
+            <FontAwesomeIcon icon={faTwitter} />
           </a>
         </Link>
         <Link href="https://dev.to/drovani">
