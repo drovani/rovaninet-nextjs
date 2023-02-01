@@ -51,7 +51,7 @@ const PostsPage: NextPage<PostsPageProps> = ({
   return (
     <section>
       <Head>
-        <title>Rovani's Sandbox | Posts page {pageNumber}</title>
+        <title>Rovani&apos;s Sandbox | Posts page {pageNumber}</title>
       </Head>
       <Header>Page {pageNumber}</Header>
       <PostsPager currentPage={pageNumber} maxPages={maxPages} />

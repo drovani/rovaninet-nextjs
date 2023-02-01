@@ -26,7 +26,7 @@ const HomePage: NextPage<HomeProps> = ({ posts }) => {
   return (
     <section>
       <Head>
-        <title>Rovani's Sandbox</title>
+        <title>Rovani&apos;s Sandbox</title>
       </Head>
       <div className="sm:flex sm:pr-4">
         <Header className="sm:flex-1">Blog Posts</Header>

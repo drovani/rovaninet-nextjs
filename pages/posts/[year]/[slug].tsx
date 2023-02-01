@@ -44,7 +44,7 @@ const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml }) => {
   return (
     <div className="prose mx-auto lg:prose-xl">
       <Head>
-        <title>Rovani's Sandbox | {frontmatter.title}</title>
+        <title>Rovani&apos;s Sandbox | {frontmatter.title}</title>
       </Head>
       <h1>{frontmatter.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
