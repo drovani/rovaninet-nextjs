@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <nav className="flex items-center justify-between flex-wrap p-6">
         <div className="flex items-center flex-shrink-0 text-black mr-6">
           <span className="font-semibold text-xl tracking-tight">
-            <Link href="/">Rovani in C#</Link>
+            <Link href="/">Rovani's Sandbox</Link>
           </span>
         </div>
         <div className="block sm:hidden">
@@ -50,7 +50,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </nav>
       <main className="font-sans antialiased">{children}</main>
       <footer className="mt-4 pt-2 text-4xl space-x-1 text-center sm:space-x-2 md:space-x-4 border-t rounded-t">
-        <Link href="/" title="Rovani in C#" className=" hover:text-red-900">
+        <Link href="/" title="Rovani's Sandbox'" className=" hover:text-red-900">
           <FontAwesomeIcon icon={faHome} />
         </Link>
         <Link
