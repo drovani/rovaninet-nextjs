@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <nav className="flex items-center justify-between flex-wrap p-6">
         <div className="flex items-center flex-shrink-0 text-black mr-6">
           <span className="font-semibold text-xl tracking-tight">
-            <Link href="/">Rovani's Sandbox</Link>
+            <Link href="/">Rovani&apos;s Sandbox</Link>
           </span>
         </div>
         <div className="block sm:hidden">
@@ -50,14 +50,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </nav>
       <main className="font-sans antialiased">{children}</main>
       <footer className="mt-4 pt-2 text-4xl space-x-1 text-center sm:space-x-2 md:space-x-4 border-t rounded-t">
-        <Link href="/" title="Rovani's Sandbox'" className=" hover:text-red-900">
+        <Link href="/" title="Rovani's Sandbox" className=" hover:text-red-900">
           <FontAwesomeIcon icon={faHome} />
         </Link>
         <Link
           href="https://github.com/drovani"
           title="drovani GitHub profile"
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer noopener me"
           className=" hover:text-red-900"
         >
           <FontAwesomeIcon icon={faGithub} />
@@ -66,7 +66,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href="https://linkedin.com/in/drovani"
           title="drovani LinkedIn profile"
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer noopener me"
           className=" hover:text-red-900"
         >
           <FontAwesomeIcon icon={faLinkedin} />
@@ -75,7 +75,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href="https://hachyderm.io/@drovani"
           title="@drovani@hackyderm.io Mastodon profile"
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer noopener me"
           className=" hover:text-red-900"
         >
           <FontAwesomeIcon icon={faMastodon} />
@@ -84,7 +84,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href="https://stackoverflow.com/users/28310/drovani"
           title="drovani Stack Overlow profile"
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer noopener me"
           className=" hover:text-red-900"
         >
           <FontAwesomeIcon icon={faStackOverflow} />
@@ -93,7 +93,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href="https://twitter.com/davidrovani"
           title="@davidrovani Twitter profile"
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer noopener me"
           className=" hover:text-red-900"
         >
           <FontAwesomeIcon icon={faTwitter} />
@@ -102,7 +102,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href="https://dev.to/drovani"
           title="drovani dev.to profile"
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer noopener me"
           className=" hover:text-red-900"
         >
           <FontAwesomeIcon icon={faDev} />

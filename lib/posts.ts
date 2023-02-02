@@ -71,6 +71,7 @@ async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
             return readdirRecursive(res);
         } else {
             const matches = postFilenameRegex.exec(res);
+            if (matches == null) return;
             return {
                 year: matches.groups.year,
                 fileName: dirent.name,
@@ -80,7 +81,7 @@ async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
             };
         }
     }))
-    return files.flat();
+    return files.flat().filter(f => f != null);
 }
 
 export async function getPostFromSlugYear(slug: string, year: string): Promise<PostComplete> {
@@ -122,3 +123,12 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
     };
 }
 
+export async function getAboutContent(): Promise<string> {
+    const fileContent = await readFile(path.join(postsDirectory, "about.md"));
+    const file = await unified()
+        .use(remarkParse)
+        .use(remarkHtml)
+        .process(fileContent);
+
+    return String(file);
+}
