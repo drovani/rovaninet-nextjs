@@ -20,10 +20,11 @@ interface AboutProps {
 }
 
 const AboutPage: NextPage<AboutProps> = ({ content }) => {
+  const headtitle = `Rovani's Sandbox | David's Résumé`;
   return (
     <section className="prose mx-auto lg:prose-xl">
       <Head>
-        <title>Rovani&apos;s Sandbox</title>
+        <title>{headtitle}</title>
       </Head>
       <div dangerouslySetInnerHTML={{ __html: content }}></div>
     </section>

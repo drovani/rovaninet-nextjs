@@ -48,10 +48,12 @@ const PostsPage: NextPage<PostsPageProps> = ({
   pageNumber,
   maxPages,
 }) => {
+  const headtitle = `Rovani's Sandbox | Posts page ${pageNumber}`;
+
   return (
     <section>
       <Head>
-        <title>Rovani&apos;s Sandbox | Posts page {pageNumber}</title>
+        <title>{headtitle}</title>
       </Head>
       <Header>Page {pageNumber}</Header>
       <PostsPager currentPage={pageNumber} maxPages={maxPages} />

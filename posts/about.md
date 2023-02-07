@@ -1,4 +1,4 @@
-# David Rovani - Résumé
+# David Rovani, Résumé
 
 ## Passions and Motivators
 
