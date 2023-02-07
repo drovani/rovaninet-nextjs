@@ -4,6 +4,7 @@ import {
   faLinkedin,
   faMastodon,
   faStackOverflow,
+  faStrava,
   faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import { faHome, faUserTie } from "@fortawesome/free-solid-svg-icons";
@@ -19,38 +20,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link href="/">Rovani&apos;s Sandbox</Link>
           </span>
         </div>
-        <div className="block sm:hidden">
-          <button className="flex items-center px-3 py-2 border rounded text-black border-black hover:text-white hover:bg-black focus:text-white focus:bg-black">
-            <svg
-              className="fill-current h-3 w-3"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>Menu</title>
-              <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-            </svg>
-          </button>
-        </div>
         <div className="w-full block flex-grow sm:flex sm:items-center sm:w-auto border border-grey-600 p-2 mt-2 rounded sm:border-t-0 sm:border-l-0 sm:rounded-t-none sm:rounded-l-none">
-          <div className="text-sm sm:flex-grow text-right">
+          <div className="text-sm sm:flex-grow">
             <Link
               href="/about/"
-              className="block mt-0 sm:inline-block text-black hover:text-red-900 mr-4"
+              className="block mt-0 sm:inline-block text-black mr-4"
             >
               About Me
             </Link>
-            <Link
+            <a
               href="https://hsmercs.rovani.net/"
-              className="block mt-4 sm:inline-block sm:mt-0 text-black hover:text-red-900 mr-4"
+              className="block mt-4 sm:inline-block sm:mt-0 text-black mr-4"
             >
               HS Mercs
-            </Link>
+            </a>
           </div>
         </div>
       </nav>
       <main className="font-sans antialiased">{children}</main>
       <footer className="mt-4 pt-2 text-4xl space-x-1 text-center sm:space-x-2 md:space-x-4 border-t rounded-t">
-        <Link href="/" title="Rovani's Sandbox" className=" hover:text-red-900">
+        <Link href="/" title="Rovani's Sandbox">
           <FontAwesomeIcon icon={faHome} />
         </Link>
         <Link
@@ -58,7 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           title="drovani GitHub profile"
           target="_blank"
           rel="noreferrer noopener me"
-          className=" hover:text-red-900"
+          className="text-[#25292f]"
         >
           <FontAwesomeIcon icon={faGithub} />
         </Link>
@@ -67,16 +56,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           title="drovani LinkedIn profile"
           target="_blank"
           rel="noreferrer noopener me"
-          className=" hover:text-red-900"
+          className="text-[#0c66c0]"
         >
           <FontAwesomeIcon icon={faLinkedin} />
+        </Link>
+        <Link
+          href="https://www.strava.com/athletes/22474662"
+          title="David Rovani Strava profile"
+          target="_blank"
+          rel="noreferrer noopener me"
+          className="text-[#f25a1d]"
+        >
+          <FontAwesomeIcon icon={faStrava} />
         </Link>
         <Link
           href="https://hachyderm.io/@drovani"
           title="@drovani@hackyderm.io Mastodon profile"
           target="_blank"
           rel="noreferrer noopener me"
-          className=" hover:text-red-900"
+          className="text-[#4444b0]"
         >
           <FontAwesomeIcon icon={faMastodon} />
         </Link>
@@ -85,7 +83,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           title="drovani Stack Overlow profile"
           target="_blank"
           rel="noreferrer noopener me"
-          className=" hover:text-red-900"
+          className="text-[#eb9048]"
         >
           <FontAwesomeIcon icon={faStackOverflow} />
         </Link>
@@ -94,7 +92,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           title="@davidrovani Twitter profile"
           target="_blank"
           rel="noreferrer noopener me"
-          className=" hover:text-red-900"
+          className="text-[#4499ee]"
         >
           <FontAwesomeIcon icon={faTwitter} />
         </Link>
@@ -103,15 +101,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           title="drovani dev.to profile"
           target="_blank"
           rel="noreferrer noopener me"
-          className=" hover:text-red-900"
         >
           <FontAwesomeIcon icon={faDev} />
         </Link>
-        <Link
-          href="/about"
-          title="About David Rovani"
-          className=" hover:text-red-900"
-        >
+        <Link href="/about" title="About David Rovani">
           <FontAwesomeIcon icon={faUserTie} />
         </Link>
       </footer>
