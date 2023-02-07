@@ -29,9 +29,9 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
                 </time>
               </div>
             </header>
-            <p
+            <div
               dangerouslySetInnerHTML={{ __html: post.frontmatter.excerptHtml }}
-            ></p>
+            ></div>
           </article>
         );
       })}
