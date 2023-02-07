@@ -1,11 +1,16 @@
 import { PathLike } from "fs";
 import { readdir, readFile } from "fs/promises";
 import path, { resolve } from "path";
+import rehypeFormat from "rehype-format";
+import rehypeStringify from "rehype-stringify";
+import remarkDirective from "remark-directive";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
+import remarkRehype from 'remark-rehype';
 import { unified } from "unified";
 import { matter as vmatter } from 'vfile-matter';
+import remarkDirectiveHtml from "./remark-directive-html";
 import { slugify } from "./utilities";
 
 const postsDirectory = path.join(process.cwd(), "posts");
@@ -127,7 +132,11 @@ export async function getAboutContent(): Promise<string> {
     const fileContent = await readFile(path.join(postsDirectory, "about.md"));
     const file = await unified()
         .use(remarkParse)
-        .use(remarkHtml)
+        .use(remarkDirective)
+        .use(remarkDirectiveHtml)
+        .use(remarkRehype)
+        .use(rehypeFormat)
+        .use(rehypeStringify)
         .process(fileContent);
 
     return String(file);

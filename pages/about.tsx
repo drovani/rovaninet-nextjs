@@ -22,7 +22,7 @@ interface AboutProps {
 const AboutPage: NextPage<AboutProps> = ({ content }) => {
   const headtitle = `Rovani's Sandbox | David's Résumé`;
   return (
-    <section className="prose mx-auto lg:prose-xl">
+    <section className="prose mx-auto lg:prose-xl prose-lead:leading-none prose-lead:border-l-2 prose-lead:pl-4 prose-lead:text-base prose-lead:italic">
       <Head>
         <title>{headtitle}</title>
       </Head>

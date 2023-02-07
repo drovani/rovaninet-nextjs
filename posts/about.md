@@ -14,7 +14,9 @@ I have built a reputation among my colleagues of trust and honesty, which afford
 
 June 2021 to present
 
-> The Maze Group is a consulting agency focused on solutions for e-commerce, digital marketing, content strategies, and private equity acquisitions.
+:::aside{.lead}
+The Maze Group is a consulting agency focused on solutions for e-commerce, digital marketing, content strategies, and private equity acquisitions.
+:::
 
 Projects while at _The Maze Group_
 
@@ -40,7 +42,9 @@ Projects while at _The Maze Group_
 
 October 2019 to June 2021
 
-> BlueBolt Solutions, Inc is a digital consulting agency focused on solutions for e-commerce, search, and content solutions with expertise in Shopify, Episerver, and DNN.
+:::aside{.lead}
+BlueBolt Solutions, Inc is a digital consulting agency focused on solutions for e-commerce, search, and content solutions with expertise in Shopify, Episerver, and DNN.
+:::
 
 Brought on as a general technologist to provide solutions support for projects large and small, I assisted and mentored for work on the UX front-end of projects, back-end architecture, and integrations with other systems.
 
@@ -51,7 +55,9 @@ Brought on as a general technologist to provide solutions support for projects l
 
 November 2012 to October 2019
 
-> The International Fellowship of Christians and Jews (IFCJ) is a global non-profit with offices in Chicago, Toronto, Brazil, South Korea, and Jerusalem providing humanitarian work in the eastern Mediterranean and former Soviet Union regions of the world. With annual revenue of $120m, IFCJ exists in an operational space with needs that reach into enterprise-level solutions, but within a budget designed to maximize stewardship of donors' contributions.
+:::aside{.lead}
+The International Fellowship of Christians and Jews (IFCJ) is a global non-profit with offices in Chicago, Toronto, Brazil, South Korea, and Jerusalem providing humanitarian work in the eastern Mediterranean and former Soviet Union regions of the world. With annual revenue of $120m, IFCJ exists in an operational space with needs that reach into enterprise-level solutions, but within a budget designed to maximize stewardship of donors' contributions.
+:::
 
 My time at The Fellowship was highlighted by moments of teaching and mentoring my team; growing and adapting the Information Services department to meet the ever changing needs of the company; and the ongoing work of maintaining and enhancing the custom built donor management system (KesherNet).
 
@@ -83,7 +89,6 @@ May 2004 - May 2006
 - On-premise technical support for home and small businesses.
 - Diagnose and solve problems with home networking, Windows computers, and printers; and provide user training.
 - Required a significant amount of in-person customer support and working with both the central dispatch and local Best Buy employees to ensure that customer needs and expectations were always met.
-
 
 ## Proficiencies & Technical Knowledge
 
