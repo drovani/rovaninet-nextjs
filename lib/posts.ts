@@ -10,7 +10,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from 'remark-rehype';
 import { unified } from "unified";
 import { matter as vmatter } from 'vfile-matter';
-import remarkDirectiveHtml from "./remark-directive-html";
+import remarkDirectiveRehype from "./remark-directive-rehype";
 import { slugify } from "./utilities";
 
 const postsDirectory = path.join(process.cwd(), "posts");
@@ -133,7 +133,7 @@ export async function getAboutContent(): Promise<string> {
     const file = await unified()
         .use(remarkParse)
         .use(remarkDirective)
-        .use(remarkDirectiveHtml)
+        .use(remarkDirectiveRehype)
         .use(remarkRehype)
         .use(rehypeFormat)
         .use(rehypeStringify)
