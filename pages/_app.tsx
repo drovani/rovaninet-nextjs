@@ -10,7 +10,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <React.Fragment>
       <Head>
         <title>{headtitle}</title>
-        <link rel="shortcut icon" href="/images/r-star.png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <Layout>
         <Component {...pageProps} />
