@@ -43,7 +43,7 @@ interface PostProps {
 const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml }) => {
   const title = `Rovani's Sandbox | ${frontmatter.title}`;
   return (
-    <div className="prose mx-auto lg:prose-xl">
+    <div className="prose max-w-none mx-auto lg:prose-xl">
       <Head>
         <title>{title}</title>
       </Head>

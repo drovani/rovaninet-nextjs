@@ -14,7 +14,7 @@ import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container max-w-screen-lg mx-auto p-2 sm:p-4">
+    <div className="container max-w-screen-lg mx-auto p-2 sm:p-4 lg:p-8">
       <header className="flex flex-row flex-nowrap mb-4 justify-between">
         <section className="flex-grow-1">
           <Link href="/" className=" flex items-center">
