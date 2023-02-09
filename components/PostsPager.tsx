@@ -7,11 +7,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
-const idealLeftCount = 2;
-const idealRightCount = 3;
-const idealCount = idealLeftCount + idealRightCount;
+const PostsPager = ({
+  currentPage,
+  maxPages,
+  idealLeftCount = 2,
+  idealRightCount = 3,
+}) => {
+  const idealCount = idealLeftCount + idealRightCount;
 
-const PostsPager = ({ currentPage, maxPages }) => {
   const lowend =
     currentPage >= maxPages - idealLeftCount
       ? maxPages - idealCount
@@ -23,7 +26,7 @@ const PostsPager = ({ currentPage, maxPages }) => {
 
   return (
     <nav className="text-center">
-      {currentPage >= 4 && (
+      {currentPage > idealLeftCount + 1 && (
         <Link href="/" aria-label="Go to first page" className="mx-1 p-1">
           <FontAwesomeIcon icon={faAnglesLeft} />
         </Link>
