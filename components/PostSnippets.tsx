@@ -9,7 +9,7 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
         return (
           <article className="mb-5 pt-5 text-lg list-none" key={post.slug}>
             <header className="sm:flex sm:items-baseline">
-              <h3 className="sm:flex-1">
+              <h1 className="sm:flex-1">
                 {post.frontmatter.step && (
                   <span className="mr-1">
                     <span className="italic">{post.frontmatter.series}</span>{" "}
@@ -19,7 +19,7 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
                 <Link href={post.canonicalUrl} className="underline">
                   <TaillessWrap text={post.frontmatter.title} />
                 </Link>
-              </h3>
+              </h1>
               <div className="text-right">
                 <time
                   className="bg-chicagoblue px-2 rounded"

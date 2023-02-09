@@ -63,8 +63,14 @@ export async function getAllPosts(): Promise<PostComplete[]> {
     return retval;
 }
 
-export async function getPostsBySeries(seriesSlug: string): Promise<PostComplete[]> {
-    return await getAllPosts().then(allposts => allposts.filter(post => slugify(post.frontmatter.series) === seriesSlug));
+export async function getPostsBySeries(seriesSlug: string): Promise<{ posts: PostComplete[], series: string, summary: string }> {
+    const posts = await getAllPosts().then(allposts => allposts.filter(post => slugify(post.frontmatter.series) === seriesSlug));
+    const summary = await getMarkdownContent(seriesSlug);
+    return {
+        posts,
+        series: posts?.[0].frontmatter.series,
+        summary: summary
+    };
 }
 
 
@@ -128,16 +134,18 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
     };
 }
 
-export async function getAboutContent(): Promise<string> {
-    const fileContent = await readFile(path.join(postsDirectory, "about.md"));
-    const file = await unified()
-        .use(remarkParse)
-        .use(remarkDirective)
-        .use(remarkDirectiveRehype)
-        .use(remarkRehype)
-        .use(rehypeFormat)
-        .use(rehypeStringify)
-        .process(fileContent);
+export async function getMarkdownContent(fileslug: string): Promise<string> {
 
-    return String(file);
+    const fileContent = await readFile(path.join(postsDirectory, `${fileslug}.md`)).then(async (buffer) => {
+        const file = await unified()
+            .use(remarkParse)
+            .use(remarkDirective)
+            .use(remarkDirectiveRehype)
+            .use(remarkRehype)
+            .use(rehypeFormat)
+            .use(rehypeStringify)
+            .process(buffer);
+        return String(file);
+    }, (_) => "");
+    return fileContent;
 }

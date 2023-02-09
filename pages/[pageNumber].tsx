@@ -55,7 +55,7 @@ const PostsPage: NextPage<PostsPageProps> = ({
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <Header>Page {pageNumber}</Header>
+      <Header>Blog Posts - Page {pageNumber}</Header>
       <PostsPager currentPage={pageNumber} maxPages={maxPages} />
       <PostSnippets posts={posts} />
     </section>

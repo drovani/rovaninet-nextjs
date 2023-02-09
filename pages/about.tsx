@@ -1,12 +1,12 @@
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import { getAboutContent } from "../lib/posts";
+import { getMarkdownContent } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps<AboutProps, Params> = async (_) => {
-  const content: AboutProps["content"] = await getAboutContent();
+  const content: AboutProps["content"] = await getMarkdownContent("about");
 
   return {
     props: {

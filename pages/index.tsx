@@ -3,7 +3,7 @@ import { ParsedUrlQuery } from "querystring";
 import Header from "../components/PageHeader";
 import PostSnippets from "../components/PostSnippets";
 import PostsPager from "../components/PostsPager";
-import { getSortedPosts, PostComplete } from "../lib/posts";
+import { getAllPostFileInfo, getSortedPosts, PostComplete } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
@@ -13,21 +13,23 @@ export const getStaticProps: GetStaticProps<HomeProps, Params> = async (_) => {
   return {
     props: {
       posts,
+      maxPages: Math.ceil((await getAllPostFileInfo()).length / 7),
     },
   };
 };
 
 interface HomeProps {
   posts: PostComplete[];
+  maxPages: number;
 }
 
-const HomePage: NextPage<HomeProps> = ({ posts }) => {
+const HomePage: NextPage<HomeProps> = ({ posts, maxPages }) => {
   return (
     <section>
       <div className="sm:flex sm:pr-4">
         <Header className="sm:flex-1">Blog Posts</Header>
       </div>
-      <PostsPager currentPage={1} maxPages={7} />
+      <PostsPager currentPage={1} maxPages={maxPages} />
       <PostSnippets posts={posts} />
     </section>
   );
