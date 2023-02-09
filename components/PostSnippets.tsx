@@ -8,8 +8,8 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
       {posts.map((post) => {
         return (
           <article className="mb-5 pt-5 text-lg list-none" key={post.slug}>
-            <header className="sm:flex sm:items-baseline">
-              <h1 className="sm:flex-1">
+            <header className="sm:flex sm:items-baseline sm:mb-1">
+              <h2 className="sm:flex-1">
                 {post.frontmatter.step && (
                   <span className="mr-1">
                     <span className="italic">{post.frontmatter.series}</span>{" "}
@@ -19,7 +19,7 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
                 <Link href={post.canonicalUrl} className="underline">
                   <TaillessWrap text={post.frontmatter.title} />
                 </Link>
-              </h1>
+              </h2>
               <div className="text-right">
                 <time
                   className="bg-chicagoblue px-2 rounded"

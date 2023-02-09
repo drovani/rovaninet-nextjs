@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
-import Header from "../../components/PageHeader";
+import PageHeader from "../../components/PageHeader";
 import PostSnippets from "../../components/PostSnippets";
 import type { PostComplete } from "../../lib/posts";
 import { getAllPosts, getPostsBySeries } from "../../lib/posts";
@@ -51,9 +51,7 @@ interface SeriesPageProps {
 const PostsPage: NextPage<SeriesPageProps> = ({ posts, series, summary }) => {
   return (
     <section>
-      <Header>
-        <h1>{series}</h1>
-      </Header>
+      <PageHeader>{series}</PageHeader>
       <div dangerouslySetInnerHTML={{ __html: summary }}></div>
       <PostSnippets posts={posts} />
     </section>

@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import Header from "../components/PageHeader";
+import PageHeader from "../components/PageHeader";
 import PostSnippets from "../components/PostSnippets";
 import PostsPager from "../components/PostsPager";
 import { getAllPostFileInfo, getSortedPosts, PostComplete } from "../lib/posts";
@@ -55,7 +55,7 @@ const PostsPage: NextPage<PostsPageProps> = ({
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <Header>Blog Posts - Page {pageNumber}</Header>
+      <PageHeader>Blog Posts - Page {pageNumber}</PageHeader>
       <PostsPager currentPage={pageNumber} maxPages={maxPages} />
       <PostSnippets posts={posts} />
     </section>

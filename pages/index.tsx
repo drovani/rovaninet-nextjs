@@ -1,6 +1,6 @@
 import { GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
-import Header from "../components/PageHeader";
+import PageHeader from "../components/PageHeader";
 import PostSnippets from "../components/PostSnippets";
 import PostsPager from "../components/PostsPager";
 import { getAllPostFileInfo, getSortedPosts, PostComplete } from "../lib/posts";
@@ -27,7 +27,7 @@ const HomePage: NextPage<HomeProps> = ({ posts, maxPages }) => {
   return (
     <section>
       <div className="sm:flex sm:pr-4">
-        <Header className="sm:flex-1">Blog Posts</Header>
+        <PageHeader className="sm:flex-1">Blog Posts</PageHeader>
       </div>
       <PostsPager currentPage={1} maxPages={maxPages} />
       <PostSnippets posts={posts} />
