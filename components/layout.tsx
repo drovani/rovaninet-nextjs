@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               height="64"
               className="h-16 w-16"
             />
-            <h1 className="text-2xl sm:text-4xl font-semibold text-raisinblack">
+            <h1 className="text-2xl sm:text-4xl font-semibold text-raisinblack first-letter:text-transparent first-letter:-mr-4 sm:first-letter:-mr-6">
               Rovani's Sandbox
             </h1>
           </Link>
