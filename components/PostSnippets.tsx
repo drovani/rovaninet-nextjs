@@ -4,10 +4,10 @@ import TaillessWrap from "./TaillessWrap";
 
 const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
   return (
-    <section>
+    <section className="divide-y divide-chicagored">
       {posts.map((post) => {
         return (
-          <article className="my-5 text-lg list-none" key={post.slug}>
+          <article className="mb-5 pt-5 text-lg list-none" key={post.slug}>
             <header className="sm:flex sm:items-baseline">
               <h3 className="sm:flex-1">
                 {post.frontmatter.step && (
@@ -22,7 +22,7 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
               </h3>
               <div className="text-right">
                 <time
-                  className="bg-gray-100 px-2 rounded"
+                  className="bg-chicagoblue px-2 rounded"
                   dateTime={new Date(post.frontmatter.date).toISOString()}
                 >
                   {new Date(post.frontmatter.date).toLocaleDateString()}
