@@ -33,7 +33,7 @@ const PostsPager = ({
       )}
       {currentPage > 1 && (
         <Link
-          href={currentPage - 1 <= 1 ? `/` : `/${currentPage - 1}`}
+          href={`/${currentPage - 1}`}
           aria-label="Go to previous page"
           className="mx-1 p-1"
         >
@@ -42,7 +42,7 @@ const PostsPager = ({
       )}
       {[...Array(currentPage - lowend)].map((_: undefined, i: number) => (
         <Link
-          href={lowend + i <= 1 ? `/` : `/${lowend + i}`}
+          href={`/${lowend + i}`}
           key={i}
           aria-label={`Go to page ${lowend + i}`}
           className="mx-1 p-1"
@@ -51,7 +51,7 @@ const PostsPager = ({
         </Link>
       ))}
       <Link
-        href={currentPage <= 1 ? `/` : `/${currentPage}`}
+        href={`/${currentPage}`}
         aria-label={`Current Page. Page ${currentPage}`}
         className="text-white bg-gray-900 rounded font-semibold mx-1 p-1"
         aria-current="page"

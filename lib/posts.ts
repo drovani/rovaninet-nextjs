@@ -73,6 +73,32 @@ export async function getPostsBySeries(seriesSlug: string): Promise<{ posts: Pos
     };
 }
 
+export async function getPostSeriesInfo(): Promise<{ series: string, seriesSlug: string, count: number }[]> {
+    const posts = await getAllPosts().then(allposts => allposts.filter(post => post.frontmatter.series));
+    const grouped = Array.from(groupPostBySeries(posts));
+
+    return grouped.map(g => {
+        return {
+            series: g.series,
+            seriesSlug: slugify(g.series),
+            count: g.posts.length,
+        }
+    })
+
+}
+
+function* groupPostBySeries(posts: PostComplete[]) {
+    let serieses = new Map();
+    for (const post of posts) {
+        let group = serieses.get(post.frontmatter.series) ?? [];
+        group.push(post);
+        serieses.set(post.frontmatter.series, group);
+    }
+    for (let [series, posts] of serieses) {
+        yield { series, posts };
+    }
+}
+
 
 async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
     const dirents = await readdir(directory, { withFileTypes: true });
