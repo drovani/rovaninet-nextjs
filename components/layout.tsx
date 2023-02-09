@@ -9,34 +9,38 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faHome, faUserTie } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="container max-w-screen-lg mx-auto p-2 sm:p-4">
-      <nav className="flex items-center justify-between flex-wrap p-6">
-        <div className="flex items-center flex-shrink-0 text-black mr-6">
-          <span className="font-semibold text-xl tracking-tight">
-            <Link href="/">Rovani&apos;s Sandbox</Link>
-          </span>
-        </div>
-        <div className="w-full block flex-grow sm:flex sm:items-center sm:w-auto border border-grey-600 p-2 mt-2 rounded sm:border-t-0 sm:border-l-0 sm:rounded-t-none sm:rounded-l-none">
-          <div className="text-sm sm:flex-grow">
-            <Link
-              href="/about/"
-              className="block mt-0 sm:inline-block text-black mr-4"
-            >
-              About Me
-            </Link>
-            <a
-              href="https://hsmercs.rovani.net/"
-              className="block mt-4 sm:inline-block sm:mt-0 text-black mr-4"
-            >
-              HS Mercs
-            </a>
-          </div>
-        </div>
-      </nav>
+      <header className="flex flex-row flex-nowrap mb-4 justify-between">
+        <section className="flex-grow-1">
+          <Link href="/" className=" flex items-center">
+            <Image
+              src="/images/r-star.png"
+              alt="Rovani's Sandbox"
+              width="64"
+              height="64"
+              className="h-16 w-16"
+            />
+            <h1 className="text-2xl sm:text-4xl font-semibold text-raisinblack">
+              Rovani's Sandbox
+            </h1>
+          </Link>
+        </section>
+        <Link
+          href="/about/"
+          className="flex-initial justify-self-end rounded border p-1 border-chicagoblue"
+        >
+          <FontAwesomeIcon
+            icon={faUserTie}
+            className="text-4xl mx-auto block"
+          />
+          <div className="text-xs">About Me</div>
+        </Link>
+      </header>
       <main className="font-sans antialiased">{children}</main>
       <footer className="mt-4 pt-2 text-4xl space-x-1 text-center sm:space-x-2 md:space-x-4 border-t rounded-t">
         <Link href="/" title="Rovani's Sandbox">
