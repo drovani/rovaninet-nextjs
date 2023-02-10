@@ -11,6 +11,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>{headtitle}</title>
         <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/images/r-star.png" />
       </Head>
       <Layout>
         <Component {...pageProps} />

@@ -25,9 +25,9 @@ const PostsPager = ({
       : Math.min(maxPages, currentPage + idealRightCount);
 
   return (
-    <nav className="text-center">
+    <nav className="text-center text-xl flex flex-row items-center justify-center gap-x-3">
       {currentPage > idealLeftCount + 1 && (
-        <Link href="/" aria-label="Go to first page" className="mx-1 p-1">
+        <Link href="/" aria-label="Go to first page" className="px-1 block">
           <FontAwesomeIcon icon={faAnglesLeft} />
         </Link>
       )}
@@ -35,7 +35,7 @@ const PostsPager = ({
         <Link
           href={`/${currentPage - 1}`}
           aria-label="Go to previous page"
-          className="mx-1 p-1"
+          className="px-1 block"
         >
           <FontAwesomeIcon icon={faAngleLeft} />
         </Link>
@@ -45,7 +45,7 @@ const PostsPager = ({
           href={`/${lowend + i}`}
           key={i}
           aria-label={`Go to page ${lowend + i}`}
-          className="mx-1 p-1"
+          className="px-1 block"
         >
           {lowend + i}
         </Link>
@@ -53,7 +53,7 @@ const PostsPager = ({
       <Link
         href={`/${currentPage}`}
         aria-label={`Current Page. Page ${currentPage}`}
-        className="text-white bg-gray-900 rounded font-semibold mx-1 p-1"
+        className="text-white bg-gray-900 rounded font-semibold px-1 block"
         aria-current="page"
       >
         {currentPage}
@@ -64,7 +64,7 @@ const PostsPager = ({
             href={`/${currentPage + 1 + i}`}
             key={i}
             aria-label={`Go to page ${currentPage + 1 + i}`}
-            className="mx-1 p-1"
+            className="px-1 block"
           >
             {currentPage + 1 + i}
           </Link>
@@ -73,7 +73,7 @@ const PostsPager = ({
         <Link
           href={`/${currentPage + 1}`}
           aria-label={`Go to next Page. Page ${currentPage + 1}`}
-          className="mx-1 p-1"
+          className="px-1 block"
         >
           <FontAwesomeIcon icon={faAngleRight} />
         </Link>
@@ -82,7 +82,7 @@ const PostsPager = ({
         <Link
           href={`/${maxPages}`}
           aria-label={`Go to last page. Page ${maxPages}`}
-          className="mx-1 p-1"
+          className="px-1 block"
         >
           <FontAwesomeIcon icon={faAnglesRight} />
         </Link>
