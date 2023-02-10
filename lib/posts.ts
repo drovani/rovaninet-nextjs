@@ -40,7 +40,7 @@ export interface PostFrontMatter {
     series?: string;
 }
 
-export async function getSortedPosts(pageNumber?: number, pageSize: number = 7): Promise<PostComplete[]> {
+export async function getPostsSorted(pageNumber?: number, pageSize: number = 7): Promise<PostComplete[]> {
     const posts = await getAllPosts();
 
     const sorted = posts.sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date))
@@ -73,7 +73,7 @@ export async function getPostsBySeries(seriesSlug: string): Promise<{ posts: Pos
     };
 }
 
-export async function getPostSeriesInfo(): Promise<{ series: string, seriesSlug: string, count: number }[]> {
+export async function getPostSeriesInfoSorted(): Promise<{ series: string, seriesSlug: string, count: number }[]> {
     const posts = await getAllPosts().then(allposts => allposts.filter(post => post.frontmatter.series));
     const grouped = Array.from(groupPostBySeries(posts));
 
@@ -83,8 +83,7 @@ export async function getPostSeriesInfo(): Promise<{ series: string, seriesSlug:
             seriesSlug: slugify(g.series),
             count: g.posts.length,
         }
-    })
-
+    }).sort((l, r) => l.series.localeCompare(r.series))
 }
 
 function* groupPostBySeries(posts: PostComplete[]) {

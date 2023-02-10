@@ -1,9 +1,12 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
-import PageHeader from "../../components/PageHeader";
-import PostSnippets from "../../components/PostSnippets";
-import type { PostComplete } from "../../lib/posts";
-import { getAllPosts, getPostsBySeries } from "../../lib/posts";
+import PostsSection from "../../components/PostsSection";
+import {
+  getAllPosts,
+  getPostsBySeries,
+  getPostSeriesInfoSorted,
+  PostComplete
+} from "../../lib/posts";
 import { slugify } from "../../lib/utilities";
 
 interface Params extends ParsedUrlQuery {
@@ -37,6 +40,7 @@ export const getStaticProps: GetStaticProps<SeriesPageProps, Params> = async ({
       series,
       seriesSlug: params.seriesSlug,
       summary,
+      seriesCollection: await getPostSeriesInfoSorted(),
     },
   };
 };
@@ -46,14 +50,27 @@ interface SeriesPageProps {
   series: string;
   seriesSlug: string;
   summary: string;
+  seriesCollection: {
+    series: string;
+    seriesSlug: string;
+    count: number;
+  }[];
 }
 
-const PostsPage: NextPage<SeriesPageProps> = ({ posts, series, summary }) => {
+const PostsPage: NextPage<SeriesPageProps> = ({
+  posts,
+  series,
+  summary,
+  seriesCollection,
+}) => {
   return (
     <section>
-      <PageHeader>{series}</PageHeader>
-      <div dangerouslySetInnerHTML={{ __html: summary }}></div>
-      <PostSnippets posts={posts} />
+      <PostsSection
+        posts={posts}
+        seriesCollection={seriesCollection}
+        summary={summary}
+        header={series}
+      />
     </section>
   );
 };

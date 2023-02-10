@@ -26,13 +26,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               className="h-16 w-16"
             />
             <h1 className="text-2xl sm:text-4xl font-semibold text-raisinblack first-letter:text-transparent first-letter:-mr-4 sm:first-letter:-mr-6">
-              Rovani's Sandbox
+              Rovani&apos;s Sandbox
             </h1>
           </Link>
         </section>
         <Link
           href="/about/"
-          className="flex-initial justify-self-end rounded border p-1 border-chicagoblue"
+          className="flex-initial justify-self-end rounded border p-1 border-chicagoblue  hover:bg-gray-50 shadow-md"
         >
           <FontAwesomeIcon
             icon={faUserTie}

@@ -1,13 +1,11 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import PageHeader from "../components/PageHeader";
-import PostSnippets from "../components/PostSnippets";
-import PostsPager from "../components/PostsPager";
+import PostsSection from "../components/PostsSection";
 import {
   getAllPostFileInfo,
-  getPostSeriesInfo,
-  getSortedPosts,
+  getPostSeriesInfoSorted,
+  getPostsSorted,
   PostComplete
 } from "../lib/posts";
 
@@ -32,15 +30,13 @@ export const getStaticProps: GetStaticProps<PostsPageProps, Params> = async ({
   params,
 }) => {
   const pageNumber = Number.parseInt(params.pageNumber);
-  const posts = await getSortedPosts(pageNumber, 7);
+  const posts = await getPostsSorted(pageNumber, 7);
   return {
     props: {
       posts,
       pageNumber,
       maxPages: Math.ceil((await getAllPostFileInfo()).length / 7),
-      series: await getPostSeriesInfo().then((s) =>
-        s.sort((l, r) => l.series.localeCompare(r.series))
-      ),
+      seriesCollection: await getPostSeriesInfoSorted(),
     },
   };
 };
@@ -49,7 +45,7 @@ interface PostsPageProps {
   posts: PostComplete[];
   pageNumber: number;
   maxPages: number;
-  series: {
+  seriesCollection: {
     series: string;
     seriesSlug: string;
     count: number;
@@ -60,31 +56,22 @@ const PostsPage: NextPage<PostsPageProps> = ({
   posts,
   pageNumber,
   maxPages,
-  series,
+  seriesCollection,
 }) => {
-  const headtitle = `Rovani's Sandbox | Posts page ${pageNumber}`;
+  const headtitle = `Rovani's Sandbox | Blog Posts page ${pageNumber}`;
 
   return (
     <section>
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <div className="sm:flex sm:pr-4 mb-5 sm:mb-auto sm:items-center">
-        <PageHeader className="sm:flex-1">
-          Blog Posts - Page {pageNumber}
-        </PageHeader>
-        <div>
-          Posts by Series
-          <select className="border rounded border-chicagoblue ml-1">
-            <option value=""></option>
-            {series.map((s) => (
-              <option value={s.seriesSlug}>{s.series}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <PostsPager currentPage={pageNumber} maxPages={maxPages} />
-      <PostSnippets posts={posts} />
+      <PostsSection
+        posts={posts}
+        currentPage={pageNumber}
+        maxPages={maxPages}
+        seriesCollection={seriesCollection}
+        header={`Blog Posts - Page ${pageNumber}`}
+      />
     </section>
   );
 };

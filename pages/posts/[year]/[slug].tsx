@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import type { ParsedUrlQuery } from "querystring";
+import PageHeader from "../../../components/PageHeader";
 import { getAllPostFileInfo, getPostFromSlugYear } from "../../../lib/posts";
 
 interface Params extends ParsedUrlQuery {
@@ -47,7 +48,7 @@ const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <h1>{frontmatter.title}</h1>
+      <PageHeader>{frontmatter.title}</PageHeader>
       <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
     </div>
   );
