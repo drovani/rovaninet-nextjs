@@ -7,7 +7,11 @@ import {
   faStrava,
   faTwitter
 } from "@fortawesome/free-brands-svg-icons";
-import { faHome, faUserTie } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChartGantt,
+  faHome,
+  faUserTie
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,8 +19,8 @@ import Link from "next/link";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="container max-w-screen-lg mx-auto p-2 sm:p-4 lg:p-8">
-      <header className="flex flex-row flex-nowrap mb-4 justify-between">
-        <section className="flex-grow-1">
+      <header className="flex flex-row flex-nowrap mb-4 gap-x-2">
+        <section className="flex-grow">
           <Link href="/" className=" flex items-center">
             <Image
               src="/images/r-star.png"
@@ -32,13 +36,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </section>
         <Link
           href="/about/"
-          className="flex-initial justify-self-end rounded border p-1 border-chicagoblue  hover:bg-gray-50 shadow-md"
+          className="flex-none justify-self-end rounded border p-1 border-chicagoblue  hover:bg-gray-50 shadow-md whitespace-nowrap"
         >
           <FontAwesomeIcon
             icon={faUserTie}
             className="text-4xl mx-auto block"
           />
           <div className="text-xs">About Me</div>
+        </Link>
+        <Link
+          href="/side-projects/"
+          className="flex-none justify-self-end rounded border p-1 border-chicagoblue hover:bg-gray-50 shadow-md whitespace-nowrap"
+        >
+          <FontAwesomeIcon
+            icon={faChartGantt}
+            className="text-4xl mx-auto block"
+          />
+          <div className="text-xs">Projects</div>
         </Link>
       </header>
       <main className="font-sans antialiased">{children}</main>

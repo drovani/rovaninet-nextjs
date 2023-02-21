@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PostComplete } from "../lib/posts";
+import { slugify } from "../lib/utilities";
 import TaillessWrap from "./TaillessWrap";
 
 const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
@@ -32,6 +33,16 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
             <div
               dangerouslySetInnerHTML={{ __html: post.frontmatter.excerptHtml }}
             ></div>
+            {post.frontmatter.series && (
+              <div className="rounded bg-blue-50 sm:ml-auto border-chicagored w-max">
+                <Link
+                  href={`/series/${slugify(post.frontmatter.series)}`}
+                  className="block px-4 py-2 text-sm"
+                >
+                  {post.frontmatter.series}
+                </Link>
+              </div>
+            )}
           </article>
         );
       })}

@@ -3,9 +3,7 @@ import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../components/PostsSection";
 import {
-  getAllPostFileInfo,
-  getPostSeriesInfoSorted,
-  getPostsSorted,
+  getAllPostFileInfo, getPostsSorted,
   PostComplete
 } from "../lib/posts";
 
@@ -36,7 +34,6 @@ export const getStaticProps: GetStaticProps<PostsPageProps, Params> = async ({
       posts,
       pageNumber,
       maxPages: Math.ceil((await getAllPostFileInfo()).length / 7),
-      seriesCollection: await getPostSeriesInfoSorted(),
     },
   };
 };
@@ -45,18 +42,12 @@ interface PostsPageProps {
   posts: PostComplete[];
   pageNumber: number;
   maxPages: number;
-  seriesCollection: {
-    series: string;
-    seriesSlug: string;
-    count: number;
-  }[];
 }
 
 const PostsPage: NextPage<PostsPageProps> = ({
   posts,
   pageNumber,
   maxPages,
-  seriesCollection,
 }) => {
   const headtitle = `Rovani's Sandbox | Blog Posts page ${pageNumber}`;
 
@@ -69,7 +60,6 @@ const PostsPage: NextPage<PostsPageProps> = ({
         posts={posts}
         currentPage={pageNumber}
         maxPages={maxPages}
-        seriesCollection={seriesCollection}
         header={`Blog Posts - Page ${pageNumber}`}
       />
     </section>

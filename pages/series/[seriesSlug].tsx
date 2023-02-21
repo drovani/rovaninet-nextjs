@@ -3,9 +3,7 @@ import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../../components/PostsSection";
 import {
   getAllPosts,
-  getPostsBySeries,
-  getPostSeriesInfoSorted,
-  PostComplete
+  getPostsBySeries, PostComplete
 } from "../../lib/posts";
 import { slugify } from "../../lib/utilities";
 
@@ -40,7 +38,6 @@ export const getStaticProps: GetStaticProps<SeriesPageProps, Params> = async ({
       series,
       seriesSlug: params.seriesSlug,
       summary,
-      seriesCollection: await getPostSeriesInfoSorted(),
     },
   };
 };
@@ -50,27 +47,12 @@ interface SeriesPageProps {
   series: string;
   seriesSlug: string;
   summary: string;
-  seriesCollection: {
-    series: string;
-    seriesSlug: string;
-    count: number;
-  }[];
 }
 
-const PostsPage: NextPage<SeriesPageProps> = ({
-  posts,
-  series,
-  summary,
-  seriesCollection,
-}) => {
+const PostsPage: NextPage<SeriesPageProps> = ({ posts, series, summary }) => {
   return (
     <section>
-      <PostsSection
-        posts={posts}
-        seriesCollection={seriesCollection}
-        summary={summary}
-        header={series}
-      />
+      <PostsSection posts={posts} summary={summary} header={series} />
     </section>
   );
 };
