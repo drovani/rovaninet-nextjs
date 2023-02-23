@@ -13,9 +13,9 @@ import { matter as vmatter } from 'vfile-matter';
 import remarkDirectiveRehype from "./remark-directive-rehype";
 import { slugify } from "./utilities";
 
-const postsDirectory = path.join(process.cwd(), "posts");
+const postsDirectory = path.join(process.cwd(), "rovaninet-posts");
 // posts/{year}/{date}-{slug}.md
-const postFilenameRegex = /posts\/(?<year>\d{4})\/(?<filename>(?<date>\d{4}-\d{2}-\d{2})-(?<slug>[\w\d\-]*)\.md)/i;
+const postFilenameRegex = /rovaninet-posts\/(?<year>\d{4})\/(?<filename>(?<date>\d{4}-\d{2}-\d{2})-(?<slug>[\w\d\-]*)\.md)/i;
 
 export interface PostComplete extends PostFileInfo {
     frontmatter: PostFrontMatter;
