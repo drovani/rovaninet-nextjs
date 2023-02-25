@@ -18,35 +18,37 @@ import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container max-w-screen-lg mx-auto p-2 sm:p-4 lg:p-8">
-      <header className="flex flex-row flex-nowrap mb-4 gap-x-2">
-        <section className="flex-grow">
-          <Link href="/" className=" flex items-center">
+    <div className="container max-w-screen-lg mx-auto p-1 sm:p-4 lg:p-8">
+      <header className="flex flex-nowrap text-center gap-x-1 sm:gap-x-2 mb-4">
+        <section className="flex-1 text-left">
+          <Link href="/" className="flex items-center">
             <Image
               src="/images/r-star.png"
               alt="Rovani's Sandbox"
               width="64"
               height="64"
-              className="h-16 w-16"
+              className="h-16 w-16 select-none"
             />
-            <h1 className="text-2xl sm:text-4xl font-semibold text-raisinblack first-letter:text-transparent first-letter:-mr-4 sm:first-letter:-mr-6">
+            <h1 className="leading-none text-2xl sm:text-4xl font-semibold text-raisinblack first-letter:text-transparent first-letter:-mr-4 sm:first-letter:-mr-6">
               Rovani&apos;s Sandbox
             </h1>
           </Link>
         </section>
         <Link
           href="/about/"
-          className="flex-none justify-self-end rounded border p-1 border-chicagoblue  hover:bg-gray-50 shadow-md whitespace-nowrap"
+          className="w-16 rounded border p-1 border-chicagoblue  hover:bg-gray-50 shadow-md whitespace-nowrap"
         >
           <FontAwesomeIcon
             icon={faUserTie}
             className="text-4xl mx-auto block"
           />
-          <div className="text-xs">About Me</div>
+          <div className="text-xs">
+            About Me
+          </div>
         </Link>
         <Link
           href="/side-projects/"
-          className="flex-none justify-self-end rounded border p-1 border-chicagoblue hover:bg-gray-50 shadow-md whitespace-nowrap"
+          className="w-16 rounded border p-1 border-chicagoblue hover:bg-gray-50 shadow-md whitespace-nowrap"
         >
           <FontAwesomeIcon
             icon={faChartGantt}

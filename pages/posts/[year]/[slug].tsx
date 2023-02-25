@@ -48,7 +48,7 @@ const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml }) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <PageHeader>{frontmatter.title}</PageHeader>
+      <PageHeader className="text-center sm:text-left">{frontmatter.title}</PageHeader>
       <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
     </div>
   );
