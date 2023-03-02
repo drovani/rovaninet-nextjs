@@ -3,5 +3,49 @@
   to = "/posts/2019/Shopify-Auth0-Multipass"
 
 [[redirects]]
+  from = "/Shopify-Multipass"
+  to = "/posts/2019/Shopify-Multipass"
+
+[[redirects]]
+  from = "/TalentLMS-Auth0-SAML"
+  to = "/posts/2019/TalentLMS-Auth0-SAML"
+
+[[redirects]]
+  from = "/Hills-In-Chicago"
+  to = "/posts/2014/Hills-In-Chicago"
+
+[[redirects]]
+  from = "/Mock-Controller-Url"
+  to = "/posts/2017/Mock-Controller-Url"
+
+[[redirects]]
+  from = "/Auth0-Simple-Progressing-Profiling"
+  to = "/posts/2019/Auth0-Simple-Progressing-Profiling"
+
+[[redirects]]
+  from = "/AzureADB2C-User-Secrets"
+  to = "/posts/2018/AzureADB2C-User-Secrets"
+
+[[redirects]]
+  from = "/Assessment-Requirements"
+  to = "/posts/2019/Assessment-Requirements"
+
+[[redirects]]
+  from = "/Assessment-Delete"
+  to = "/posts/2019/Assessment-Delete"
+
+[[redirects]]
+  from = "/Assessment-Create"
+  to = "/posts/2019/Assessment-Create"
+
+[[redirects]]
+  from = "/Assessment-Wrapup"
+  to = "/posts/2019/Assessment-Wrapup"
+
+[[redirects]]
+  from = "/Hamburger-Experiment"
+  to = "/posts/2018/Hamburger-Experiment"
+
+[[redirects]]
   from ="/assets/david-rovani-resume.pdf"
   to = "/about"
