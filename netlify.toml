@@ -3,7 +3,15 @@
   to = "/posts/2019/Shopify-Auth0-Multipass"
 
 [[redirects]]
+  from = "/posts/2019/authenticate-shopify-customers-with-auth0"
+  to = "/posts/2019/Shopify-Auth0-Multipass"
+
+[[redirects]]
   from = "/Shopify-Multipass"
+  to = "/posts/2019/Shopify-Multipass"
+
+[[redirects]]
+  from = "/posts/2019/shopify-multipass-in-net-core-3-0"
   to = "/posts/2019/Shopify-Multipass"
 
 [[redirects]]
@@ -49,3 +57,31 @@
 [[redirects]]
   from ="/assets/david-rovani-resume.pdf"
   to = "/about"
+
+[[redirects]]
+  from ="/posts/2022/the-book-of-boba-fett-season-one-a-few-thoughts"
+  to = "/posts/2022/The-Book-of-Boba-Fett-Season-1"
+
+[[redirects]]
+  from ="/posts/2019/auth0-progressive-profiling-proof-of-concept/"
+  to = "/posts/2019/auth0-simple-progressing-profiling"
+
+[[redirects]]
+  from ="/posts/2020/12-days-of-exercisemas/"
+  to = "/posts/2020/Twelve-Days-of-Exercisemas"
+
+[[redirects]]
+  from ="/posts/2019/using-saml-2-0-with-auth0-to-authenticate-users-in-talent-lms"
+  to = "/posts/2019/TalentLMS-Auth0-SAML"
+
+[[redirects]]
+  from ="/posts/2020/another-year-in-review-2020/"
+  to = "/posts/2020/Another-Year-In-Review"
+
+[[redirects]]
+  from ="/posts/2019/shopify-multipass-in-net-core-3-0"
+  to = "/posts/2019/shopify-multipass"
+
+[[redirects]]
+  from ="/Auth0-Simple-Progressing-Profiling/"
+  to = "/posts/2019/auth0-simple-progressing-profiling"
