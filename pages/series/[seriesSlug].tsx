@@ -3,7 +3,8 @@ import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../../components/PostsSection";
 import {
   getAllPosts,
-  getPostsBySeries, PostComplete
+  getPostsByFrontmatterNode,
+  PostComplete
 } from "../../lib/posts";
 import { slugify } from "../../lib/utilities";
 
@@ -31,11 +32,17 @@ export const getStaticPaths: GetStaticPaths<Params> = async (_) => {
 export const getStaticProps: GetStaticProps<SeriesPageProps, Params> = async ({
   params,
 }) => {
-  const { posts, series, summary } = await getPostsBySeries(params.seriesSlug);
+  const { posts, nodeValue, summary } = await getPostsByFrontmatterNode(
+    "series",
+    params.seriesSlug
+  );
   return {
     props: {
-      posts,
-      series,
+      posts: posts.sort(
+        (l, r) =>
+          Date.parse(r.frontmatter.date) - Date.parse(l.frontmatter.date)
+      ),
+      series: nodeValue,
       seriesSlug: params.seriesSlug,
       summary,
     },

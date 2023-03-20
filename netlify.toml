@@ -39,11 +39,19 @@
   to = "/posts/2019/Assessment-Requirements"
 
 [[redirects]]
+  from = "/posts/2019/technical-assessment-requirements-and-first-pass"
+  to = "/posts/2019/Assessment-Requirements"
+
+[[redirects]]
   from = "/Assessment-Delete"
   to = "/posts/2019/Assessment-Delete"
 
 [[redirects]]
   from = "/Assessment-Create"
+  to = "/posts/2019/Assessment-Create"
+
+[[redirects]]
+  from = "/posts/2019/technical-assessment-adding-create-functionality"
   to = "/posts/2019/Assessment-Create"
 
 [[redirects]]
@@ -85,3 +93,47 @@
 [[redirects]]
   from ="/Auth0-Simple-Progressing-Profiling/"
   to = "/posts/2019/auth0-simple-progressing-profiling"
+
+[[redirects]]
+  from ="/posts/2017/mock-controller-s-user-and-url-properties-in-asp-net-core-mvc"
+  to = "/posts/2017/mock-controller-url"
+
+[[redirects]]
+  from ="/posts/2018/using-azure-ad-b2-c-and-visual-studio-user-secrets"
+  to = "/posts/2018/AzureADB2C-User-Secrets"
+
+[[redirects]]
+  from ="/Introducing-Vigil-Web-API"
+  to = "/posts/2017/Introducing-Vigil-Web-API"
+
+[[redirects]]
+  from ="/Azure-Command-Queue"
+  to = "/posts/2017/Azure-Command-Queue"
+
+[[redirects]]
+  from ="/Revisiting-Creating-and-Updating-Entities"
+  to = "/posts/2016/Revisiting-Creating-and-Updating-Entities"
+
+[[redirects]]
+  from ="/Project-BQ"
+  to = "/posts/2019/Project-BQ"
+
+[[redirects]]
+  from ="/Explicit-Model-Constructor"
+  to = "/posts/2017/Explicit-Model-Constructor"
+
+[[redirects]]
+  from ="/posts/2017/using-an-explicit-model-constructor-with-a-json-input-formatter"
+  to = "/posts/2017/Explicit-Model-Constructor"
+
+[[redirects]]
+  from ="/Explicit-Model-Constructor"
+  to = "/posts/2017/Explicit-Model-Constructor"
+
+[[redirects]]
+  from ="/Commit-4b684657"
+  to = "/posts/2015/Laying-the-Foundation"
+
+[[redirects]]
+  from ="/posts/2019/first-week-at-blue-bolt-solutions"
+  to = "/posts/2019/BlueBolt-First-Week"

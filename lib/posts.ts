@@ -63,14 +63,14 @@ export async function getAllPosts(): Promise<PostComplete[]> {
     return retval;
 }
 
-export async function getPostsBySeries(seriesSlug: string): Promise<{ posts: PostComplete[], series: string, summary: string }> {
-    const posts = await getAllPosts().then(allposts => allposts.filter(post => slugify(post.frontmatter.series) === seriesSlug));
-    const summary = await getMarkdownContent(seriesSlug);
+export async function getPostsByFrontmatterNode(node: "series" | "category", slug: string): Promise<{ posts: PostComplete[], nodeValue: string, summary: string }> {
+    const posts = await getAllPosts().then(allposts => allposts.filter(post => slugify(post.frontmatter[node]) === slug));
+    const summary = await getMarkdownContent(slug);
     return {
         posts,
-        series: posts?.[0].frontmatter.series,
+        nodeValue: posts?.[0].frontmatter[node],
         summary: summary
-    };
+    }
 }
 
 export async function getPostSeriesInfoSorted(): Promise<{ series: string, seriesSlug: string, count: number }[]> {
