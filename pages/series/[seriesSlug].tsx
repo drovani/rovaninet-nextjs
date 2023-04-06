@@ -2,9 +2,9 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../../components/PostsSection";
 import {
+  PostComplete,
   getAllPosts,
-  getPostsByFrontmatterNode,
-  PostComplete
+  getPostsByFrontmatterNode
 } from "../../lib/posts";
 import { slugify } from "../../lib/utilities";
 
@@ -56,11 +56,11 @@ interface SeriesPageProps {
   summary: string;
 }
 
-const PostsPage: NextPage<SeriesPageProps> = ({ posts, series, summary }) => {
+const SeriesPage: NextPage<SeriesPageProps> = ({ posts, series, summary }) => {
   return (
     <section>
       <PostsSection posts={posts} summary={summary} header={series} />
     </section>
   );
 };
-export default PostsPage;
+export default SeriesPage;
