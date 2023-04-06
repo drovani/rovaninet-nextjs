@@ -135,5 +135,27 @@
   to = "/posts/2015/Laying-the-Foundation"
 
 [[redirects]]
+  from ="/Commit-8c41b3dc"
+  to = "/posts/2015/Vigil-Base-Solution"
+
+[[redirects]]
   from ="/posts/2019/first-week-at-blue-bolt-solutions"
   to = "/posts/2019/BlueBolt-First-Week"
+
+[[redirects]]
+  from ="/opt/build/repo/rovaninet-posts/2022/2022-02-03-first-rudimentary-mercenary-components.md"
+  to = "/posts/2022/first-rudimentary-mercenary-components"
+
+[[redirects]]
+  from ="/star-wars-commentary"
+  to = "/series/star-wars-commentary"
+
+# Category posts list used to be pagenated; that has been removed with the NextJs migration
+[[redirects]]
+  from = "/category/:category/*"
+  to = "/category/:category"
+
+# Tag posts list used to be pagenated; that has been removed with the NextJs migration
+[[redirects]]
+  from = "/tag/:tag/*"
+  to = "/tag/:tag"
