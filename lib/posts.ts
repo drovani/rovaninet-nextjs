@@ -38,6 +38,7 @@ export interface PostFrontMatter {
     excerptHtml: string;
     category?: string;
     series?: string;
+    tags?: string[];
 }
 
 export async function getPostsSorted(pageNumber?: number, pageSize: number = 7): Promise<PostComplete[]> {
@@ -70,6 +71,15 @@ export async function getPostsByFrontmatterNode(node: "series" | "category", slu
         posts,
         nodeValue: posts?.[0].frontmatter[node],
         summary: summary
+    }
+}
+
+export async function getPostsByFrontmatterTag(tag: string):Promise<{posts:PostComplete[], summary: string}>{
+    const posts = await getAllPosts().then(allposts => allposts.filter(post => post.frontmatter?.tags?.find(t => t === tag)));
+    const summary = await getMarkdownContent(`/tags/${tag}`);
+    return {
+        posts,
+        summary
     }
 }
 

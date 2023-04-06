@@ -1,3 +1,5 @@
+import { faTags } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { PostComplete } from "../lib/posts";
 import { slugify } from "../lib/utilities";
@@ -33,16 +35,38 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
             <div
               dangerouslySetInnerHTML={{ __html: post.frontmatter.excerptHtml }}
             ></div>
-            {post.frontmatter.series && (
-              <div className="rounded bg-blue-50 sm:ml-auto border-chicagored w-max">
-                <Link
-                  href={`/series/${slugify(post.frontmatter.series)}`}
-                  className="block px-4 py-2 text-sm"
-                >
-                  {post.frontmatter.series}
-                </Link>
-              </div>
-            )}
+            <footer className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-1 mt-4">
+              {post.frontmatter.tags && (
+                <div className="rounded border-chicagored flex gap-2">
+                  <FontAwesomeIcon
+                    icon={faTags}
+                    className="text-xl"
+                  ></FontAwesomeIcon>
+                  {post.frontmatter.tags.map((tag) => {
+                    return (
+                      <div key={tag} className="rounded">
+                        <Link
+                          href={`/tag/${tag}`}
+                          className="underline decoration-chicagoblue hover:decoration-black block px-2 py-1 text-sm"
+                        >
+                          {tag}
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {post.frontmatter.series && (
+                <div className="rounded bg-blue-50 w-max justify-self-end">
+                  <Link
+                    href={`/series/${slugify(post.frontmatter.series)}`}
+                    className="block px-4 py-2 text-sm"
+                  >
+                    {post.frontmatter.series}
+                  </Link>
+                </div>
+              )}
+            </footer>
           </article>
         );
       })}
