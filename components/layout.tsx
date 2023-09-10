@@ -5,7 +5,6 @@ import {
   faMastodon,
   faStackOverflow,
   faStrava,
-  faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faChartGantt,
@@ -106,15 +105,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           className="text-[#eb9048]"
         >
           <FontAwesomeIcon icon={faStackOverflow} />
-        </Link>
-        <Link
-          href="https://twitter.com/davidrovani"
-          title="@davidrovani Twitter profile"
-          target="_blank"
-          rel="noreferrer noopener me"
-          className="text-[#4499ee]"
-        >
-          <FontAwesomeIcon icon={faTwitter} />
         </Link>
         <Link
           href="https://dev.to/drovani"
