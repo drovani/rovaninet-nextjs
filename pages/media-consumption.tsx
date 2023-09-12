@@ -5,8 +5,8 @@ import { getMarkdownContent } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
-export const getStaticProps: GetStaticProps<SideProjectsProps, Params> = async (_) => {
-  const content: SideProjectsProps["content"] = await getMarkdownContent("side-projects");
+export const getStaticProps: GetStaticProps<MediaConsumptionProps, Params> = async (_) => {
+  const content: MediaConsumptionProps["content"] = await getMarkdownContent("media-consumption");
 
   return {
     props: {
@@ -15,12 +15,12 @@ export const getStaticProps: GetStaticProps<SideProjectsProps, Params> = async (
   };
 };
 
-interface SideProjectsProps {
+interface MediaConsumptionProps {
   content: string;
 }
 
-const SideProjectsPage: NextPage<SideProjectsProps> = ({ content }) => {
-  const headtitle = `Rovani's Sandbox | Side Projects`;
+const MediaConsumptionPage: NextPage<MediaConsumptionProps> = ({ content }) => {
+  const headtitle = `Rovani's Sandbox | Media Consumption`;
   return (
     <section className="prose max-w-none lg:prose-xl prose-lead:leading-none prose-lead:border-l-2 prose-lead:pl-4 prose-lead:text-base prose-lead:italic">
       <Head>
@@ -31,4 +31,4 @@ const SideProjectsPage: NextPage<SideProjectsProps> = ({ content }) => {
   );
 };
 
-export default SideProjectsPage;
+export default MediaConsumptionPage;
