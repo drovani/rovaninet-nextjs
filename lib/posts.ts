@@ -184,3 +184,8 @@ export async function getMarkdownContent(fileslug: string): Promise<string> {
     }, (_) => "");
     return fileContent;
 }
+
+export async function getFileContent(fileslug: string):Promise<string>{
+    const fileContent = await readFile(path.join(postsDirectory, `${fileslug}.md`));
+    return String(fileContent);
+}
