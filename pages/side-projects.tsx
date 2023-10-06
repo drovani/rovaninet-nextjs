@@ -1,12 +1,14 @@
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import { getMarkdownContent } from "../lib/posts";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { getFileContent } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps<SideProjectsProps, Params> = async (_) => {
-  const content: SideProjectsProps["content"] = await getMarkdownContent("side-projects");
+  const content: SideProjectsProps["content"] = await getFileContent("side-projects");
 
   return {
     props: {
@@ -26,7 +28,7 @@ const SideProjectsPage: NextPage<SideProjectsProps> = ({ content }) => {
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <div dangerouslySetInnerHTML={{ __html: content }}></div>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} children={content} />
     </section>
   );
 };

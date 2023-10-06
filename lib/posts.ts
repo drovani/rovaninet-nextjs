@@ -122,8 +122,8 @@ async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
                 year: matches.groups.year,
                 fileName: dirent.name,
                 path: res,
-                slug: matches.groups.slug,
-                canonicalUrl: `/posts/${matches.groups.year}/${matches.groups.slug}`,
+                slug: matches.groups.slug.toLocaleLowerCase(),
+                canonicalUrl: `/posts/${matches.groups.year}/${matches.groups.slug.toLocaleLowerCase()}`,
             };
         }
     }))
@@ -132,7 +132,8 @@ async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
 
 export async function getPostFromSlugYear(slug: string, year: string): Promise<PostComplete> {
     const fullPath = path.join(postsDirectory, year);
-    const fileinfo = await readdirRecursive(fullPath).then(posts => posts.find(f => f.slug === slug));
+    const sluglower = slug.toLocaleLowerCase();
+    const fileinfo = await readdirRecursive(fullPath).then(posts => posts.find(f => f.slug.toLocaleLowerCase() === sluglower));
     return await getPostFromPath(fileinfo.path);
 }
 
@@ -162,9 +163,9 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
         },
         year: matches.groups.year,
         fileName: matches.groups.filename,
-        slug: matches.groups.slug,
+        slug: matches.groups.slug.toLocaleLowerCase(),
         path,
-        canonicalUrl: `/posts/${matches.groups.year}/${matches.groups.slug}`,
+        canonicalUrl: `/posts/${matches.groups.year}/${matches.groups.slug.toLocaleLowerCase()}`,
         contentHtml: String(file),
     };
 }

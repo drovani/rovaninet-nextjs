@@ -2,6 +2,7 @@ import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import ReactMarkdown from "react-markdown";
+import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import { getFileContent } from "../lib/posts";
 
@@ -28,7 +29,7 @@ const MediaConsumptionPage: NextPage<MediaConsumptionProps> = ({ content }) => {
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} children={content} />
+      <ReactMarkdown remarkPlugins={[remarkGfm, remarkFrontmatter]} children={content} />
     </section>
   );
 };
