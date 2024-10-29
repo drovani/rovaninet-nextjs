@@ -8,7 +8,7 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import remarkRehype from 'remark-rehype';
-import { unified } from "unified";
+import { Preset, unified } from "unified";
 import { matter as vmatter } from 'vfile-matter';
 import remarkDirectiveRehype from "./remark-directive-rehype";
 import { slugify } from "./utilities";
@@ -142,9 +142,9 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
 
 
     const file = await unified()
-        .use(remarkParse)
+        .use(remarkParse as Preset)
         .use(remarkFrontmatter)
-        .use(remarkHtml)
+        .use(remarkHtml as Preset)
         .use(() => {
             return function (_, file) {
                 vmatter(file);
@@ -153,7 +153,7 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
         .process(fileContent);
 
     const frontmatter = file.data.matter as PostFrontMatter;
-    const excerpt = await unified().use(remarkParse).use(remarkHtml).process(frontmatter.excerpt);
+    const excerpt = await unified().use(remarkParse as Preset).use(remarkHtml as Preset).process(frontmatter.excerpt);
 
     const matches = postFilenameRegex.exec(path);
     return {
@@ -174,12 +174,12 @@ export async function getMarkdownContent(fileslug: string): Promise<string> {
 
     const fileContent = await readFile(path.join(postsDirectory, `${fileslug}.md`)).then(async (buffer) => {
         const file = await unified()
-            .use(remarkParse)
+            .use(remarkParse as Preset)
             .use(remarkDirective)
             .use(remarkDirectiveRehype)
             .use(remarkRehype)
             .use(rehypeFormat)
-            .use(rehypeStringify)
+            .use(rehypeStringify as Preset)
             .process(buffer);
         return String(file);
     }, (_) => "");

@@ -8,8 +8,13 @@ import { getFileContent } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
-export const getStaticProps: GetStaticProps<MediaConsumptionProps, Params> = async (_) => {
-  const content: MediaConsumptionProps["content"] = await getFileContent("media-consumption");
+export const getStaticProps: GetStaticProps<
+  MediaConsumptionProps,
+  Params
+> = async (_) => {
+  const content: MediaConsumptionProps["content"] = await getFileContent(
+    "media-consumption"
+  );
 
   return {
     props: {
@@ -29,7 +34,9 @@ const MediaConsumptionPage: NextPage<MediaConsumptionProps> = ({ content }) => {
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <ReactMarkdown remarkPlugins={[remarkGfm, remarkFrontmatter]} children={content} />
+      <ReactMarkdown remarkPlugins={[remarkGfm, remarkFrontmatter]}>
+        {content}
+      </ReactMarkdown>
     </section>
   );
 };

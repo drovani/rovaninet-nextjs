@@ -7,8 +7,12 @@ import { getFileContent } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
-export const getStaticProps: GetStaticProps<SideProjectsProps, Params> = async (_) => {
-  const content: SideProjectsProps["content"] = await getFileContent("side-projects");
+export const getStaticProps: GetStaticProps<SideProjectsProps, Params> = async (
+  _
+) => {
+  const content: SideProjectsProps["content"] = await getFileContent(
+    "side-projects"
+  );
 
   return {
     props: {
@@ -28,7 +32,7 @@ const SideProjectsPage: NextPage<SideProjectsProps> = ({ content }) => {
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} children={content} />
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
     </section>
   );
 };

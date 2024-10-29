@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getFileContent } from "../lib/posts";
 
-interface Params extends ParsedUrlQuery { }
+interface Params extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps<AboutProps, Params> = async (_) => {
   const content: AboutProps["content"] = await getFileContent("about");
@@ -28,7 +28,7 @@ const AboutPage: NextPage<AboutProps> = ({ content }) => {
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} children={content} />
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
     </section>
   );
 };
