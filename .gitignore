@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+tsconfig.tsbuildinfo
 
 # testing
 /coverage
@@ -30,11 +31,3 @@ yarn-error.log*
 
 # vercel
 .vercel
-
-# Yarn
-.yarn/*
-!.yarn/cache
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions

@@ -5,6 +5,7 @@ import rehypeFormat from "rehype-format";
 import rehypeStringify from "rehype-stringify";
 import remarkDirective from "remark-directive";
 import remarkFrontmatter from "remark-frontmatter";
+import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import remarkRehype from 'remark-rehype';
@@ -143,6 +144,7 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
 
     const file = await unified()
         .use(remarkParse as Preset)
+        .use(remarkGfm)
         .use(remarkFrontmatter)
         .use(remarkHtml as Preset)
         .use(() => {
