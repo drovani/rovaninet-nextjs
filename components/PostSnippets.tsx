@@ -1,4 +1,4 @@
-import { faTags } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faTag, faTags } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { PostComplete } from "../lib/posts";
@@ -35,37 +35,40 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
             <div
               dangerouslySetInnerHTML={{ __html: post.frontmatter.excerptHtml }}
             ></div>
-            <footer className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-1 mt-4">
-              {post.frontmatter.tags && (
-                <div className="rounded border-chicagored flex gap-2">
-                  <FontAwesomeIcon
-                    icon={faTags}
-                    className="text-xl"
-                  ></FontAwesomeIcon>
-                  {post.frontmatter.tags.map((tag) => {
-                    return (
-                      <div key={tag} className="rounded">
-                        <Link
-                          href={`/tag/${tag}`}
-                          className="underline decoration-chicagoblue hover:decoration-black block px-2 py-1 text-sm"
-                        >
-                          {tag}
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-              {post.frontmatter.series && (
-                <div className="rounded bg-blue-50 w-max justify-self-end">
+            <footer className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-1 mt-4 gap-2">
+              <div className="">
+                {post.frontmatter.series && (
                   <Link
                     href={`/series/${slugify(post.frontmatter.series)}`}
-                    className="block px-4 py-2 text-sm"
+                    className="rounded bg-blue-50 w-max flex gap-2 px-1"
                   >
+                    <FontAwesomeIcon icon={faBook} className="text-xl place-self-center" />
                     {post.frontmatter.series}
                   </Link>
-                </div>
-              )}
+                )}
+              </div>
+              <div className="flex gap-2 sm:justify-self-end p-1">
+                {post.frontmatter.tags && (
+                  <>
+                    {post.frontmatter.tags.length === 1 ?
+                      <FontAwesomeIcon icon={faTag} className="place-self-center" />
+                      : <FontAwesomeIcon icon={faTags} className="place-self-center" />
+                    }
+                    {post.frontmatter.tags.map((tag) => {
+                      return (
+                        <div key={tag} className="rounded">
+                          <Link
+                            href={`/tag/${tag}`}
+                            className="underline decoration-chicagoblue hover:decoration-black block text-sm"
+                          >
+                            {tag}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
             </footer>
           </article>
         );
