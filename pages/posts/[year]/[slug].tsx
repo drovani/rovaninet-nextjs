@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
+import Script from "next/script";
 import type { ParsedUrlQuery } from "querystring";
 import PageHeader from "../../../components/PageHeader";
 import { getAllPostFileInfo, getPostFromSlugYear } from "../../../lib/posts";
@@ -50,6 +51,23 @@ const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml }) => {
       </Head>
       <PageHeader className="text-center sm:text-left">{frontmatter.title}</PageHeader>
       <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      <div className="giscus border-sky-100 border p-1 rounded"></div>
+      <Script src="https://giscus.app/client.js"
+        data-repo="drovani/rovaninet-posts"
+        data-repo-id="R_kgDOJBTWqw"
+        data-category="General"
+        data-category-id="DIC_kwDOJBTWq84Cnvcy"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossOrigin="anonymous"
+        async>
+      </Script>
     </div>
   );
 };

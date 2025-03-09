@@ -152,10 +152,12 @@
 
 # Category posts list used to be pagenated; that has been removed with the NextJs migration
 [[redirects]]
-  from = "/category/:category/*"
+  from = "/category/:category/:page"
   to = "/category/:category"
+  force = true
 
 # Tag posts list used to be pagenated; that has been removed with the NextJs migration
 [[redirects]]
-  from = "/tag/:tag/*"
+  from = "/tag/:tag/:page"
   to = "/tag/:tag"
+  force = true
