@@ -53,6 +53,7 @@ const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml }) => {
       <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
       <div className="giscus border-sky-100 border p-1 rounded"></div>
       <Script src="https://giscus.app/client.js"
+        id="giscuss"
         data-repo="drovani/rovaninet-posts"
         data-repo-id="R_kgDOJBTWqw"
         data-category="General"
