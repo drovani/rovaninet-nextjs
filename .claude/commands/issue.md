@@ -14,11 +14,12 @@ issue [ISSUE_NUMBER]
 1. Retrieves issue details using `gh issue view` to understand the problem
 2. Analyzes the issue description, requirements, and acceptance criteria
 3. Searches the codebase for relevant files and existing implementations
-4. Implements the necessary code changes to resolve the issue
-5. Writes and runs unit tests (`npm run test`) to verify the fix works correctly
-6. Ensures all code passes TypeScript type checking (`npm run tsc`)
-7. Creates a descriptive commit message following project conventions
-8. Pushes changes and creates a pull request linked to the original issue
+4. Creates a new branch for this feature, bug, or other enhancement.
+5. Implements the necessary code changes to resolve the issue
+6. Writes and runs unit tests (`npm run test`) to verify the fix works correctly
+7. Ensures all code passes TypeScript type checking (`npm run tsc`)
+8. Creates a descriptive commit message following project conventions
+9. Pushes changes and creates a pull request linked to the original issue
 
 ## Examples
 ```bash
