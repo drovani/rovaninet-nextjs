@@ -1,6 +1,6 @@
 import React from "react";
 import { PathLike } from "fs";
-import { readdir, readFile } from "fs/promises";
+import { readdir, readFile, access, constants } from "fs/promises";
 import path, { resolve } from "path";
 import rehypeFormat from "rehype-format";
 import rehypeStringify from "rehype-stringify";
@@ -350,6 +350,18 @@ export async function getMarkdownContent(fileslug: string): Promise<string> {
         if (cached) {
             globalTracker.end(trackerId);
             return cached;
+        }
+
+        // Check if file exists before attempting to read
+        try {
+            await access(filePath, constants.F_OK);
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                // File doesn't exist - this is expected for some tags/content
+                globalTracker.end(trackerId);
+                return "";
+            }
+            throw error; // Re-throw other access errors
         }
 
         const buffer = await memoizedReadFile(filePath);
