@@ -1,6 +1,6 @@
 import React from "react";
-import { PathLike } from "fs";
-import { readdir, readFile } from "fs/promises";
+import { PathLike, Stats } from "fs";
+import { readdir, readFile, stat } from "fs/promises";
 import path, { resolve } from "path";
 import rehypeFormat from "rehype-format";
 import rehypeStringify from "rehype-stringify";
@@ -36,6 +36,68 @@ interface ProcessingOptions {
 const postsDirectory = path.join(process.cwd(), "rovaninet-posts");
 // posts/{year}/{date}-{slug}.md
 const postFilenameRegex = /rovaninet-posts\/(?<year>\d{4})\/(?<filename>(?<date>\d{4}-\d{2}-\d{2})-(?<slug>[\w\d\-]*)\.md)/i;
+
+// Content cache interface and storage
+interface CacheEntry {
+    content: PostComplete;
+    mtime: number;
+    filePath: string;
+}
+
+// In-memory cache for development mode only
+const contentCache = new Map<string, CacheEntry>();
+
+// Check if we're in development mode
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+// Cache helper functions
+async function getCachedContent(filePath: string): Promise<PostComplete | null> {
+    if (!isDevelopment) return null;
+    
+    const cacheEntry = contentCache.get(filePath);
+    if (!cacheEntry) return null;
+    
+    try {
+        const fileStat = await stat(filePath);
+        const currentMtime = fileStat.mtimeMs;
+        
+        // Return cached content if file hasn't been modified
+        if (cacheEntry.mtime === currentMtime) {
+            return cacheEntry.content;
+        }
+        
+        // File has been modified, remove stale cache entry
+        contentCache.delete(filePath);
+        return null;
+    } catch (error) {
+        // File might not exist anymore, remove cache entry
+        contentCache.delete(filePath);
+        return null;
+    }
+}
+
+function setCachedContent(filePath: string, content: PostComplete, mtime: number): void {
+    if (!isDevelopment) return;
+    
+    contentCache.set(filePath, {
+        content,
+        mtime,
+        filePath
+    });
+}
+
+// Cache management utilities for debugging and testing
+export function clearContentCache(): void {
+    contentCache.clear();
+}
+
+export function getCacheStats(): { size: number, entries: string[], isDevelopment: boolean } {
+    return {
+        size: contentCache.size,
+        entries: Array.from(contentCache.keys()),
+        isDevelopment
+    };
+}
 
 export interface PostComplete extends PostFileInfo {
     frontmatter: PostFrontMatter;
@@ -229,7 +291,14 @@ function validateFrontmatter(raw: any, contentMarkdown: string = ''): PostFrontM
 
 export async function getPostFromPath(path: string): Promise<PostComplete> {
     try {
+        // Check cache first in development mode
+        const cachedContent = await getCachedContent(path);
+        if (cachedContent) {
+            return cachedContent;
+        }
+
         const fileContent = await readFile(path, "utf-8");
+        const fileStat = await stat(path);
 
         const processor = createProcessor({ includeGfm: true });
         const file = await processor
@@ -256,7 +325,7 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
             throw new Error(`Invalid post filename format: ${path}`);
         }
 
-        return {
+        const result: PostComplete = {
             frontmatter: {
                 ...validatedFrontmatter,
                 excerptHtml: String(excerpt)
@@ -269,6 +338,11 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
             contentHtml: String(file),
             contentMarkdown: contentWithoutFrontmatter,
         };
+
+        // Cache the result in development mode
+        setCachedContent(path, result, fileStat.mtimeMs);
+
+        return result;
     } catch (error) {
         console.error(`Error processing post at ${path}:`, error);
         throw error;
