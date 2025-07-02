@@ -27,7 +27,8 @@ This is a Next.js 15 blog/website with markdown-based content management. The si
 
 ### Core Dependencies
 - **Next.js 15** with React 18 and TypeScript
-- **TailwindCSS** with typography plugin for styling
+- **TailwindCSS v4** with typography plugin for styling (uses CSS-first configuration)
+- **Turbopack** enabled for development builds (faster compilation and hot reload)
 - **Unified ecosystem** (remark/rehype) for markdown processing
 - **FontAwesome** for icons
 - **next-sitemap** for SEO

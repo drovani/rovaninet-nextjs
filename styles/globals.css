@@ -1,4 +1,11 @@
 @import '@fortawesome/fontawesome-svg-core/styles.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-chicagoblue: #B3DDF2;
+  --color-chicagowhite: #FFFFF;
+  --color-chicagored: #FF0000;
+  --color-raisinblack: #212227;
+  --color-dimgray: #637074;
+  --color-tekhelet: #573280;
+}
