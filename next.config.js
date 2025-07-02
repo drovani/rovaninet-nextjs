@@ -5,7 +5,6 @@ const nextConfig = {
     locales: ["en"],
     defaultLocale: "en",
   },
-  // Keep webpack config for non-turbopack builds (production builds still use webpack)
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
