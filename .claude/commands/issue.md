@@ -12,9 +12,9 @@ issue [ISSUE_NUMBER]
 
 ## What this command does:
 1. Retrieves issue details using `gh issue view` to understand the problem
-2. Analyzes the issue description, requirements, and acceptance criteria
-3. Searches the codebase for relevant files and existing implementations
-4. Creates a new branch for this feature, bug, or other enhancement.
+2. **ALWAYS** Creates a new branch for this feature, bug, or other enhancement.
+3. Analyzes the issue description, requirements, and acceptance criteria
+4. Searches the codebase for relevant files and existing implementations
 5. Implements the necessary code changes to resolve the issue
 6. Writes and runs unit tests (`npm run test`) to verify the fix works correctly
 7. Ensures all code passes TypeScript type checking (`npm run tsc`)
@@ -57,7 +57,7 @@ The command will:
 7. **Commit & PR**: Create meaningful commit message and pull request
 
 ## Safety Notes
-- Always creates a new branch for changes (never commits directly to main)
+- **ALWAYS** creates a new branch for changes (never commits directly to main)
 - Runs comprehensive tests before creating the PR
 - Links the PR to the original issue for proper tracking
 - Follows the project's coding standards and conventions
