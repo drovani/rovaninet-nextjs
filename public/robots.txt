@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://rovani.net
+
+# Sitemaps
+Sitemap: https://rovani.net/sitemap.xml
