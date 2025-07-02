@@ -2,6 +2,7 @@ import React from "react";
 import PageHeader from "./PageHeader";
 import PostSnippets from "./PostSnippets";
 import PostsPager from "./PostsPager";
+import SafeMarkdown from "./SafeMarkdown";
 
 const PostsSection = ({
   currentPage = 0,
@@ -15,7 +16,7 @@ const PostsSection = ({
       <div className="sm:flex sm:pr-4 mb-5 sm:mb-auto sm:items-center">
         <PageHeader className="sm:flex-1">{header}</PageHeader>
       </div>
-      {summary && <div dangerouslySetInnerHTML={{ __html: summary }}></div>}
+      {summary && <SafeMarkdown content={summary} includeDirectives={true} />}
       {maxPages > 0 && (
         <PostsPager currentPage={currentPage} maxPages={maxPages} />
       )}

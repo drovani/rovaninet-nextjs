@@ -3,6 +3,7 @@ import Head from "next/head";
 import Script from "next/script";
 import type { ParsedUrlQuery } from "querystring";
 import PageHeader from "../../../components/PageHeader";
+import SafeMarkdown from "../../../components/SafeMarkdown";
 import { getAllPostFileInfo, getPostFromSlugYear } from "../../../lib/posts";
 
 interface Params extends ParsedUrlQuery {
@@ -40,9 +41,10 @@ interface PostProps {
   slug: string;
   year: string;
   contentHtml: string;
+  contentMarkdown?: string;
 }
 
-const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml }) => {
+const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml, contentMarkdown }) => {
   const title = `Rovani's Sandbox | ${frontmatter.title}`;
   return (
     <div className="prose max-w-none mx-auto lg:prose-xl">
@@ -50,7 +52,11 @@ const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml }) => {
         <title>{title}</title>
       </Head>
       <PageHeader className="text-center sm:text-left">{frontmatter.title}</PageHeader>
-      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      {contentMarkdown ? (
+        <SafeMarkdown content={contentMarkdown} className="prose-content" />
+      ) : (
+        <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      )}
       <div className="giscus border-sky-100 border p-1 rounded"></div>
       <Script src="https://giscus.app/client.js"
         id="giscuss"

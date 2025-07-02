@@ -4,6 +4,7 @@ import Link from "next/link";
 import { PostComplete } from "../lib/posts";
 import { slugify } from "../lib/utilities";
 import TaillessWrap from "./TaillessWrap";
+import SafeMarkdown from "./SafeMarkdown";
 
 const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
   return (
@@ -32,9 +33,7 @@ const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
                 </time>
               </div>
             </header>
-            <div
-              dangerouslySetInnerHTML={{ __html: post.frontmatter.excerptHtml }}
-            ></div>
+            <SafeMarkdown content={post.frontmatter.excerpt} />
             <footer className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-1 mt-4 gap-2">
               <div className="">
                 {post.frontmatter.series && (
