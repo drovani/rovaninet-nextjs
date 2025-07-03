@@ -50,3 +50,7 @@ This is a Next.js 15 blog/website with markdown-based content management. The si
 ### Deployment
 - Configured for Netlify with comprehensive redirect rules
 - 164+ redirects handle legacy URL patterns and slug normalization
+
+## GitHub Integration
+
+When creating GitHub issues or pull requests, ALWAYS provide the URL in the response so the user can easily navigate to it.
