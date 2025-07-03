@@ -4,7 +4,7 @@ import Script from "next/script";
 import type { ParsedUrlQuery } from "querystring";
 import PageHeader from "../../../components/PageHeader";
 import SafeMarkdown from "../../../components/SafeMarkdown";
-import { getAllPostFileInfo, getPostFromSlugYear } from "../../../lib/posts";
+import { getAllPostFileInfo, getPostFromSlugYear, PostComplete } from "../../../lib/posts";
 
 interface Params extends ParsedUrlQuery {
   slug: string;
@@ -24,26 +24,16 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<PostProps, Params> = async ({
+export const getStaticProps: GetStaticProps<PostComplete, Params> = async ({
   params,
 }) => {
-  const post: PostProps = await getPostFromSlugYear(params.slug, params.year);
+  const post = await getPostFromSlugYear(params.slug, params.year);
   return {
     props: post,
   };
 };
 
-interface PostProps {
-  frontmatter: {
-    title: string;
-    [key: string]: any;
-  };
-  slug: string;
-  year: string;
-  contentMarkdown: string;
-}
-
-const PostPage: NextPage<PostProps> = ({ frontmatter, contentMarkdown }) => {
+const PostPage: NextPage<PostComplete> = ({ frontmatter, contentMarkdown }) => {
   const title = `Rovani's Sandbox | ${frontmatter.title}`;
   return (
     <div className="prose max-w-none mx-auto lg:prose-xl">
