@@ -3,24 +3,24 @@ import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../components/PostsSection";
 import {
   getAllPostFileInfo, getPostsSorted,
-  PostComplete
+  PostSummary, toPostSummaries
 } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps<HomeProps, Params> = async (_) => {
-  const posts: HomeProps["posts"] = await getPostsSorted(1, 7);
+  const posts = await getPostsSorted(1, 7);
 
   return {
     props: {
-      posts,
+      posts: toPostSummaries(posts),
       maxPages: Math.ceil((await getAllPostFileInfo()).length / 7),
     },
   };
 };
 
 interface HomeProps {
-  posts: PostComplete[];
+  posts: PostSummary[];
   maxPages: number;
 }
 

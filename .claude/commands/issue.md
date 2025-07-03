@@ -19,7 +19,10 @@ issue [ISSUE_NUMBER]
 6. Writes and runs unit tests (`npm run test`) to verify the fix works correctly
 7. Ensures all code passes TypeScript type checking (`npm run tsc`)
 8. Creates a descriptive commit message following project conventions
-9. Pushes changes and creates a pull request linked to the original issue
+9. Pushes changes to origin
+10. Updates any checklist items in the original issue that have been complete.
+11. Creates a pull request with a merge back to main, linked to the original issue, assigned to me.
+12. Provides the URL in the reponse so the user can easily navigate to the newly created PR.
 
 ## Examples
 ```bash

@@ -3,6 +3,15 @@ import PageHeader from "./PageHeader";
 import PostSnippets from "./PostSnippets";
 import PostsPager from "./PostsPager";
 import SafeMarkdown from "./SafeMarkdown";
+import { PostSummary } from "../lib/posts";
+
+interface PostsSectionProps {
+  currentPage?: number;
+  maxPages?: number;
+  posts: PostSummary[];
+  summary?: string | null;
+  header?: string;
+}
 
 const PostsSection = ({
   currentPage = 0,
@@ -10,7 +19,7 @@ const PostsSection = ({
   posts,
   summary = null,
   header,
-}) => {
+}: PostsSectionProps) => {
   return (
     <React.Fragment>
       <div className="sm:flex sm:pr-4 mb-5 sm:mb-auto sm:items-center">

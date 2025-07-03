@@ -2,9 +2,10 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../../components/PostsSection";
 import {
-  PostComplete,
+  PostSummary,
   getAllPosts,
-  getPostsByFrontmatterNode
+  getPostsByFrontmatterNode,
+  toPostSummaries
 } from "../../lib/posts";
 import { slugify } from "../../lib/utilities";
 
@@ -38,10 +39,10 @@ export const getStaticProps: GetStaticProps<SeriesPageProps, Params> = async ({
   );
   return {
     props: {
-      posts: posts.sort(
+      posts: toPostSummaries(posts.sort(
         (l, r) =>
           Date.parse(r.frontmatter.date) - Date.parse(l.frontmatter.date)
-      ),
+      )),
       series: nodeValue,
       seriesSlug: params.seriesSlug,
       summary,
@@ -50,7 +51,7 @@ export const getStaticProps: GetStaticProps<SeriesPageProps, Params> = async ({
 };
 
 interface SeriesPageProps {
-  posts: PostComplete[];
+  posts: PostSummary[];
   series: string;
   seriesSlug: string;
   summary: string;

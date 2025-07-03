@@ -1,12 +1,12 @@
 import { faBook, faTag, faTags } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { PostComplete } from "../lib/posts";
+import { PostSummary } from "../lib/posts";
 import { slugify } from "../lib/utilities";
 import TaillessWrap from "./TaillessWrap";
 import SafeMarkdown from "./SafeMarkdown";
 
-const PostSnippets = ({ posts }: { posts: PostComplete[] }) => {
+const PostSnippets = ({ posts }: { posts: PostSummary[] }) => {
   return (
     <section className="divide-y divide-chicagored">
       {posts.map((post) => {

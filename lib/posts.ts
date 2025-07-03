@@ -77,6 +77,20 @@ export interface PostCompleteEnhanced extends PostComplete {
     frontmatterValidated: boolean;
 }
 
+// Optimized interface for post summary/snippet pages
+export interface PostSummary {
+    slug: string;
+    canonicalUrl: string;
+    frontmatter: {
+        step?: number;
+        series?: string;
+        title: string;
+        date: string;
+        excerpt: string;
+        tags?: string[];
+    };
+}
+
 export async function getPostsSorted(pageNumber?: number, pageSize: number = 7): Promise<PostComplete[]> {
     const posts = await getAllPosts();
 
@@ -365,13 +379,7 @@ export async function getMarkdownContent(fileslug: string): Promise<string> {
         }
 
         const buffer = await memoizedReadFile(filePath);
-        const processor = createProcessor({ 
-            includeDirectives: true, 
-            includeGfm: true, 
-            outputFormat: 'hast' 
-        });
-        const file = await processor.process(buffer);
-        const result = String(file);
+        const result = String(buffer);
         
         // Cache the result
         await processedContentCache.set(cacheKey, result, filePath);
@@ -388,4 +396,34 @@ export async function getMarkdownContent(fileslug: string): Promise<string> {
 export async function getFileContent(fileslug: string): Promise<string> {
     const filePath = path.join(postsDirectory, `${fileslug}.md`);
     return await memoizedReadFile(filePath);
+}
+
+// Helper functions to transform PostComplete to PostSummary
+export function toPostSummary(post: PostComplete): PostSummary {
+    const frontmatter: PostSummary['frontmatter'] = {
+        title: post.frontmatter.title,
+        date: post.frontmatter.date,
+        excerpt: post.frontmatter.excerpt,
+    };
+    
+    // Only include optional fields if they have values
+    if (post.frontmatter.step !== undefined) {
+        frontmatter.step = post.frontmatter.step;
+    }
+    if (post.frontmatter.series !== undefined) {
+        frontmatter.series = post.frontmatter.series;
+    }
+    if (post.frontmatter.tags !== undefined) {
+        frontmatter.tags = post.frontmatter.tags;
+    }
+    
+    return {
+        slug: post.slug,
+        canonicalUrl: post.canonicalUrl,
+        frontmatter,
+    };
+}
+
+export function toPostSummaries(posts: PostComplete[]): PostSummary[] {
+    return posts.map(toPostSummary);
 }

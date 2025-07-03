@@ -2,9 +2,10 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../../components/PostsSection";
 import {
-  PostComplete,
+  PostSummary,
   getAllPosts,
-  getPostsByFrontmatterNode
+  getPostsByFrontmatterNode,
+  toPostSummaries
 } from "../../lib/posts";
 import { slugify } from "../../lib/utilities";
 
@@ -35,7 +36,7 @@ export const getStaticProps: GetStaticProps<CategoryPageProps, Params> = async (
   const { posts, nodeValue, summary } = await getPostsByFrontmatterNode("category", params.categorySlug);
   return {
     props: {
-      posts: posts.sort((l,r) => Date.parse(r.frontmatter.date) - Date.parse(l.frontmatter.date)) ,
+      posts: toPostSummaries(posts.sort((l,r) => Date.parse(r.frontmatter.date) - Date.parse(l.frontmatter.date))),
       category: nodeValue,
       categorySlug: params.categorySlug,
       summary,
@@ -44,7 +45,7 @@ export const getStaticProps: GetStaticProps<CategoryPageProps, Params> = async (
 };
 
 interface CategoryPageProps {
-  posts: PostComplete[];
+  posts: PostSummary[];
   category: string;
   categorySlug: string;
   summary: string;
