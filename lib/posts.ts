@@ -25,6 +25,7 @@ import {
     memoizedReadFile,
     memoize
 } from "./memoization";
+import log from "loglevel";
 
 // Frontmatter validation schema
 interface PostFrontMatterRaw {
@@ -375,7 +376,7 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
         return result;
     } catch (error) {
         globalTracker.end(trackerId);
-        console.error(`Error processing post at ${path}:`, error);
+        log.error(`Error processing post at ${path}:`, error);
         throw error;
     }
 }
@@ -416,7 +417,7 @@ export async function getMarkdownContent(fileslug: string): Promise<string> {
         return result;
     } catch (error) {
         globalTracker.end(trackerId);
-        console.error(`Error processing markdown content for ${fileslug}:`, error);
+        log.error(`Error processing markdown content for ${fileslug}:`, error);
         return "";
     }
 }

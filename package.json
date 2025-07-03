@@ -20,6 +20,7 @@
     "@types/prismjs": "^1.26.5",
     "hastscript": "^9.0.1",
     "katex": "^0.16.22",
+    "loglevel": "^1.9.2",
     "mermaid": "^11.7.0",
     "next": "^15.3.4",
     "next-sitemap": "^4.2.3",

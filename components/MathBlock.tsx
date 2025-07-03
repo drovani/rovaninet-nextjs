@@ -1,5 +1,6 @@
 import React from 'react';
 import 'katex/dist/katex.min.css';
+import log from 'loglevel';
 
 interface MathBlockProps {
   math: string;
@@ -25,7 +26,7 @@ const MathBlock: React.FC<MathBlockProps> = ({ math, displayMode = false }) => {
         setRenderedMath(html);
         setError(null);
       } catch (err) {
-        console.error('Error rendering math:', err);
+        log.error('Error rendering math:', err);
         setError('Failed to render math expression');
         setRenderedMath(math);
       } finally {

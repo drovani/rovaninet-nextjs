@@ -3,6 +3,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 import 'prismjs/themes/prism-tomorrow.css';
 import React from 'react';
+import log from 'loglevel';
 
 // Import common languages
 import 'prismjs/components/prism-bash';
@@ -48,7 +49,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 
         setHighlightedCode(highlighted);
       } catch (error) {
-        console.error('Error highlighting code:', error);
+        log.error('Error highlighting code:', error);
         setHighlightedCode(code);
       }
     };
@@ -66,7 +67,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     try {
       await navigator.clipboard.writeText(code);
     } catch (error) {
-      console.error('Failed to copy code:', error);
+      log.error('Failed to copy code:', error);
     }
   };
 

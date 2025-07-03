@@ -1,4 +1,5 @@
 import React from 'react';
+import log from 'loglevel';
 
 interface MermaidDiagramProps {
   chart: string;
@@ -37,7 +38,7 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
         setSvgContent(svg);
         setError(null);
       } catch (err) {
-        console.error('Error rendering Mermaid diagram:', err);
+        log.error('Error rendering Mermaid diagram:', err);
         setError('Failed to render diagram');
       } finally {
         setIsLoading(false);
