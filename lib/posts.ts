@@ -365,13 +365,7 @@ export async function getMarkdownContent(fileslug: string): Promise<string> {
         }
 
         const buffer = await memoizedReadFile(filePath);
-        const processor = createProcessor({ 
-            includeDirectives: true, 
-            includeGfm: true, 
-            outputFormat: 'hast' 
-        });
-        const file = await processor.process(buffer);
-        const result = String(file);
+        const result = String(buffer);
         
         // Cache the result
         await processedContentCache.set(cacheKey, result, filePath);

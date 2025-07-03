@@ -40,11 +40,10 @@ interface PostProps {
   };
   slug: string;
   year: string;
-  contentHtml: string;
-  contentMarkdown?: string;
+  contentMarkdown: string;
 }
 
-const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml, contentMarkdown }) => {
+const PostPage: NextPage<PostProps> = ({ frontmatter, contentMarkdown }) => {
   const title = `Rovani's Sandbox | ${frontmatter.title}`;
   return (
     <div className="prose max-w-none mx-auto lg:prose-xl">
@@ -52,11 +51,7 @@ const PostPage: NextPage<PostProps> = ({ frontmatter, contentHtml, contentMarkdo
         <title>{title}</title>
       </Head>
       <PageHeader className="text-center sm:text-left">{frontmatter.title}</PageHeader>
-      {contentMarkdown ? (
-        <SafeMarkdown content={contentMarkdown} className="prose-content" />
-      ) : (
-        <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-      )}
+      <SafeMarkdown content={contentMarkdown} className="prose-content" />
       <div className="giscus border-sky-100 border p-1 rounded"></div>
       <Script src="https://giscus.app/client.js"
         id="giscuss"
