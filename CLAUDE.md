@@ -15,9 +15,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a Next.js 15 blog/website with markdown-based content management. The site uses Static Site Generation (SSG) for all pages and employs a file-based routing system.
 
 ### Content Management System
-- Blog posts stored in `/rovaninet-posts/{year}/{YYYY-MM-DD-slug}.md`
-- Frontmatter schema: `title`, `category`, `series`, `tags`, `excerpt`, `date`, `step`
-- Advanced markdown processing via unified/remark/rehype pipeline with comprehensive feature support
+- **Content Source**: Blog posts managed as git submodule from [rovaninet-posts](https://github.com/drovani/rovaninet-posts)
+- **Storage Structure**: Posts stored in `/rovaninet-posts/{year}/{YYYY-MM-DD-slug}.md`
+- **Portability**: Content decoupled from implementation, enabling reuse across multiple website frameworks
+- **Frontmatter Schema**: `title`, `category`, `series`, `tags`, `excerpt`, `date`, `step`
+- **Processing Pipeline**: Advanced markdown processing via unified/remark/rehype with comprehensive feature support
 
 ### Key Architectural Patterns
 - **Dynamic routing**: `/posts/[year]/[slug]`, `/category/[categorySlug]`, `/tag/[tagSlug]`, `/series/[seriesSlug]`
@@ -46,8 +48,31 @@ This is a Next.js 15 blog/website with markdown-based content management. The si
 - `/lib` - Core utilities and content processing logic
   - `posts.ts` - Markdown processing pipeline with remark/rehype plugins
 - `/pages` - Next.js pages with file-based routing
-- `/rovaninet-posts` - Markdown blog posts organized by year
+- `/rovaninet-posts` - **Git submodule** containing markdown blog posts organized by year
 - `/public` - Static assets
+
+### Git Submodule Workflow
+
+The content is managed separately to enable framework-agnostic reuse:
+
+#### **Content Repository**: [rovaninet-posts](https://github.com/drovani/rovaninet-posts)
+- Contains all blog post markdown files
+- Maintains consistent frontmatter schema across implementations  
+- Enables content updates independent of website framework changes
+- Supports multiple concurrent website implementations using the same content
+
+#### **Submodule Management**:
+- **Initialize**: `git submodule update --init --recursive`
+- **Update content**: `cd rovaninet-posts && git pull origin main`
+- **Commit content updates**: `git add rovaninet-posts && git commit -m "Update content"`
+
+#### **Development Workflow**:
+1. Content changes made in the rovaninet-posts repository
+2. Submodule updated in this repository to reference new content
+3. Website rebuilds automatically pick up new/modified posts
+4. Same content can be used by Jekyll, Hugo, Next.js, or other implementations
+
+This architecture enables rapid framework experimentation while maintaining content consistency and simplifying migrations between different website generators.
 
 ### Content Processing Flow
 1. Markdown files read from filesystem

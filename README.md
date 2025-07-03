@@ -10,12 +10,15 @@ This repository represents my experimental approach to learning modern web techn
 
 **Framework Exploration History**: This is one iteration in a series of rewrites across different technologies (previous versions used Jekyll, Hugo, custom PHP, and other frameworks). Each rewrite teaches me the strengths, limitations, and architectural decisions inherent to different approaches.
 
+**Content Portability**: The content layer is intentionally decoupled as a git submodule ([rovaninet-posts](https://github.com/drovani/rovaninet-posts)), allowing the same 500+ blog posts to be reused across different framework implementations. This separation enables rapid prototyping of new technologies while maintaining content consistency and simplifying migrations between platforms.
+
 **Experimental Features**: You'll find evidence of experimentation throughout - from advanced markdown processing pipelines to custom routing patterns to performance optimization techniques. This reflects my process of testing ideas and learning what works in practice.
 
 ## Technical Implementation Highlights
 
 ### Architecture Decisions Worth Noting
 
+- **Decoupled Content Architecture**: Content stored as a git submodule ([rovaninet-posts](https://github.com/drovani/rovaninet-posts)) enabling reuse across multiple website implementations and frameworks
 - **File-based Content Management**: Chose markdown over a headless CMS to experiment with static generation at scale (500+ posts)
 - **Advanced Markdown Processing**: Built a sophisticated content pipeline using the unified/remark/rehype ecosystem to handle complex content transformations
 - **Performance-First Approach**: Implemented comprehensive static generation with strategic dynamic routing for optimal Core Web Vitals
