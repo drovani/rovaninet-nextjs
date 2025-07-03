@@ -1,6 +1,6 @@
 import React from "react";
 import { PathLike } from "fs";
-import { readdir, readFile, access, constants } from "fs/promises";
+import { readdir, access, constants } from "fs/promises";
 import path, { resolve } from "path";
 import rehypeFormat from "rehype-format";
 import rehypeStringify from "rehype-stringify";
@@ -19,7 +19,6 @@ import remarkDirectiveRehype from "./remark-directive-rehype";
 import { slugify } from "./utilities";
 import { withConcurrencyLimit, globalTracker } from "./performance";
 import { 
-    frontmatterCache, 
     processedContentCache, 
     excerptCache, 
     getCompiledRegex,

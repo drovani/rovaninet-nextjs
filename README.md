@@ -21,6 +21,47 @@ This repository represents my experimental approach to learning modern web techn
 - **Performance-First Approach**: Implemented comprehensive static generation with strategic dynamic routing for optimal Core Web Vitals
 - **SEO-Focused Design**: Custom sitemap generation and URL structure designed for search engine optimization
 
+### Advanced Markdown Features
+
+This implementation includes comprehensive support for technical writing and rich content:
+
+#### Syntax Highlighting
+```typescript
+// Automatic language detection and highlighting
+const example = {
+  language: 'typescript',
+  features: ['line numbers', 'copy button', 'theme support']
+};
+```
+
+#### Mathematical Expressions
+Inline math: $E = mc^2$ and block equations:
+
+$$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$$
+
+#### Interactive Diagrams
+```mermaid
+graph TD
+    A[Markdown] --> B[Processing Pipeline]
+    B --> C[Static Generation]
+    C --> D[Optimized Output]
+```
+
+#### Enhanced Content Features
+- [x] Task lists with interactive checkboxes
+- [x] Emoji shortcode support :rocket:
+- [x] Enhanced tables with responsive design
+- [x] Improved blockquotes and typography
+- [x] Performance-optimized component rendering
+
+**Supported Languages**: TypeScript, JavaScript, Python, Bash, SQL, YAML, JSON, CSS, PHP, Java, C#, Go, Rust, Ruby, and more.
+
+**Content Processing**: 
+- Math rendering via KaTeX with LaTeX syntax
+- Mermaid diagrams for flowcharts, sequence diagrams, state machines
+- GitHub Flavored Markdown with extensions
+- Optimized for performance with code splitting and lazy loading
+
 ### Modern Tooling Integration
 
 - **Next.js 15 with Turbopack**: Early adoption of cutting-edge build tools
