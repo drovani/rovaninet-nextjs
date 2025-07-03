@@ -16,7 +16,7 @@ This is a Next.js 15 blog/website with markdown-based content management. The si
 
 ### Content Management System
 - **Content Source**: Blog posts managed as git submodule from [rovaninet-posts](https://github.com/drovani/rovaninet-posts)
-- **Storage Structure**: Posts stored in `/rovaninet-posts/{year}/{YYYY-MM-DD-slug}.md`
+- **Storage Structure**: Posts stored in `/rovaninet-posts/{year}/{YYYY-MM-DD}-{slug}.md`
 - **Portability**: Content decoupled from implementation, enabling reuse across multiple website frameworks
 - **Frontmatter Schema**: `title`, `category`, `series`, `tags`, `excerpt`, `date`, `step`
 - **Processing Pipeline**: Advanced markdown processing via unified/remark/rehype with comprehensive feature support
