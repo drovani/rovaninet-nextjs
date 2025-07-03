@@ -10,6 +10,9 @@ import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 import remarkParse from "remark-parse";
 import remarkRehype from 'remark-rehype';
+import remarkMath from 'remark-math';
+import remarkEmoji from 'remark-emoji';
+import rehypeKatex from 'rehype-katex';
 import { Preset, unified } from "unified";
 import { matter as vmatter } from 'vfile-matter';
 import remarkDirectiveRehype from "./remark-directive-rehype";
@@ -39,6 +42,8 @@ interface PostFrontMatterRaw {
 interface ProcessingOptions {
     includeDirectives?: boolean;
     includeGfm?: boolean;
+    includeMath?: boolean;
+    includeEmoji?: boolean;
     outputFormat?: 'html' | 'mdast' | 'hast';
 }
 
@@ -219,6 +224,8 @@ function createProcessor(options: ProcessingOptions = {}) {
     const {
         includeDirectives = false,
         includeGfm = true,
+        includeMath = true,
+        includeEmoji = true,
         outputFormat = 'html'
     } = options;
 
@@ -228,6 +235,14 @@ function createProcessor(options: ProcessingOptions = {}) {
         processor.use(remarkGfm);
     }
 
+    if (includeMath) {
+        processor.use(remarkMath);
+    }
+
+    if (includeEmoji) {
+        processor.use(remarkEmoji);
+    }
+
     if (includeDirectives) {
         processor.use(remarkDirective).use(remarkDirectiveRehype);
     }
@@ -235,7 +250,13 @@ function createProcessor(options: ProcessingOptions = {}) {
     if (outputFormat === 'html') {
         processor.use(remarkHtml as Preset);
     } else if (outputFormat === 'hast') {
-        processor.use(remarkRehype).use(rehypeFormat).use(rehypeStringify as Preset);
+        processor.use(remarkRehype);
+        
+        if (includeMath) {
+            processor.use(rehypeKatex);
+        }
+        
+        processor.use(rehypeFormat).use(rehypeStringify as Preset);
     }
 
     return processor;
@@ -294,7 +315,11 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
 
         const fileContent = await memoizedReadFile(path);
 
-        const processor = createProcessor({ includeGfm: true });
+        const processor = createProcessor({ 
+            includeGfm: true,
+            includeMath: true,
+            includeEmoji: true
+        });
         const file = await processor
             .use(() => {
                 return function (_: any, file: any) {
@@ -315,7 +340,11 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
         let excerptHtml = await excerptCache.get(excerptCacheKey);
         
         if (!excerptHtml) {
-            const excerptProcessor = createProcessor({ includeGfm: true });
+            const excerptProcessor = createProcessor({ 
+                includeGfm: true,
+                includeMath: true,
+                includeEmoji: true
+            });
             const excerpt = await excerptProcessor.process(validatedFrontmatter.excerpt);
             excerptHtml = String(excerpt);
             await excerptCache.set(excerptCacheKey, excerptHtml);
