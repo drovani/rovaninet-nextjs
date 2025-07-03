@@ -1,6 +1,6 @@
 import React from "react";
 import { PathLike } from "fs";
-import { readdir, readFile } from "fs/promises";
+import { readdir, readFile, access, constants } from "fs/promises";
 import path, { resolve } from "path";
 import rehypeFormat from "rehype-format";
 import rehypeStringify from "rehype-stringify";
@@ -14,6 +14,15 @@ import { Preset, unified } from "unified";
 import { matter as vmatter } from 'vfile-matter';
 import remarkDirectiveRehype from "./remark-directive-rehype";
 import { slugify } from "./utilities";
+import { withConcurrencyLimit, globalTracker } from "./performance";
+import { 
+    frontmatterCache, 
+    processedContentCache, 
+    excerptCache, 
+    getCompiledRegex,
+    memoizedReadFile,
+    memoize
+} from "./memoization";
 
 // Frontmatter validation schema
 interface PostFrontMatterRaw {
@@ -35,7 +44,7 @@ interface ProcessingOptions {
 
 const postsDirectory = path.join(process.cwd(), "rovaninet-posts");
 // posts/{year}/{date}-{slug}.md
-const postFilenameRegex = /rovaninet-posts\/(?<year>\d{4})\/(?<filename>(?<date>\d{4}-\d{2}-\d{2})-(?<slug>[\w\d\-]*)\.md)/i;
+const postFilenameRegex = getCompiledRegex('rovaninet-posts\/(?<year>\\d{4})\/(?<filename>(?<date>\\d{4}-\\d{2}-\\d{2})-(?<slug>[\\w\\d\\-]*)\\.md)', 'i');
 
 export interface PostComplete extends PostFileInfo {
     frontmatter: PostFrontMatter;
@@ -83,12 +92,24 @@ export async function getAllPostFileInfo(): Promise<PostFileInfo[]> {
 }
 
 export async function getAllPosts(): Promise<PostComplete[]> {
-    const postfiles = await readdirRecursive(postsDirectory);
-
-    const retval = await Promise.all(postfiles.map(async ({ path }) => {
-        return await getPostFromPath(path);
-    }));
-    return retval;
+    const trackerId = globalTracker.start('getAllPosts');
+    
+    try {
+        const postfiles = await readdirRecursive(postsDirectory);
+        
+        // Use parallel processing with concurrency limit
+        const retval = await withConcurrencyLimit(
+            postfiles,
+            async ({ path }) => await getPostFromPath(path),
+            12 // Process 12 files concurrently
+        );
+        
+        globalTracker.end(trackerId);
+        return retval;
+    } catch (error) {
+        globalTracker.end(trackerId);
+        throw error;
+    }
 }
 
 export async function getPostsByFrontmatterNode(node: "series" | "category", slug: string): Promise<{ posts: PostComplete[], nodeValue: string, summary: string }> {
@@ -137,24 +158,39 @@ function* groupPostBySeries(posts: PostComplete[]) {
 
 
 async function readdirRecursive(directory: PathLike): Promise<PostFileInfo[]> {
-    const dirents = await readdir(directory, { withFileTypes: true });
-    const files = await Promise.all(dirents.map((dirent) => {
-        const res = resolve(directory.toString(), dirent.name);
-        if (dirent.isDirectory()) {
-            return readdirRecursive(res);
-        } else {
-            const matches = postFilenameRegex.exec(res);
-            if (matches == null) return;
-            return {
-                year: matches.groups.year,
-                fileName: dirent.name,
-                path: res,
-                slug: matches.groups.slug.toLocaleLowerCase(),
-                canonicalUrl: `/posts/${matches.groups.year}/${matches.groups.slug.toLocaleLowerCase()}`,
-            };
-        }
-    }))
-    return files.flat().filter(f => f != null);
+    const trackerId = globalTracker.start('readdirRecursive', { directory: directory.toString() });
+    
+    try {
+        const dirents = await readdir(directory, { withFileTypes: true });
+        
+        // Use parallel processing for directory traversal
+        const files = await withConcurrencyLimit(
+            dirents,
+            async (dirent) => {
+                const res = resolve(directory.toString(), dirent.name);
+                if (dirent.isDirectory()) {
+                    return await readdirRecursive(res);
+                } else {
+                    const matches = postFilenameRegex.exec(res);
+                    if (matches == null) return null;
+                    return {
+                        year: matches.groups!.year,
+                        fileName: dirent.name,
+                        path: res,
+                        slug: matches.groups!.slug.toLocaleLowerCase(),
+                        canonicalUrl: `/posts/${matches.groups!.year}/${matches.groups!.slug.toLocaleLowerCase()}`,
+                    };
+                }
+            },
+            8 // Concurrency limit for directory operations
+        );
+        
+        globalTracker.end(trackerId);
+        return files.flat().filter(f => f != null);
+    } catch (error) {
+        globalTracker.end(trackerId);
+        throw error;
+    }
 }
 
 export async function getPostFromSlugYear(slug: string, year: string): Promise<PostComplete> {
@@ -191,45 +227,58 @@ function createProcessor(options: ProcessingOptions = {}) {
     return processor;
 }
 
-// Validate frontmatter with better error handling
-function validateFrontmatter(raw: any, contentMarkdown: string = ''): PostFrontMatterRaw {
-    const errors: string[] = [];
+// Validate frontmatter with better error handling and memoization
+const validateFrontmatter = memoize(
+    function validateFrontmatterInternal(raw: any, contentMarkdown: string = ''): PostFrontMatterRaw {
+        const errors: string[] = [];
 
-    if (!raw.title || typeof raw.title !== 'string') {
-        errors.push('title is required and must be a string');
-    }
-    if (!raw.date || typeof raw.date !== 'string') {
-        errors.push('date is required and must be a string');
-    }
-    if (raw.step && typeof raw.step !== 'number') {
-        errors.push('step must be a number if provided');
-    }
-    if (raw.tags && !Array.isArray(raw.tags)) {
-        errors.push('tags must be an array if provided');
-    }
+        if (!raw.title || typeof raw.title !== 'string') {
+            errors.push('title is required and must be a string');
+        }
+        if (!raw.date || typeof raw.date !== 'string') {
+            errors.push('date is required and must be a string');
+        }
+        if (raw.step && typeof raw.step !== 'number') {
+            errors.push('step must be a number if provided');
+        }
+        if (raw.tags && !Array.isArray(raw.tags)) {
+            errors.push('tags must be an array if provided');
+        }
 
-    // Validate date format
-    if (raw.date && isNaN(Date.parse(raw.date))) {
-        errors.push('date must be a valid ISO date string');
-    }
+        // Validate date format
+        if (raw.date && isNaN(Date.parse(raw.date))) {
+            errors.push('date must be a valid ISO date string');
+        }
 
-    if (errors.length > 0) {
-        throw new Error(`Frontmatter validation errors: ${errors.join(', ')}`);
-    }
+        if (errors.length > 0) {
+            throw new Error(`Frontmatter validation errors: ${errors.join(', ')}`);
+        }
 
-    // Provide fallback for excerpt if not present
-    if (!raw.excerpt || typeof raw.excerpt !== 'string') {
-        // Extract first paragraph as excerpt if not provided
-        const firstParagraph = contentMarkdown.split('\n\n')[0]?.trim() || '';
-        raw.excerpt = firstParagraph.substring(0, 200) + (firstParagraph.length > 200 ? '...' : '');
-    }
+        // Provide fallback for excerpt if not present
+        if (!raw.excerpt || typeof raw.excerpt !== 'string') {
+            // Extract first paragraph as excerpt if not provided
+            const firstParagraph = contentMarkdown.split('\n\n')[0]?.trim() || '';
+            raw.excerpt = firstParagraph.substring(0, 200) + (firstParagraph.length > 200 ? '...' : '');
+        }
 
-    return raw as PostFrontMatterRaw;
-}
+        return raw as PostFrontMatterRaw;
+    },
+    (raw: any, contentMarkdown: string = '') => JSON.stringify({ raw, contentMarkdown })
+);
 
 export async function getPostFromPath(path: string): Promise<PostComplete> {
+    const trackerId = globalTracker.start('getPostFromPath', { path });
+    
     try {
-        const fileContent = await readFile(path, "utf-8");
+        // Check cache first
+        const cacheKey = `post:${path}`;
+        const cached = await processedContentCache.get(cacheKey, path);
+        if (cached) {
+            globalTracker.end(trackerId);
+            return JSON.parse(cached);
+        }
+
+        const fileContent = await memoizedReadFile(path);
 
         const processor = createProcessor({ includeGfm: true });
         const file = await processor
@@ -247,51 +296,96 @@ export async function getPostFromPath(path: string): Promise<PostComplete> {
         const rawFrontmatter = file.data.matter;
         const validatedFrontmatter = validateFrontmatter(rawFrontmatter, contentWithoutFrontmatter);
 
-        // Process excerpt with the same pipeline for consistency
-        const excerptProcessor = createProcessor({ includeGfm: true });
-        const excerpt = await excerptProcessor.process(validatedFrontmatter.excerpt);
+        // Process excerpt with caching
+        const excerptCacheKey = `excerpt:${validatedFrontmatter.excerpt}`;
+        let excerptHtml = await excerptCache.get(excerptCacheKey);
+        
+        if (!excerptHtml) {
+            const excerptProcessor = createProcessor({ includeGfm: true });
+            const excerpt = await excerptProcessor.process(validatedFrontmatter.excerpt);
+            excerptHtml = String(excerpt);
+            await excerptCache.set(excerptCacheKey, excerptHtml);
+        }
 
         const matches = postFilenameRegex.exec(path);
         if (!matches) {
             throw new Error(`Invalid post filename format: ${path}`);
         }
 
-        return {
+        const result = {
             frontmatter: {
                 ...validatedFrontmatter,
-                excerptHtml: String(excerpt)
+                excerptHtml
             },
-            year: matches.groups.year,
-            fileName: matches.groups.filename,
-            slug: matches.groups.slug.toLocaleLowerCase(),
+            year: matches.groups!.year,
+            fileName: matches.groups!.filename,
+            slug: matches.groups!.slug.toLocaleLowerCase(),
             path,
-            canonicalUrl: `/posts/${matches.groups.year}/${matches.groups.slug.toLocaleLowerCase()}`,
+            canonicalUrl: `/posts/${matches.groups!.year}/${matches.groups!.slug.toLocaleLowerCase()}`,
             contentHtml: String(file),
             contentMarkdown: contentWithoutFrontmatter,
         };
+
+        // Cache the result
+        await processedContentCache.set(cacheKey, JSON.stringify(result), path);
+        
+        globalTracker.end(trackerId);
+        return result;
     } catch (error) {
+        globalTracker.end(trackerId);
         console.error(`Error processing post at ${path}:`, error);
         throw error;
     }
 }
 
 export async function getMarkdownContent(fileslug: string): Promise<string> {
+    const trackerId = globalTracker.start('getMarkdownContent', { fileslug });
+    
     try {
-        const buffer = await readFile(path.join(postsDirectory, `${fileslug}.md`));
+        const filePath = path.join(postsDirectory, `${fileslug}.md`);
+        const cacheKey = `markdown:${fileslug}`;
+        
+        // Check cache first
+        const cached = await processedContentCache.get(cacheKey, filePath);
+        if (cached) {
+            globalTracker.end(trackerId);
+            return cached;
+        }
+
+        // Check if file exists before attempting to read
+        try {
+            await access(filePath, constants.F_OK);
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                // File doesn't exist - this is expected for some tags/content
+                globalTracker.end(trackerId);
+                return "";
+            }
+            throw error; // Re-throw other access errors
+        }
+
+        const buffer = await memoizedReadFile(filePath);
         const processor = createProcessor({ 
             includeDirectives: true, 
             includeGfm: true, 
             outputFormat: 'hast' 
         });
         const file = await processor.process(buffer);
-        return String(file);
+        const result = String(file);
+        
+        // Cache the result
+        await processedContentCache.set(cacheKey, result, filePath);
+        
+        globalTracker.end(trackerId);
+        return result;
     } catch (error) {
+        globalTracker.end(trackerId);
         console.error(`Error processing markdown content for ${fileslug}:`, error);
         return "";
     }
 }
 
-export async function getFileContent(fileslug: string):Promise<string>{
-    const fileContent = await readFile(path.join(postsDirectory, `${fileslug}.md`));
-    return String(fileContent);
+export async function getFileContent(fileslug: string): Promise<string> {
+    const filePath = path.join(postsDirectory, `${fileslug}.md`);
+    return await memoizedReadFile(filePath);
 }
