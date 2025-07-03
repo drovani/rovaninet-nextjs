@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "postbuild": "next-sitemap",
+    "postbuild": "if [ \"$NODE_ENV\" = \"production\" ]; then next-sitemap; fi",
     "lint": "next lint",
     "tsc": "tsc --project tsconfig.json --noEmit"
   },
