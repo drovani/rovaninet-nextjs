@@ -1,8 +1,7 @@
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import SafeMarkdown from "../components/SafeMarkdown";
 import { getFileContent } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery {}
@@ -32,7 +31,7 @@ const SideProjectsPage: NextPage<SideProjectsProps> = ({ content }) => {
       <Head>
         <title>{headtitle}</title>
       </Head>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      <SafeMarkdown content={content} />
     </section>
   );
 };
