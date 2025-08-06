@@ -4,7 +4,7 @@ import { ParsedUrlQuery } from "querystring";
 import SafeMarkdown from "../components/SafeMarkdown";
 import { getFileContent } from "../lib/posts";
 
-interface Params extends ParsedUrlQuery {}
+interface Params extends ParsedUrlQuery { }
 
 export const getStaticProps: GetStaticProps<AboutProps, Params> = async (_) => {
   const content: AboutProps["content"] = await getFileContent("about");
@@ -21,7 +21,7 @@ interface AboutProps {
 }
 
 const AboutPage: NextPage<AboutProps> = ({ content }) => {
-  const headtitle = `Rovani's Sandbox | David's Résumé`;
+  const headtitle = `David Rovani, Technology Leadership & Strategic Innovation`;
   return (
     <section className="prose max-w-none lg:prose-xl prose-lead:leading-none prose-lead:border-l-2 prose-lead:pl-4 prose-lead:text-base prose-lead:italic">
       <Head>
