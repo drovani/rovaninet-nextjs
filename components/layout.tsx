@@ -55,13 +55,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Link>
       </header>
       <main className="font-sans antialiased">
-        {" "}
-        <div className="rounded border p-2 bg-yellow-100">
-          If you like what you see (view the <Link href="/about" className="underline decoration-from-font">About Me page</Link> for more) and you&apos;re interested in
-          exploring opportunities for us to partner up, please reach out to me
-          at <a href="mailto:david@rovani.net" className="decoration-dashed decoration-from-font underline">david@rovani.net</a> or message me on{" "}
-          <a href="https://linkedin.com/in/drovani" className="underline decoration-from-font decoration-dashed">LinkedIn</a> #OpenToWork
-        </div>
         {children}
       </main>
       <footer className="mt-4 pt-2 text-4xl space-x-1 text-center sm:space-x-2 md:space-x-4 border-t rounded-t">
