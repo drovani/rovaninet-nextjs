@@ -16,6 +16,21 @@ This repository represents my experimental approach to learning modern web techn
 
 ## Technical Implementation Highlights
 
+### Getting It Workin
+
+In order to build the application from a fresh Windows + WSL2 instance:
+
+1. Install nvm: `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash`
+1. Restart bash
+1. Install latest node: `nvm install --lts`
+1. Update npm: `npm -g install npm`
+1. Install npm packages: `npm i`
+1. Initialize git submodules: `git submodules init`
+1. Update the git submodules: `git submodules update`
+1. Build the application: `npm run build`
+
+If everything was done correctly, the build will succeed and all is well!
+
 ### Architecture Decisions Worth Noting
 
 - **Decoupled Content Architecture**: Content stored as a git submodule ([rovaninet-posts](https://github.com/drovani/rovaninet-posts)) enabling reuse across multiple website implementations and frameworks
