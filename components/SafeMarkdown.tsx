@@ -211,11 +211,26 @@ const SafeMarkdown: React.FC<SafeMarkdownProps> = ({
             <hr className={cn("my-8 border-t border-gray-300", className)} {...props} />
           ),
           
+          // Enhanced paragraphs - handle standalone images
+          p: ({ children, ...props }) => {
+            // Check if paragraph contains only an image
+            const childArray = React.Children.toArray(children);
+            if (childArray.length === 1 && React.isValidElement(childArray[0])) {
+              // Check if the child is an img element (could be a React component)
+              const child = childArray[0];
+              if (child.props && typeof child.props.src === 'string') {
+                // This is an image, return it directly without wrapping in <p>
+                return child;
+              }
+            }
+            return <p {...props}>{children}</p>;
+          },
+
           // Enhanced images
           img: ({ src, alt, title, className }) => (
             <figure className="my-6 text-center">
-              <Image 
-                src={String(src || '')} 
+              <Image
+                src={String(src || '')}
                 alt={String(alt || '')}
                 title={String(title || '')}
                 width={800}
