@@ -56,8 +56,20 @@ const SafeMarkdown: React.FC<SafeMarkdownProps> = ({
         remarkPlugins={remarkPlugins}
         rehypePlugins={rehypePlugins}
         components={{
-          // Enhanced paragraph with better spacing
-          p: ({ node, children, className, ...props }) => <p className={cn("mb-4 leading-relaxed", className)} {...props}>{children}</p>,
+          // Enhanced paragraphs - handle standalone images and styling
+          p: ({ node, children, className, ...props }) => {
+            // Check if paragraph contains only an image
+            const childArray = React.Children.toArray(children);
+            if (childArray.length === 1 && React.isValidElement(childArray[0])) {
+              // Check if the child is an img element (could be a React component)
+              const child = childArray[0];
+              if (child.props && typeof (child.props as any).src === 'string') {
+                // This is an image, return it directly without wrapping in <p>
+                return child;
+              }
+            }
+            return <p className={cn("mb-4 leading-relaxed", className)} {...props}>{children}</p>;
+          },
           
           // Enhanced links with better styling
           a: ({ node, href, children, className, ...props }) => (
@@ -211,20 +223,6 @@ const SafeMarkdown: React.FC<SafeMarkdownProps> = ({
             <hr className={cn("my-8 border-t border-gray-300", className)} {...props} />
           ),
           
-          // Enhanced paragraphs - handle standalone images
-          p: ({ children, ...props }) => {
-            // Check if paragraph contains only an image
-            const childArray = React.Children.toArray(children);
-            if (childArray.length === 1 && React.isValidElement(childArray[0])) {
-              // Check if the child is an img element (could be a React component)
-              const child = childArray[0];
-              if (child.props && typeof child.props.src === 'string') {
-                // This is an image, return it directly without wrapping in <p>
-                return child;
-              }
-            }
-            return <p {...props}>{children}</p>;
-          },
 
           // Enhanced images
           img: ({ src, alt, title, className }) => (
