@@ -1,3 +1,4 @@
 [submodule "rovaninet-posts"]
 	path = rovaninet-posts
 	url = https://github.com/drovani/rovaninet-posts.git
+	branch = main
