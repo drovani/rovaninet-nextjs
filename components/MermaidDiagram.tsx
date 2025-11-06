@@ -1,5 +1,5 @@
-import React from 'react';
 import log from 'loglevel';
+import React from 'react';
 
 interface MermaidDiagramProps {
   chart: string;
@@ -10,13 +10,13 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [svgContent, setSvgContent] = React.useState<string>('');
-  const diagramId = id || `mermaid-${Math.random().toString(36).substr(2, 9)}`;
+  const [diagramId] = React.useState(() => id || `mermaid-${Math.random().toString(36).slice(2, 9)}`);
 
   React.useEffect(() => {
     const renderDiagram = async () => {
       try {
         const mermaid = await import('mermaid');
-        
+
         mermaid.default.initialize({
           startOnLoad: false,
           theme: 'neutral',
@@ -80,12 +80,7 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart, id }) => {
   }
 
   return (
-    <div className="mermaid-diagram my-6 text-center">
-      <div 
-        className="inline-block"
-        dangerouslySetInnerHTML={{ __html: svgContent }}
-      />
-    </div>
+    <div className="mermaid-diagram my-6 text-center" dangerouslySetInnerHTML={{ __html: svgContent }} />
   );
 };
 
