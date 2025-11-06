@@ -4,8 +4,5 @@
         "titleBar.activeBackground": "#6B1088",
         "titleBar.activeForeground": "#FEFAFE"
     },
-    "markdown.validate.enabled": true,
-    "cSpell.words": [
-        "Résumé"
-    ]
+    "markdown.validate.enabled": true
 }
