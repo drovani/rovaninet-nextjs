@@ -1,10 +1,11 @@
-export function middleware(request) {
+export function proxy(request) {
   const path = request.nextUrl.pathname;
   const caseSensitivePath = path.toLowerCase();
 
   if (path !== caseSensitivePath) {
     return Response.redirect(
-      new URL(caseSensitivePath, request.url)
+      new URL(caseSensitivePath, request.url),
+      301
     );
   }
 }

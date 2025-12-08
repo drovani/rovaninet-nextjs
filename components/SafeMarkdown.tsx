@@ -4,7 +4,6 @@ import remarkGfm from 'remark-gfm';
 import remarkDirective from 'remark-directive';
 import remarkMath from 'remark-math';
 import remarkEmoji from 'remark-emoji';
-import remarkFootnotes from 'remark-footnotes';
 import rehypeKatex from 'rehype-katex';
 import Image from 'next/image';
 import CodeBlock from './CodeBlock';
@@ -34,7 +33,7 @@ const SafeMarkdown: React.FC<SafeMarkdownProps> = ({
   enableMermaid = true,
   enableEmoji = true
 }) => {
-  const remarkPlugins: any[] = [remarkGfm, remarkFootnotes];
+  const remarkPlugins: any[] = [remarkGfm];
   const rehypePlugins: any[] = [];
   
   if (includeDirectives) {
