@@ -12,7 +12,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from 'remark-rehype';
 import remarkMath from 'remark-math';
 import remarkEmoji from 'remark-emoji';
-import remarkUnwrapImages from 'remark-unwrap-images';
+import rehypeUnwrapImages from 'rehype-unwrap-images';
 import rehypeKatex from 'rehype-katex';
 import { Preset, unified } from "unified";
 import { matter as vmatter } from 'vfile-matter';
@@ -232,9 +232,6 @@ function createProcessor(options: ProcessingOptions = {}) {
 
     const processor = unified().use(remarkParse as Preset).use(remarkFrontmatter);
 
-    // Add unwrap images early to prevent paragraph wrapping
-    processor.use(remarkUnwrapImages);
-
     if (includeGfm) {
         processor.use(remarkGfm);
     }
@@ -255,11 +252,14 @@ function createProcessor(options: ProcessingOptions = {}) {
         processor.use(remarkHtml as Preset);
     } else if (outputFormat === 'hast') {
         processor.use(remarkRehype);
-        
+
+        // Unwrap images from paragraphs
+        processor.use(rehypeUnwrapImages);
+
         if (includeMath) {
             processor.use(rehypeKatex);
         }
-        
+
         processor.use(rehypeFormat).use(rehypeStringify as Preset);
     }
 
