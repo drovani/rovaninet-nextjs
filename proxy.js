@@ -4,7 +4,8 @@ export function proxy(request) {
 
   if (path !== caseSensitivePath) {
     return Response.redirect(
-      new URL(caseSensitivePath, request.url)
+      new URL(caseSensitivePath, request.url),
+      301
     );
   }
 }
