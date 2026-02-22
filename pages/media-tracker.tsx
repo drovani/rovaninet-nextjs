@@ -1,35 +1,32 @@
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import SafeMarkdown from "../components/SafeMarkdown";
 import MediaTracker from "../components/MediaTracker";
 import { getMediaTrackerData, MediaItem } from "../lib/media";
 
 interface Params extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps<MediaTrackerProps, Params> = async () => {
-  const { title, intro, media } = await getMediaTrackerData();
+  const media = await getMediaTrackerData();
   return {
-    props: { title, intro, media },
+    props: { media },
   };
 };
 
 interface MediaTrackerProps {
-  title: string;
-  intro: string;
   media: MediaItem[];
 }
 
-const MediaTrackerPage: NextPage<MediaTrackerProps> = ({ title, intro, media }) => {
-  const headtitle = `Rovani's Sandbox | ${title}`;
+const MediaTrackerPage: NextPage<MediaTrackerProps> = ({ media }) => {
   return (
     <section>
       <Head>
-        <title>{headtitle}</title>
+        <title>Media Tracker | Rovani&apos;s Sandbox</title>
       </Head>
-      <div className="prose max-w-none lg:prose-xl prose-lead:leading-none prose-lead:border-l-2 prose-lead:pl-4 prose-lead:text-base prose-lead:italic mb-8">
-        <SafeMarkdown content={intro} />
-      </div>
+      <h1 className="text-3xl font-bold mb-2">Media Tracker</h1>
+      <p className="text-gray-600 mb-6">
+        Keeping track of what I&apos;m watching, have watched, and want to watch.
+      </p>
       <MediaTracker media={media} />
     </section>
   );

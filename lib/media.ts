@@ -1,6 +1,5 @@
 import path from "path";
 import { memoizedReadFile } from "./memoization";
-import { parse as parseYaml } from "yaml";
 
 export type MediaStatus = "watched" | "watching" | "want-to-watch";
 export type MediaType = "tv" | "movie";
@@ -9,41 +8,65 @@ export interface MediaItem {
   title: string;
   type: MediaType;
   status: MediaStatus;
-  rating?: number; // 1-5
-}
-
-export interface MediaTrackerData {
-  title: string;
-  intro: string;
-  media: MediaItem[];
+  rating?: number;
+  service?: string;
+  watchingWith?: string;
 }
 
 const postsDirectory = path.join(process.cwd(), "rovaninet-posts");
 
-export async function getMediaTrackerData(): Promise<MediaTrackerData> {
-  const filePath = path.join(postsDirectory, "media-tracker.md");
+function parseCsvLine(line: string): string[] {
+  const fields: string[] = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (inQuotes) {
+      if (char === '"' && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else if (char === '"') {
+        inQuotes = false;
+      } else {
+        current += char;
+      }
+    } else if (char === '"') {
+      inQuotes = true;
+    } else if (char === ",") {
+      fields.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+  fields.push(current.trim());
+  return fields;
+}
+
+export async function getMediaTrackerData(): Promise<MediaItem[]> {
+  const filePath = path.join(postsDirectory, "media-tracker.csv");
   const fileContent = await memoizedReadFile(filePath);
 
-  // Split frontmatter from content
-  const frontmatterMatch = fileContent.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  if (!frontmatterMatch) {
-    throw new Error("media-tracker.md must have YAML frontmatter");
-  }
+  const lines = fileContent.split("\n").filter((line) => line.trim());
+  if (lines.length < 2) return [];
 
-  const frontmatter = parseYaml(frontmatterMatch[1]) as {
-    title: string;
-    media: MediaItem[];
-  };
-  const intro = frontmatterMatch[2].trim();
+  const headers = parseCsvLine(lines[0]);
 
-  return {
-    title: frontmatter.title || "Media Tracker",
-    intro,
-    media: (frontmatter.media || []).map((item) => ({
-      title: item.title,
-      type: item.type || "tv",
-      status: item.status || "want-to-watch",
-      rating: item.rating,
-    })),
-  };
+  return lines.slice(1).map((line) => {
+    const values = parseCsvLine(line);
+    const row: Record<string, string> = {};
+    headers.forEach((h, i) => {
+      row[h] = values[i] || "";
+    });
+
+    return {
+      title: row.title,
+      type: (row.type as MediaType) || "tv",
+      status: (row.status as MediaStatus) || "want-to-watch",
+      rating: row.rating ? parseInt(row.rating, 10) : undefined,
+      service: row.service || undefined,
+      watchingWith: row.watching_with || undefined,
+    };
+  });
 }

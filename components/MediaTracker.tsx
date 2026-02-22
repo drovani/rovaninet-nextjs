@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import type { MediaItem, MediaStatus, MediaType } from "../lib/media";
 
-type SortField = "title" | "rating" | "status";
+type SortField = "title" | "rating" | "status" | "service";
 type SortDirection = "asc" | "desc";
 
 const STATUS_LABELS: Record<MediaStatus, string> = {
@@ -22,7 +22,7 @@ const TYPE_LABELS: Record<MediaType, string> = {
 };
 
 function StarRating({ rating }: { rating?: number }) {
-  if (!rating) return <span className="text-gray-400 text-sm">No rating</span>;
+  if (!rating) return <span className="text-gray-400 text-sm">--</span>;
   return (
     <span className="text-yellow-500" title={`${rating} out of 5`}>
       {"★".repeat(rating)}
@@ -60,8 +60,20 @@ export default function MediaTracker({ media }: { media: MediaItem[] }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<MediaStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<MediaType | "all">("all");
+  const [serviceFilter, setServiceFilter] = useState<string>("all");
+  const [watchingWithFilter, setWatchingWithFilter] = useState<string>("all");
   const [sortField, setSortField] = useState<SortField>("status");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+
+  const uniqueServices = useMemo(
+    () => Array.from(new Set(media.map((m) => m.service).filter(Boolean))).sort() as string[],
+    [media]
+  );
+
+  const uniqueWatchingWith = useMemo(
+    () => Array.from(new Set(media.map((m) => m.watchingWith).filter(Boolean))).sort() as string[],
+    [media]
+  );
 
   const filtered = useMemo(() => {
     let items = [...media];
@@ -76,6 +88,12 @@ export default function MediaTracker({ media }: { media: MediaItem[] }) {
     if (typeFilter !== "all") {
       items = items.filter((item) => item.type === typeFilter);
     }
+    if (serviceFilter !== "all") {
+      items = items.filter((item) => item.service === serviceFilter);
+    }
+    if (watchingWithFilter !== "all") {
+      items = items.filter((item) => item.watchingWith === watchingWithFilter);
+    }
 
     items.sort((a, b) => {
       let cmp = 0;
@@ -85,12 +103,14 @@ export default function MediaTracker({ media }: { media: MediaItem[] }) {
         cmp = (a.rating || 0) - (b.rating || 0);
       } else if (sortField === "status") {
         cmp = STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
+      } else if (sortField === "service") {
+        cmp = (a.service || "").localeCompare(b.service || "");
       }
       return sortDirection === "asc" ? cmp : -cmp;
     });
 
     return items;
-  }, [media, search, statusFilter, typeFilter, sortField, sortDirection]);
+  }, [media, search, statusFilter, typeFilter, serviceFilter, watchingWithFilter, sortField, sortDirection]);
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: media.length };
@@ -117,7 +137,7 @@ export default function MediaTracker({ media }: { media: MediaItem[] }) {
   return (
     <div>
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <input
           type="text"
           placeholder="Search titles..."
@@ -150,6 +170,32 @@ export default function MediaTracker({ media }: { media: MediaItem[] }) {
           ))}
         </select>
       </div>
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        {uniqueServices.length > 0 && (
+          <select
+            value={serviceFilter}
+            onChange={(e) => setServiceFilter(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-chicagoblue"
+          >
+            <option value="all">All Services</option>
+            {uniqueServices.map((s) => (
+              <option key={s} value={s}>{s}</option>
+            ))}
+          </select>
+        )}
+        {uniqueWatchingWith.length > 0 && (
+          <select
+            value={watchingWithFilter}
+            onChange={(e) => setWatchingWithFilter(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-chicagoblue"
+          >
+            <option value="all">Watching With...</option>
+            {uniqueWatchingWith.map((w) => (
+              <option key={w} value={w}>{w}</option>
+            ))}
+          </select>
+        )}
+      </div>
 
       {/* Results count */}
       <p className="text-sm text-gray-500 mb-3">
@@ -180,12 +226,21 @@ export default function MediaTracker({ media }: { media: MediaItem[] }) {
               >
                 Rating <SortIndicator field="rating" />
               </th>
+              <th
+                className="px-4 py-3 text-sm font-semibold text-gray-700 cursor-pointer select-none hover:bg-gray-100"
+                onClick={() => handleSort("service")}
+              >
+                Service <SortIndicator field="service" />
+              </th>
+              <th className="px-4 py-3 text-sm font-semibold text-gray-700">
+                With
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
                   No items match your filters.
                 </td>
               </tr>
@@ -201,6 +256,12 @@ export default function MediaTracker({ media }: { media: MediaItem[] }) {
                   </td>
                   <td className="px-4 py-3">
                     <StarRating rating={item.rating} />
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-600">
+                    {item.service || "--"}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-600">
+                    {item.watchingWith || "--"}
                   </td>
                 </tr>
               ))
