@@ -9,6 +9,7 @@ import {
 import {
   faChartGantt,
   faHome,
+  faTv,
   faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,7 +18,7 @@ import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container max-w-screen-lg mx-auto p-1 sm:p-4 lg:p-8">
+    <div className="container max-w-5xl mx-auto p-1 sm:p-4 lg:p-8">
       <header className="flex flex-nowrap text-center gap-x-1 sm:gap-x-2 mb-4">
         <section className="flex-1 text-left">
           <Link href="/" className="flex items-center">
@@ -52,6 +53,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             className="text-4xl mx-auto block"
           />
           <div className="text-xs">Projects</div>
+        </Link>
+        <Link
+          href="/media-tracker/"
+          className="w-16 rounded border p-1 border-chicagoblue hover:bg-gray-50 shadow-md whitespace-nowrap"
+        >
+          <FontAwesomeIcon
+            icon={faTv}
+            className="text-4xl mx-auto block"
+          />
+          <div className="text-xs">TV Tracker</div>
         </Link>
       </header>
       <main className="font-sans antialiased">
@@ -99,7 +110,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Link>
         <Link
           href="https://stackoverflow.com/users/28310/drovani"
-          title="drovani Stack Overlow profile"
+          title="drovani Stack Overflow profile"
           target="_blank"
           rel="noreferrer noopener me"
           className="text-[#eb9048]"

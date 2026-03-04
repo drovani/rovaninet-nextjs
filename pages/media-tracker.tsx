@@ -9,15 +9,22 @@ interface Params extends ParsedUrlQuery {}
 export const getStaticProps: GetStaticProps<MediaTrackerProps, Params> = async () => {
   const media = await getMediaTrackerData();
   return {
-    props: { media },
+    props: { media, lastUpdated: new Date().toISOString() },
   };
 };
 
 interface MediaTrackerProps {
   media: MediaItem[];
+  lastUpdated: string;
 }
 
-const MediaTrackerPage: NextPage<MediaTrackerProps> = ({ media }) => {
+const MediaTrackerPage: NextPage<MediaTrackerProps> = ({ media, lastUpdated }) => {
+  const formattedDate = new Date(lastUpdated).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <section>
       <Head>
@@ -28,6 +35,9 @@ const MediaTrackerPage: NextPage<MediaTrackerProps> = ({ media }) => {
         Keeping track of what I&apos;m watching, have watched, and want to watch.
       </p>
       <MediaTracker media={media} />
+      <p className="text-sm text-gray-400 mt-6">
+        Last updated: {formattedDate}
+      </p>
     </section>
   );
 };
