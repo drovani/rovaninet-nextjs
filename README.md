@@ -39,6 +39,58 @@ If everything was done correctly, the build will succeed and all is well!
 - **Performance-First Approach**: Implemented comprehensive static generation with strategic dynamic routing for optimal Core Web Vitals
 - **SEO-Focused Design**: Custom sitemap generation and URL structure designed for search engine optimization
 
+### Content Frontmatter Schema
+
+Blog posts are stored in the [rovaninet-posts](https://github.com/drovani/rovaninet-posts) submodule using the naming convention `rovaninet-posts/{YYYY}/{YYYY-MM-DD}-{slug}.md`. The date and slug are extracted from the filename, producing URLs like `/posts/{year}/{slug}`.
+
+#### Frontmatter Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `title` | string | Yes | Post headline |
+| `date` | string | Yes | Publication date in ISO format (`YYYY-MM-DD`) |
+| `excerpt` | string | No | Summary text displayed in post listings. Auto-generated from the first paragraph if omitted |
+| `category` | string | No | Single category name; generates listing pages at `/category/{slug}` |
+| `series` | string | No | Series name for multi-part posts; generates listing pages at `/series/{slug}` |
+| `step` | number | No | Numeric position within a series |
+| `tags` | string[] | No | List of tags; each generates a listing page at `/tag/{slug}` |
+| `meta_description` | string | No | SEO meta description (ideal: 150-160 chars). Falls back to `excerpt` truncated to 160 characters |
+| `image` | string | No | Featured image path relative to `/public/` (e.g., `/images/posts/my-post.jpg`). Used for Open Graph and Twitter Card previews |
+| `imageAlt` | string | No | Alt text for the featured image |
+
+#### Post Organization
+
+- **Category** (one per post): Groups posts by topic. Example: `category: "Career in Transition"`
+- **Series + Step** (one per post, ordered): Links related posts in sequence. Example: `series: "Hero Wars"` with `step: 3`
+- **Tags** (many per post): Cross-cutting labels. Example: `tags: [github, projectmanagement, sideprojects]`
+
+#### Example Frontmatter
+
+```yaml
+---
+title: "Beyond the Repository: Leveraging GitHub Features"
+category: Career in Transition
+excerpt: "Transitioning between roles offers the perfect opportunity..."
+meta_description: "How to use GitHub Projects, Issues, and Milestones to manage side projects during career transitions."
+image: /images/posts/github-features-og.jpg
+imageAlt: "GitHub project board with milestone tracking"
+tags:
+  - github
+  - projectmanagement
+  - ctointransition
+date: 2025-03-19
+---
+```
+
+Minimal frontmatter (only required fields):
+
+```yaml
+---
+title: "A Word On Factory Results and Contracts"
+date: 2016-09-17
+---
+```
+
 ### Advanced Markdown Features
 
 This implementation includes comprehensive support for technical writing and rich content:
