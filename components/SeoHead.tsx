@@ -22,10 +22,10 @@ interface SeoHeadProps {
 }
 
 function truncateDescription(text: string, max: number = 160): string {
+  // Strip markdown images first: ![alt](url) -> alt (must be before links since ![...] contains [...])
+  let stripped = text.replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1');
   // Strip markdown links: [text](url) -> text
-  let stripped = text.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
-  // Strip markdown images: ![alt](url) -> alt
-  stripped = stripped.replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1');
+  stripped = stripped.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
   // Strip remaining markdown formatting characters
   stripped = stripped.replace(/[#*_`\[\]()]/g, '').trim();
   // Normalize whitespace

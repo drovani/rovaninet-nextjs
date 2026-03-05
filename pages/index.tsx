@@ -9,7 +9,7 @@ import {
 } from "../lib/posts";
 import {
   DEFAULT_SITE_DESCRIPTION,
-  SITE_AUTHOR,
+  SITE_AUTHOR_PERSON,
   SITE_NAME,
   SITE_URL,
 } from "../lib/siteConfig";
@@ -39,7 +39,7 @@ const HomePage: NextPage<HomeProps> = ({ posts, maxPages }) => {
     name: SITE_NAME,
     url: SITE_URL,
     description: DEFAULT_SITE_DESCRIPTION,
-    author: { '@type': 'Person', name: SITE_AUTHOR, url: `${SITE_URL}/about` },
+    author: SITE_AUTHOR_PERSON,
   };
 
   return (
