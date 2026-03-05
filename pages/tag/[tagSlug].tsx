@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../../components/PostsSection";
+import SeoHead from "../../components/SeoHead";
 import {
   PostSummary,
   getAllPosts,
@@ -56,9 +57,14 @@ interface TagPageProps {
   summary: string;
 }
 
-const TagPage: NextPage<TagPageProps> = ({ posts, tag, summary }) => {
+const TagPage: NextPage<TagPageProps> = ({ posts, tag, tagSlug, summary }) => {
   return (
     <section>
+      <SeoHead
+        title={`Posts tagged '${tag}'`}
+        description={`Blog posts tagged with ${tag}`}
+        canonicalPath={`/tag/${tagSlug}`}
+      />
       <PostsSection posts={posts} summary={summary} header={tag} />
     </section>
   );

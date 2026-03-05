@@ -37,6 +37,9 @@ interface PostFrontMatterRaw {
     series?: string;
     step?: number;
     tags?: string[];
+    meta_description?: string;
+    image?: string;
+    imageAlt?: string;
 }
 
 // Processing options for unified pipeline
@@ -75,6 +78,9 @@ export interface PostFrontMatter {
     category?: string;
     series?: string;
     tags?: string[];
+    meta_description?: string;
+    image?: string;
+    imageAlt?: string;
 }
 
 // Enhanced interfaces for component-based rendering

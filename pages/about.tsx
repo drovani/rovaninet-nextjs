@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from "next";
-import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import SafeMarkdown from "../components/SafeMarkdown";
+import SeoHead from "../components/SeoHead";
 import { getFileContent } from "../lib/posts";
 
 interface Params extends ParsedUrlQuery { }
@@ -21,12 +21,13 @@ interface AboutProps {
 }
 
 const AboutPage: NextPage<AboutProps> = ({ content }) => {
-  const headtitle = `David Rovani, Technology Leadership & Strategic Innovation`;
   return (
     <section className="prose max-w-none lg:prose-xl prose-lead:leading-none prose-lead:border-l-2 prose-lead:pl-4 prose-lead:text-base prose-lead:italic">
-      <Head>
-        <title>{headtitle}</title>
-      </Head>
+      <SeoHead
+        title="About"
+        description="David Rovani - Technology Leadership and Strategic Innovation"
+        canonicalPath="/about"
+      />
       <SafeMarkdown content={content} />
     </section>
   );

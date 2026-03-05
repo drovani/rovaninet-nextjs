@@ -7,7 +7,6 @@ import "../styles/globals.css";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
-  const headtitle = "Rovani's Sandbox";
 
   // Check if current route is a talk page
   const isTalkPage = router.pathname.startsWith('/talks/');
@@ -15,7 +14,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <React.Fragment>
       <Head>
-        <title>{headtitle}</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/images/r-star.png" />
       </Head>

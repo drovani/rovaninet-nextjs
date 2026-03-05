@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../components/PostsSection";
+import SeoHead from "../components/SeoHead";
 import {
   getAllPostFileInfo, getPostsSorted,
   PostSummary, toPostSummaries
@@ -49,13 +49,14 @@ const PostsPage: NextPage<PostsPageProps> = ({
   pageNumber,
   maxPages,
 }) => {
-  const headtitle = `Rovani's Sandbox | Blog Posts page ${pageNumber}`;
-
   return (
     <section>
-      <Head>
-        <title>{headtitle}</title>
-      </Head>
+      <SeoHead
+        title={`Page ${pageNumber}`}
+        description="Browse older posts on Rovani's Sandbox"
+        canonicalPath={`/${pageNumber}`}
+        noindex={true}
+      />
       <PostsSection
         posts={posts}
         currentPage={pageNumber}

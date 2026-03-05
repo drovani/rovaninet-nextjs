@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import PostsSection from "../../components/PostsSection";
+import SeoHead from "../../components/SeoHead";
 import {
   PostSummary,
   getAllPosts,
@@ -51,9 +52,14 @@ interface CategoryPageProps {
   summary: string;
 }
 
-const CategoryPage: NextPage<CategoryPageProps> = ({ posts, category, summary }) => {
+const CategoryPage: NextPage<CategoryPageProps> = ({ posts, category, categorySlug, summary }) => {
   return (
     <section>
+      <SeoHead
+        title={category}
+        description={`Blog posts in the ${category} category on Rovani's Sandbox`}
+        canonicalPath={`/category/${categorySlug}`}
+      />
       <PostsSection posts={posts} summary={summary} header={category} />
     </section>
   );
