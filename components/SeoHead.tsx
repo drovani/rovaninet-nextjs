@@ -22,16 +22,28 @@ interface SeoHeadProps {
 }
 
 function truncateDescription(text: string, max: number = 160): string {
-  // Strip markdown characters
-  const stripped = text.replace(/[#*_`\[\]()]/g, "").trim();
+  // Strip markdown links: [text](url) -> text
+  let stripped = text.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
+  // Strip markdown images: ![alt](url) -> alt
+  stripped = stripped.replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1');
+  // Strip remaining markdown formatting characters
+  stripped = stripped.replace(/[#*_`\[\]()]/g, '').trim();
+  // Normalize whitespace
+  stripped = stripped.replace(/\s+/g, ' ');
+
   if (stripped.length <= max) return stripped;
-  return stripped.substring(0, max - 3).trim() + "...";
+
+  // Truncate at word boundary
+  const truncated = stripped.substring(0, max - 3);
+  const lastSpace = truncated.lastIndexOf(' ');
+  return (lastSpace > max * 0.7 ? truncated.substring(0, lastSpace) : truncated).trim() + '...';
 }
 
 function resolveImageUrl(image?: string): string {
   if (!image) return `${SITE_URL}${DEFAULT_OG_IMAGE}`;
-  if (image.startsWith("http")) return image;
-  return `${SITE_URL}${image}`;
+  if (image.startsWith('http')) return image;
+  const normalizedPath = image.startsWith('/') ? image : `/${image}`;
+  return `${SITE_URL}${normalizedPath}`;
 }
 
 export default function SeoHead({
@@ -48,7 +60,7 @@ export default function SeoHead({
   noindex = false,
 }: SeoHeadProps) {
   const fullTitle = `${title} | ${SITE_NAME}`;
-  const desc = truncateDescription(description ?? DEFAULT_SITE_DESCRIPTION);
+  const desc = truncateDescription(description || DEFAULT_SITE_DESCRIPTION);
   const imageUrl = resolveImageUrl(image);
   const imgAlt = imageAlt ?? DEFAULT_OG_IMAGE_ALT;
   const canonicalUrl = canonicalPath ? `${SITE_URL}${canonicalPath}` : undefined;
@@ -71,27 +83,30 @@ export default function SeoHead({
       {canonicalUrl && <meta key="og:url" property="og:url" content={canonicalUrl} />}
 
       {/* Article-specific OG tags */}
-      {type === "article" && publishedTime && (
-        <meta
-          key="article:published_time"
-          property="article:published_time"
-          content={publishedTime}
-        />
+      {type === "article" && (
+        <>
+          {publishedTime && (
+            <meta
+              key="article:published_time"
+              property="article:published_time"
+              content={publishedTime}
+            />
+          )}
+          {modifiedTime && (
+            <meta
+              key="article:modified_time"
+              property="article:modified_time"
+              content={modifiedTime}
+            />
+          )}
+          {section && (
+            <meta key="article:section" property="article:section" content={section} />
+          )}
+          {tags?.map((tag) => (
+            <meta key={`article:tag:${tag}`} property="article:tag" content={tag} />
+          ))}
+        </>
       )}
-      {type === "article" && modifiedTime && (
-        <meta
-          key="article:modified_time"
-          property="article:modified_time"
-          content={modifiedTime}
-        />
-      )}
-      {type === "article" && section && (
-        <meta key="article:section" property="article:section" content={section} />
-      )}
-      {type === "article" &&
-        tags?.map((tag) => (
-          <meta key={`article:tag:${tag}`} property="article:tag" content={tag} />
-        ))}
 
       {/* Twitter Card */}
       <meta key="twitter:card" name="twitter:card" content="summary_large_image" />

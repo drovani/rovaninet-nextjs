@@ -14,6 +14,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <React.Fragment>
       <Head>
+        <title key="title">Rovani&apos;s Sandbox</title>
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/images/r-star.png" />
       </Head>

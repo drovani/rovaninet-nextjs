@@ -6,7 +6,7 @@ import PageHeader from "../../../components/PageHeader";
 import SafeMarkdown from "../../../components/SafeMarkdown";
 import SeoHead from "../../../components/SeoHead";
 import { getAllPostFileInfo, getPostFromSlugYear, PostComplete } from "../../../lib/posts";
-import { SITE_AUTHOR, SITE_NAME, SITE_URL } from "../../../lib/siteConfig";
+import { DEFAULT_OG_IMAGE, SITE_AUTHOR_PERSON, SITE_PUBLISHER, SITE_URL } from "../../../lib/siteConfig";
 
 interface Params extends ParsedUrlQuery {
   slug: string;
@@ -36,20 +36,18 @@ export const getStaticProps: GetStaticProps<PostComplete, Params> = async ({
 };
 
 const PostPage: NextPage<PostComplete> = ({ frontmatter, contentMarkdown, canonicalUrl }) => {
+  const description = frontmatter.meta_description ?? frontmatter.excerpt;
   const blogPostingData: BlogPostingJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: frontmatter.title,
-    description: frontmatter.meta_description ?? frontmatter.excerpt,
-    image: frontmatter.image ? `${SITE_URL}${frontmatter.image}` : undefined,
+    description,
+    image: frontmatter.image
+      ? `${SITE_URL}${frontmatter.image}`
+      : `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     datePublished: frontmatter.date,
-    author: { '@type': 'Person', name: SITE_AUTHOR, url: `${SITE_URL}/about` },
-    publisher: {
-      '@type': 'Organization',
-      name: SITE_NAME,
-      url: SITE_URL,
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/images/r-star.png` },
-    },
+    author: SITE_AUTHOR_PERSON,
+    publisher: SITE_PUBLISHER,
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}${canonicalUrl}` },
     articleSection: frontmatter.category,
     keywords: frontmatter.tags?.join(', '),
@@ -59,7 +57,7 @@ const PostPage: NextPage<PostComplete> = ({ frontmatter, contentMarkdown, canoni
     <div className="prose max-w-none mx-auto lg:prose-xl">
       <SeoHead
         title={frontmatter.title}
-        description={frontmatter.meta_description ?? frontmatter.excerpt}
+        description={description}
         canonicalPath={canonicalUrl}
         image={frontmatter.image}
         imageAlt={frontmatter.imageAlt}

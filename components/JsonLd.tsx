@@ -50,13 +50,17 @@ interface JsonLdProps {
   data: JsonLdData;
 }
 
+function safeJsonLd(data: JsonLdData): string {
+  return JSON.stringify(data).replace(/</g, '\\u003c');
+}
+
 export default function JsonLd({ data }: JsonLdProps) {
   return (
     <Head>
       <script
         key="json-ld"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(data) }}
       />
     </Head>
   );
