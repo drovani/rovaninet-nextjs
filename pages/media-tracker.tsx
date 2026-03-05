@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from "next";
-import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import MediaTracker from "../components/MediaTracker";
+import SeoHead from "../components/SeoHead";
 import { getMediaTrackerData, MediaItem } from "../lib/media";
 
 interface Params extends ParsedUrlQuery {}
@@ -27,9 +27,11 @@ const MediaTrackerPage: NextPage<MediaTrackerProps> = ({ media, lastUpdated }) =
 
   return (
     <section>
-      <Head>
-        <title>Media Tracker | Rovani&apos;s Sandbox</title>
-      </Head>
+      <SeoHead
+        title="Media Tracker"
+        description="Tracking what David Rovani is watching, has watched, and wants to watch"
+        canonicalPath="/media-tracker"
+      />
       <h1 className="text-3xl font-bold mb-2">Media Tracker</h1>
       <p className="text-gray-600 mb-6">
         Keeping track of what I&apos;m watching, have watched, and want to watch.

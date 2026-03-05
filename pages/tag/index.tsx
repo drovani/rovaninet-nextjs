@@ -1,6 +1,7 @@
 import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 import { ParsedUrlQuery } from "querystring";
+import SeoHead from "../../components/SeoHead";
 import { getAllPosts } from "../../lib/posts";
 
 interface Params extends ParsedUrlQuery {
@@ -32,15 +33,22 @@ interface TagsPageProps {
 
 const TagsPage: NextPage<TagsPageProps> = ({ tags }) => {
   return (
-    <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-      {tags.map((tag) => {
-        return (
-          <div key={tag}>
-            <Link className="underline decoration-chicagoblue hover:decoration-black" href={`/tag/${tag}`}>{tag}</Link>
-          </div>
-        );
-      })}
-    </section>
+    <>
+      <SeoHead
+        title="All Tags"
+        description="Browse all tags used across blog posts on Rovani's Sandbox"
+        canonicalPath="/tag"
+      />
+      <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+        {tags.map((tag) => {
+          return (
+            <div key={tag}>
+              <Link className="underline decoration-chicagoblue hover:decoration-black" href={`/tag/${tag}`}>{tag}</Link>
+            </div>
+          );
+        })}
+      </section>
+    </>
   );
 };
 export default TagsPage;
