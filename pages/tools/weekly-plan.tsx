@@ -16,6 +16,7 @@ import {
 
 interface ErrorBoundaryState {
   hasError: boolean;
+  errorMessage: string | null;
 }
 
 class PlanErrorBoundary extends React.Component<
@@ -24,20 +25,26 @@ class PlanErrorBoundary extends React.Component<
 > {
   constructor(props: React.PropsWithChildren<Record<string, unknown>>) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, errorMessage: null };
   }
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, errorMessage: error.message };
+  }
+
+  override componentDidCatch(error: Error, info: React.ErrorInfo): void {
+    console.error("PlanErrorBoundary caught:", error, info.componentStack);
   }
 
   override render(): React.ReactNode {
     if (this.state.hasError) {
       return (
-        <p className="text-red-600 text-sm text-center py-8">
-          Something went wrong rendering the plan. Please check your JSON and
-          try again.
-        </p>
+        <div className="text-red-600 text-sm text-center py-8">
+          <p>Something went wrong rendering the plan. Please check your JSON and try again.</p>
+          {this.state.errorMessage && (
+            <p className="mt-2 font-mono text-xs">{this.state.errorMessage}</p>
+          )}
+        </div>
       );
     }
     return this.props.children;
@@ -92,7 +99,7 @@ function validateDayPlan(day: unknown, label: string): string | null {
     if (typeof b.text !== "string") {
       return `${label}.banner.text must be a string.`;
     }
-    if (typeof b.familyMember !== "string" || !(b.familyMember in FAMILY_COLORS)) {
+    if (typeof b.familyMember !== "string" || !Object.hasOwn(FAMILY_COLORS, b.familyMember)) {
       return `${label}.banner.familyMember must be a valid family member (${Object.keys(FAMILY_COLORS).join(", ")}).`;
     }
   }
@@ -197,7 +204,7 @@ const WeeklyPlanPage = (): React.ReactElement => {
       if (typeof wb.text !== "string") {
         return { planData: null, parseError: "weekendBanner.text must be a string." };
       }
-      if (typeof wb.familyMember !== "string" || !(wb.familyMember in FAMILY_COLORS)) {
+      if (typeof wb.familyMember !== "string" || !Object.hasOwn(FAMILY_COLORS, wb.familyMember)) {
         return {
           planData: null,
           parseError: `weekendBanner.familyMember must be a valid family member (${Object.keys(FAMILY_COLORS).join(", ")}).`,
@@ -260,7 +267,7 @@ const WeeklyPlanPage = (): React.ReactElement => {
       </div>
 
       {/* Printable area — wrapped in error boundary */}
-      <PlanErrorBoundary>
+      <PlanErrorBoundary key={jsonInput}>
         <div className="weekly-plan-print p-4">
           {planData ? (
             <>
