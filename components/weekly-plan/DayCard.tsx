@@ -33,10 +33,10 @@ const DayCard = ({ day }: DayCardProps): React.ReactElement => {
               {section.title}
             </div>
             <div className="text-xs">
-              {section.content.split("\n").map((line, lineIndex) => (
+              {section.content.split("\n").map((line, lineIndex, arr) => (
                 <React.Fragment key={lineIndex}>
                   {line}
-                  {lineIndex < section.content.split("\n").length - 1 && <br />}
+                  {lineIndex < arr.length - 1 && <br />}
                 </React.Fragment>
               ))}
             </div>

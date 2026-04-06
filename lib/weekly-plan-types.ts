@@ -16,9 +16,12 @@ export const FAMILY_INITIALS: Record<FamilyMember, string> = {
   evangeline: "E",
 };
 
+export type Parent = "david" | "katie";
+export type Child = Exclude<FamilyMember, Parent>;
+
 export interface BedtimePair {
-  child: Exclude<FamilyMember, "david" | "katie">;
-  parent: "david" | "katie";
+  child: Child;
+  parent: Parent;
 }
 
 export interface DayBanner {

@@ -3,65 +3,209 @@ import React, { useMemo, useState } from "react";
 import BottomSection from "../../components/weekly-plan/BottomSection";
 import FamilyLegend from "../../components/weekly-plan/FamilyLegend";
 import WeekGrid from "../../components/weekly-plan/WeekGrid";
-import { WeeklyPlanData } from "../../lib/weekly-plan-types";
+import {
+  Child,
+  FAMILY_COLORS,
+  Parent,
+  WeeklyPlanData,
+} from "../../lib/weekly-plan-types";
+
+// ---------------------------------------------------------------------------
+// Error Boundary — wraps only the rendered plan output
+// ---------------------------------------------------------------------------
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class PlanErrorBoundary extends React.Component<
+  React.PropsWithChildren<Record<string, unknown>>,
+  ErrorBoundaryState
+> {
+  constructor(props: React.PropsWithChildren<Record<string, unknown>>) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): ErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  override render(): React.ReactNode {
+    if (this.state.hasError) {
+      return (
+        <p className="text-red-600 text-sm text-center py-8">
+          Something went wrong rendering the plan. Please check your JSON and
+          try again.
+        </p>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Validation helpers
+// ---------------------------------------------------------------------------
+
+const VALID_PARENTS = new Set<string>(["david", "katie"] satisfies Parent[]);
+const VALID_CHILDREN = new Set<string>(
+  ["alex", "sebastian", "evangeline"] satisfies Child[]
+);
+
+function validateDayPlan(day: unknown, label: string): string | null {
+  if (typeof day !== "object" || day === null) {
+    return `${label} must be an object.`;
+  }
+
+  const d = day as Record<string, unknown>;
+
+  if (typeof d.dayName !== "string") {
+    return `${label}.dayName must be a string.`;
+  }
+  if (typeof d.date !== "string") {
+    return `${label}.date must be a string.`;
+  }
+  if (!Array.isArray(d.sections)) {
+    return `${label}.sections must be an array.`;
+  }
+
+  for (let i = 0; i < (d.sections as unknown[]).length; i++) {
+    const section = (d.sections as unknown[])[i];
+    if (typeof section !== "object" || section === null) {
+      return `${label}.sections[${i}] must be an object.`;
+    }
+    const s = section as Record<string, unknown>;
+    if (typeof s.title !== "string") {
+      return `${label}.sections[${i}].title must be a string.`;
+    }
+    if (typeof s.content !== "string") {
+      return `${label}.sections[${i}].content must be a string.`;
+    }
+  }
+
+  if (d.banner !== undefined) {
+    if (typeof d.banner !== "object" || d.banner === null) {
+      return `${label}.banner must be an object.`;
+    }
+    const b = d.banner as Record<string, unknown>;
+    if (typeof b.text !== "string") {
+      return `${label}.banner.text must be a string.`;
+    }
+    if (typeof b.familyMember !== "string" || !(b.familyMember in FAMILY_COLORS)) {
+      return `${label}.banner.familyMember must be a valid family member (${Object.keys(FAMILY_COLORS).join(", ")}).`;
+    }
+  }
+
+  if (d.bedtime !== undefined) {
+    if (!Array.isArray(d.bedtime)) {
+      return `${label}.bedtime must be an array.`;
+    }
+    for (let i = 0; i < (d.bedtime as unknown[]).length; i++) {
+      const pair = (d.bedtime as unknown[])[i];
+      if (typeof pair !== "object" || pair === null) {
+        return `${label}.bedtime[${i}] must be an object.`;
+      }
+      const p = pair as Record<string, unknown>;
+      if (typeof p.child !== "string" || !VALID_CHILDREN.has(p.child)) {
+        return `${label}.bedtime[${i}].child must be one of: ${[...VALID_CHILDREN].join(", ")}.`;
+      }
+      if (typeof p.parent !== "string" || !VALID_PARENTS.has(p.parent)) {
+        return `${label}.bedtime[${i}].parent must be one of: ${[...VALID_PARENTS].join(", ")}.`;
+      }
+    }
+  }
+
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// Page component
+// ---------------------------------------------------------------------------
 
 const WeeklyPlanPage = (): React.ReactElement => {
   const [jsonInput, setJsonInput] = useState<string>("");
-  const [parseError, setParseError] = useState<string | null>(null);
 
-  const planData = useMemo<WeeklyPlanData | null>(() => {
+  const { planData, parseError } = useMemo<{
+    planData: WeeklyPlanData | null;
+    parseError: string | null;
+  }>(() => {
     if (!jsonInput.trim()) {
-      setParseError(null);
-      return null;
+      return { planData: null, parseError: null };
     }
 
     let parsed: unknown;
     try {
       parsed = JSON.parse(jsonInput);
     } catch (err) {
-      setParseError(`Invalid JSON: ${err instanceof Error ? err.message : String(err)}`);
-      return null;
+      return {
+        planData: null,
+        parseError: `Invalid JSON: ${err instanceof Error ? err.message : String(err)}`,
+      };
     }
 
     if (typeof parsed !== "object" || parsed === null) {
-      setParseError("JSON must be an object.");
-      return null;
+      return { planData: null, parseError: "JSON must be an object." };
     }
 
     const data = parsed as Record<string, unknown>;
 
     if (!Array.isArray(data.weekdays) || data.weekdays.length !== 5) {
-      setParseError("weekdays must be an array of exactly 5 items (Mon–Fri).");
-      return null;
+      return {
+        planData: null,
+        parseError: "weekdays must be an array of exactly 5 items (Mon–Fri).",
+      };
     }
 
     if (typeof data.weekDates !== "string") {
-      setParseError("weekDates must be a string.");
-      return null;
-    }
-
-    if (typeof data.saturday !== "object" || data.saturday === null) {
-      setParseError("saturday must be an object.");
-      return null;
-    }
-
-    if (typeof data.sunday !== "object" || data.sunday === null) {
-      setParseError("sunday must be an object.");
-      return null;
+      return { planData: null, parseError: "weekDates must be a string." };
     }
 
     if (typeof data.lunchSnacks !== "string") {
-      setParseError("lunchSnacks must be a string.");
-      return null;
+      return { planData: null, parseError: "lunchSnacks must be a string." };
     }
 
     if (typeof data.lookAhead !== "string") {
-      setParseError("lookAhead must be a string.");
-      return null;
+      return { planData: null, parseError: "lookAhead must be a string." };
     }
 
-    setParseError(null);
-    return parsed as WeeklyPlanData;
+    // Validate each weekday
+    for (let i = 0; i < data.weekdays.length; i++) {
+      const err = validateDayPlan(data.weekdays[i], `weekdays[${i}]`);
+      if (err !== null) {
+        return { planData: null, parseError: err };
+      }
+    }
+
+    // Validate saturday and sunday
+    const satErr = validateDayPlan(data.saturday, "saturday");
+    if (satErr !== null) {
+      return { planData: null, parseError: satErr };
+    }
+
+    const sunErr = validateDayPlan(data.sunday, "sunday");
+    if (sunErr !== null) {
+      return { planData: null, parseError: sunErr };
+    }
+
+    // Validate optional weekendBanner
+    if (data.weekendBanner !== undefined) {
+      if (typeof data.weekendBanner !== "object" || data.weekendBanner === null) {
+        return { planData: null, parseError: "weekendBanner must be an object." };
+      }
+      const wb = data.weekendBanner as Record<string, unknown>;
+      if (typeof wb.text !== "string") {
+        return { planData: null, parseError: "weekendBanner.text must be a string." };
+      }
+      if (typeof wb.familyMember !== "string" || !(wb.familyMember in FAMILY_COLORS)) {
+        return {
+          planData: null,
+          parseError: `weekendBanner.familyMember must be a valid family member (${Object.keys(FAMILY_COLORS).join(", ")}).`,
+        };
+      }
+    }
+
+    return { planData: parsed as WeeklyPlanData, parseError: null };
   }, [jsonInput]);
 
   return (
@@ -88,7 +232,9 @@ const WeeklyPlanPage = (): React.ReactElement => {
           className="w-full h-48 font-mono text-xs border border-gray-300 rounded p-2 resize-y focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder='{ "weekDates": "...", "weekdays": [...], ... }'
           value={jsonInput}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setJsonInput(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            setJsonInput(e.target.value)
+          }
           spellCheck={false}
         />
         {parseError && (
@@ -113,38 +259,42 @@ const WeeklyPlanPage = (): React.ReactElement => {
         </div>
       </div>
 
-      {/* Printable area */}
-      <div className="weekly-plan-print p-4">
-        {planData ? (
-          <>
-            {/* Page header */}
-            <div className="flex justify-between items-center mb-1">
-              <h1 className="text-sm font-bold">Rovani Family Week</h1>
-              <span className="text-sm font-semibold text-gray-600">{planData.weekDates}</span>
-            </div>
+      {/* Printable area — wrapped in error boundary */}
+      <PlanErrorBoundary>
+        <div className="weekly-plan-print p-4">
+          {planData ? (
+            <>
+              {/* Page header */}
+              <div className="flex justify-between items-center mb-1">
+                <h1 className="text-sm font-bold">Rovani Family Week</h1>
+                <span className="text-sm font-semibold text-gray-600">
+                  {planData.weekDates}
+                </span>
+              </div>
 
-            <FamilyLegend />
+              <FamilyLegend />
 
-            <div className="mt-2">
-              <WeekGrid
-                weekdays={planData.weekdays}
-                weekendBanner={planData.weekendBanner}
-                saturday={planData.saturday}
-                sunday={planData.sunday}
+              <div className="mt-2">
+                <WeekGrid
+                  weekdays={planData.weekdays}
+                  weekendBanner={planData.weekendBanner}
+                  saturday={planData.saturday}
+                  sunday={planData.sunday}
+                />
+              </div>
+
+              <BottomSection
+                lunchSnacks={planData.lunchSnacks}
+                lookAhead={planData.lookAhead}
               />
+            </>
+          ) : (
+            <div className="weekly-plan-no-print text-gray-400 text-sm text-center py-8">
+              Paste valid JSON above to preview the plan.
             </div>
-
-            <BottomSection
-              lunchSnacks={planData.lunchSnacks}
-              lookAhead={planData.lookAhead}
-            />
-          </>
-        ) : (
-          <div className="weekly-plan-no-print text-gray-400 text-sm text-center py-8">
-            Paste valid JSON above to preview the plan.
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </PlanErrorBoundary>
     </>
   );
 };
