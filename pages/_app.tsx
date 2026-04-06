@@ -8,8 +8,8 @@ import "../styles/globals.css";
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
 
-  // Check if current route is a talk page
-  const isTalkPage = router.pathname.startsWith('/talks/');
+  // Check if current route is a standalone page (no layout wrapper)
+  const isStandalonePage = router.pathname.startsWith('/talks/') || router.pathname.startsWith('/tools/');
 
   return (
     <React.Fragment>
@@ -18,7 +18,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/images/r-star.png" />
       </Head>
-      {isTalkPage ? (
+      {isStandalonePage ? (
         <Component {...pageProps} />
       ) : (
         <Layout>
