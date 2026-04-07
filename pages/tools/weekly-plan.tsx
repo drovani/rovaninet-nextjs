@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import BottomSection from "../../components/weekly-plan/BottomSection";
 import FamilyLegend from "../../components/weekly-plan/FamilyLegend";
 import WeekGrid from "../../components/weekly-plan/WeekGrid";
@@ -132,6 +132,7 @@ function validateDayPlan(day: unknown, label: string): string | null {
 
 function WeeklyPlanPage(): React.ReactElement {
   const [jsonInput, setJsonInput] = useState<string>("");
+  const [boundaryKey, setBoundaryKey] = useState<number>(0);
 
   const { planData, parseError } = useMemo<{
     planData: WeeklyPlanData | null;
@@ -168,11 +169,11 @@ function WeeklyPlanPage(): React.ReactElement {
       return { planData: null, parseError: "weekDates must be a string." };
     }
 
-    if (!Array.isArray(data.lunchSnacks)) {
+    if (!Array.isArray(data.lunchSnacks) || !(data.lunchSnacks as unknown[]).every((el) => typeof el === "string")) {
       return { planData: null, parseError: "lunchSnacks must be an array of strings." };
     }
 
-    if (!Array.isArray(data.lookAhead)) {
+    if (!Array.isArray(data.lookAhead) || !(data.lookAhead as unknown[]).every((el) => typeof el === "string")) {
       return { planData: null, parseError: "lookAhead must be an array of strings." };
     }
 
@@ -214,6 +215,10 @@ function WeeklyPlanPage(): React.ReactElement {
 
     return { planData: parsed as WeeklyPlanData, parseError: null };
   }, [jsonInput]);
+
+  useEffect(() => {
+    setBoundaryKey((k) => k + 1);
+  }, [planData]);
 
   return (
     <>
@@ -267,7 +272,7 @@ function WeeklyPlanPage(): React.ReactElement {
       </div>
 
       {/* Printable area — wrapped in error boundary */}
-      <PlanErrorBoundary key={jsonInput}>
+      <PlanErrorBoundary key={boundaryKey}>
         <div className="weekly-plan-print p-4">
           {planData ? (
             <>

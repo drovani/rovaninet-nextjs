@@ -3,7 +3,7 @@ import { DayBanner, DayPlan, FAMILY_COLORS } from "../../lib/weekly-plan-types";
 import DayCard from "./DayCard";
 
 interface WeekGridProps {
-  weekdays: DayPlan[];
+  weekdays: [DayPlan, DayPlan, DayPlan, DayPlan, DayPlan];
   weekendBanner?: DayBanner;
   saturday: DayPlan;
   sunday: DayPlan;
