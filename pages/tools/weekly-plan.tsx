@@ -86,8 +86,8 @@ function validateDayPlan(day: unknown, label: string): string | null {
     if (typeof s.title !== "string") {
       return `${label}.sections[${i}].title must be a string.`;
     }
-    if (typeof s.content !== "string") {
-      return `${label}.sections[${i}].content must be a string.`;
+    if (!Array.isArray(s.content) || !(s.content as unknown[]).every((el) => typeof el === "string")) {
+      return `${label}.sections[${i}].content must be an array of strings.`;
     }
   }
 
@@ -130,7 +130,7 @@ function validateDayPlan(day: unknown, label: string): string | null {
 // Page component
 // ---------------------------------------------------------------------------
 
-const WeeklyPlanPage = (): React.ReactElement => {
+function WeeklyPlanPage(): React.ReactElement {
   const [jsonInput, setJsonInput] = useState<string>("");
 
   const { planData, parseError } = useMemo<{
@@ -168,12 +168,12 @@ const WeeklyPlanPage = (): React.ReactElement => {
       return { planData: null, parseError: "weekDates must be a string." };
     }
 
-    if (typeof data.lunchSnacks !== "string") {
-      return { planData: null, parseError: "lunchSnacks must be a string." };
+    if (!Array.isArray(data.lunchSnacks)) {
+      return { planData: null, parseError: "lunchSnacks must be an array of strings." };
     }
 
-    if (typeof data.lookAhead !== "string") {
-      return { planData: null, parseError: "lookAhead must be a string." };
+    if (!Array.isArray(data.lookAhead)) {
+      return { planData: null, parseError: "lookAhead must be an array of strings." };
     }
 
     // Validate each weekday
@@ -304,6 +304,6 @@ const WeeklyPlanPage = (): React.ReactElement => {
       </PlanErrorBoundary>
     </>
   );
-};
+}
 
 export default WeeklyPlanPage;

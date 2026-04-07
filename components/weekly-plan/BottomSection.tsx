@@ -1,14 +1,14 @@
 import React from "react";
 
 interface BottomSectionProps {
-  lunchSnacks: string;
-  lookAhead: string;
+  lunchSnacks: string[];
+  lookAhead: string[];
 }
 
-const BottomSection = ({ lunchSnacks, lookAhead }: BottomSectionProps): React.ReactElement => {
-  const renderContent = (content: string): React.ReactElement => (
+function renderContent(lines: string[]): React.ReactElement {
+  return (
     <div className="text-xs">
-      {content.split("\n").map((line, index, arr) => (
+      {lines.map((line, index, arr) => (
         <React.Fragment key={index}>
           {line}
           {index < arr.length - 1 && <br />}
@@ -16,7 +16,9 @@ const BottomSection = ({ lunchSnacks, lookAhead }: BottomSectionProps): React.Re
       ))}
     </div>
   );
+}
 
+function BottomSection({ lunchSnacks, lookAhead }: BottomSectionProps): React.ReactElement {
   return (
     <div className="grid grid-cols-2 gap-2 mt-2">
       <div className="border border-gray-200 rounded-lg p-2">
@@ -33,6 +35,6 @@ const BottomSection = ({ lunchSnacks, lookAhead }: BottomSectionProps): React.Re
       </div>
     </div>
   );
-};
+}
 
 export default BottomSection;

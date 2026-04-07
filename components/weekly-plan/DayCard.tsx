@@ -6,7 +6,7 @@ interface DayCardProps {
   day: DayPlan;
 }
 
-const DayCard = ({ day }: DayCardProps): React.ReactElement => {
+function DayCard({ day }: DayCardProps): React.ReactElement {
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-2 flex flex-col gap-1 h-full">
       {/* Header */}
@@ -33,7 +33,7 @@ const DayCard = ({ day }: DayCardProps): React.ReactElement => {
               {section.title}
             </div>
             <div className="text-xs">
-              {section.content.split("\n").map((line, lineIndex, arr) => (
+              {section.content.map((line, lineIndex, arr) => (
                 <React.Fragment key={lineIndex}>
                   {line}
                   {lineIndex < arr.length - 1 && <br />}
@@ -55,6 +55,6 @@ const DayCard = ({ day }: DayCardProps): React.ReactElement => {
       )}
     </div>
   );
-};
+}
 
 export default DayCard;

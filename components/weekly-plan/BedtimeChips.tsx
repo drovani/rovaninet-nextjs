@@ -5,7 +5,7 @@ interface BedtimeChipsProps {
   pairs: BedtimePair[];
 }
 
-const BedtimeChips = ({ pairs }: BedtimeChipsProps): React.ReactElement | null => {
+function BedtimeChips({ pairs }: BedtimeChipsProps): React.ReactElement | null {
   if (pairs.length === 0) return null;
 
   return (
@@ -28,6 +28,6 @@ const BedtimeChips = ({ pairs }: BedtimeChipsProps): React.ReactElement | null =
       ))}
     </div>
   );
-};
+}
 
 export default BedtimeChips;

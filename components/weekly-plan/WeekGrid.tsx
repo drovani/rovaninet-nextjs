@@ -9,7 +9,7 @@ interface WeekGridProps {
   sunday: DayPlan;
 }
 
-const WeekGrid = ({ weekdays, weekendBanner, saturday, sunday }: WeekGridProps): React.ReactElement => {
+function WeekGrid({ weekdays, weekendBanner, saturday, sunday }: WeekGridProps): React.ReactElement {
   return (
     <div
       className="gap-2"
@@ -43,6 +43,6 @@ const WeekGrid = ({ weekdays, weekendBanner, saturday, sunday }: WeekGridProps):
       </div>
     </div>
   );
-};
+}
 
 export default WeekGrid;

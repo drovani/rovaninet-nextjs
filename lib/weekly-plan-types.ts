@@ -31,7 +31,7 @@ export interface DayBanner {
 
 export interface DaySection {
   title: string;
-  content: string; // line breaks via \n
+  content: string[];
 }
 
 export interface DayPlan {
@@ -44,10 +44,10 @@ export interface DayPlan {
 
 export interface WeeklyPlanData {
   weekDates: string;
-  weekdays: DayPlan[]; // Mon–Fri (5 items)
+  weekdays: [DayPlan, DayPlan, DayPlan, DayPlan, DayPlan];
   weekendBanner?: DayBanner;
   saturday: DayPlan;
   sunday: DayPlan;
-  lunchSnacks: string;
-  lookAhead: string;
+  lunchSnacks: string[];
+  lookAhead: string[];
 }

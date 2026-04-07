@@ -1,7 +1,7 @@
 import React from "react";
 import { FAMILY_COLORS, FamilyMember } from "../../lib/weekly-plan-types";
 
-const FamilyLegend = (): React.ReactElement => {
+function FamilyLegend(): React.ReactElement {
   const entries = Object.entries(FAMILY_COLORS) as [FamilyMember, string][];
 
   return (
@@ -17,6 +17,6 @@ const FamilyLegend = (): React.ReactElement => {
       ))}
     </div>
   );
-};
+}
 
 export default FamilyLegend;
