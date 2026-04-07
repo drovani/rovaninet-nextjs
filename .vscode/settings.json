@@ -4,5 +4,10 @@
         "titleBar.activeBackground": "#6B1088",
         "titleBar.activeForeground": "#FEFAFE"
     },
-    "markdown.validate.enabled": true
+    "markdown.validate.enabled": true,
+    "explorer.excludeGitIgnore": false,
+    "files.exclude": {
+        "**/.git": true,
+        "tsconfig.tsbuildinfo": true
+    }
 }
