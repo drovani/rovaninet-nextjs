@@ -166,3 +166,13 @@
   color: #6b7280;
   font-style: italic;
 }
+
+@media print {
+  .weekly-plan-no-print {
+    display: none !important;
+  }
+  .weekly-plan-print {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
