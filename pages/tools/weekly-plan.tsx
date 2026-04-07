@@ -269,6 +269,11 @@ function WeeklyPlanPage(): React.ReactElement {
             </button>
           )}
         </div>
+        <p className="text-xs text-gray-500 mt-2">
+          <a href="/tools/weekly-plan-instructions.md" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-700">
+            JSON schema & instructions
+          </a>
+        </p>
       </div>
 
       {/* Printable area — wrapped in error boundary */}
