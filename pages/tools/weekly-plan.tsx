@@ -4,8 +4,8 @@ import BottomSection from "../../components/weekly-plan/BottomSection";
 import FamilyLegend from "../../components/weekly-plan/FamilyLegend";
 import WeekGrid from "../../components/weekly-plan/WeekGrid";
 import {
+  BANNER_COLORS,
   Child,
-  FAMILY_COLORS,
   Parent,
   WeeklyPlanData,
 } from "../../lib/weekly-plan-types";
@@ -99,8 +99,8 @@ function validateDayPlan(day: unknown, label: string): string | null {
     if (typeof b.text !== "string") {
       return `${label}.banner.text must be a string.`;
     }
-    if (typeof b.familyMember !== "string" || !Object.hasOwn(FAMILY_COLORS, b.familyMember)) {
-      return `${label}.banner.familyMember must be a valid family member (${Object.keys(FAMILY_COLORS).join(", ")}).`;
+    if (typeof b.familyMember !== "string" || !Object.hasOwn(BANNER_COLORS, b.familyMember)) {
+      return `${label}.banner.familyMember must be a valid banner color key (${Object.keys(BANNER_COLORS).join(", ")}).`;
     }
   }
 
@@ -205,10 +205,10 @@ function WeeklyPlanPage(): React.ReactElement {
       if (typeof wb.text !== "string") {
         return { planData: null, parseError: "weekendBanner.text must be a string." };
       }
-      if (typeof wb.familyMember !== "string" || !Object.hasOwn(FAMILY_COLORS, wb.familyMember)) {
+      if (typeof wb.familyMember !== "string" || !Object.hasOwn(BANNER_COLORS, wb.familyMember)) {
         return {
           planData: null,
-          parseError: `weekendBanner.familyMember must be a valid family member (${Object.keys(FAMILY_COLORS).join(", ")}).`,
+          parseError: `weekendBanner.familyMember must be a valid banner color key (${Object.keys(BANNER_COLORS).join(", ")}).`,
         };
       }
     }

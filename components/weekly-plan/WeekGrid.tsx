@@ -1,5 +1,5 @@
 import React from "react";
-import { DayBanner, DayPlan, FAMILY_COLORS } from "../../lib/weekly-plan-types";
+import { DayBanner, DayPlan, BANNER_COLORS } from "../../lib/weekly-plan-types";
 import DayCard from "./DayCard";
 
 interface WeekGridProps {
@@ -29,7 +29,7 @@ function WeekGrid({ weekdays, weekendBanner, saturday, sunday }: WeekGridProps):
         {weekendBanner && (
           <div
             className="text-white text-xs font-semibold px-2 py-1 rounded text-center"
-            style={{ backgroundColor: FAMILY_COLORS[weekendBanner.familyMember] }}
+            style={{ backgroundColor: BANNER_COLORS[weekendBanner.familyMember] }}
           >
             {weekendBanner.text}
           </div>

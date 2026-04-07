@@ -12,7 +12,8 @@ Use these instructions in a Claude project to generate valid JSON for the [Rovan
 - Use string arrays for multi-line content (each line is an array element)
 - Emojis go directly in content strings
 - `bedtime` pairs use lowercase family member names: `"david"`, `"katie"`, `"alex"`, `"sebastian"`, `"evangeline"`
-- `banner` is optional per day — use for travel, arrivals/departures, special events
+- `banner` is optional per day — use for travel, arrivals/departures, special events, school events
+- `banner.familyMember` accepts family names or `"school"` for school-related events (e.g., School Picture Day)
 - `weekendBanner` is optional — use for multi-day events like "Alex Weekend"
 - Section titles should be short labels: "Morning", "Workouts", "After School", "Dinner", "Evening", "Appointments", "School", "Activity", etc.
 - Sections are ordered as they should display on the card
@@ -55,12 +56,17 @@ The JSON will be pasted into rovani.net/tools/weekly-plan which renders and prin
       "type": "string",
       "enum": ["david", "katie", "alex", "sebastian", "evangeline"]
     },
+    "BannerColorKey": {
+      "type": "string",
+      "enum": ["david", "katie", "alex", "sebastian", "evangeline", "school"],
+      "description": "Family member names or special keys like 'school' for non-family banners"
+    },
     "DayBanner": {
       "type": "object",
       "required": ["text", "familyMember"],
       "properties": {
         "text": { "type": "string" },
-        "familyMember": { "$ref": "#/$defs/FamilyMember" }
+        "familyMember": { "$ref": "#/$defs/BannerColorKey" }
       }
     },
     "DaySection": {
@@ -244,19 +250,21 @@ The JSON will be pasted into rovani.net/tools/weekly-plan which renders and prin
 }
 ```
 
-## Family Member Colors
+## Banner & Family Colors
 
-| Member | Color | Hex |
-|--------|-------|-----|
-| David | Gold | #d4af37 |
-| Katie | Green | #2d7d46 |
-| Alex | Orange | #e67e22 |
-| Sebastian | Red | #c1292e |
-| Evangeline | Purple | #7b2d8f |
+| Key | Color | Hex | Usage |
+|-----|-------|-----|-------|
+| david | Gold | #d4af37 | Family member + banners |
+| katie | Green | #2d7d46 | Family member + banners |
+| alex | Orange | #e67e22 | Family member + banners |
+| sebastian | Red | #c1292e | Family member + banners |
+| evangeline | Purple | #7b2d8f | Family member + banners |
+| school | Blue | #337ab7 | Banners only (e.g., School Picture Day) |
 
 ## Notes
 
 - Katie appears as "M" (Mom) on bedtime chips
 - Bedtime `child` can only be: alex, sebastian, evangeline
 - Bedtime `parent` can only be: david, katie
+- Banner `familyMember` accepts all family names plus `"school"` for school-related events
 - Empty strings in arrays create blank lines (useful for visual spacing in lunchSnacks and lookAhead)

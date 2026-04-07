@@ -24,9 +24,16 @@ export interface BedtimePair {
   parent: Parent;
 }
 
+export const BANNER_COLORS: Record<string, string> = {
+  ...FAMILY_COLORS,
+  school: "#337ab7",
+};
+
+export type BannerColorKey = FamilyMember | "school";
+
 export interface DayBanner {
   text: string;
-  familyMember: FamilyMember;
+  familyMember: BannerColorKey;
 }
 
 export interface DaySection {

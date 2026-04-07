@@ -1,5 +1,5 @@
 import React from "react";
-import { DayPlan, FAMILY_COLORS } from "../../lib/weekly-plan-types";
+import { DayPlan, BANNER_COLORS } from "../../lib/weekly-plan-types";
 import BedtimeChips from "./BedtimeChips";
 
 interface DayCardProps {
@@ -19,7 +19,7 @@ function DayCard({ day }: DayCardProps): React.ReactElement {
       {day.banner && (
         <div
           className="text-white text-xs font-semibold px-2 py-0.5 rounded"
-          style={{ backgroundColor: FAMILY_COLORS[day.banner.familyMember] }}
+          style={{ backgroundColor: BANNER_COLORS[day.banner.familyMember] }}
         >
           {day.banner.text}
         </div>
