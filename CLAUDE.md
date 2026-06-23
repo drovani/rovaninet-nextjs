@@ -26,6 +26,7 @@ This is a Next.js 15 blog/website with markdown-based content management. The si
 - **Content aggregation**: Posts grouped by category, tag, and series with pagination
 - **Markdown transformation**: Custom remark/rehype plugins for content processing
 - **Static generation**: All content pre-built at build time for performance
+- **Page layout wrapper**: `pages/_app.tsx` wraps every page in the shared `Layout` (header/nav/footer) **except** routes under `/tools/*` and `/talks/*`, which render standalone (no surround). To add a page *with* the standard layout, place it at a top-level route (e.g. `/media-tracker`, `/marathon-training`); to add a full-bleed/standalone page (e.g. a print sheet), place it under `/tools/`.
 
 ### Core Dependencies
 - **Next.js 15** with React 18 and TypeScript
